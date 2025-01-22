@@ -1,0 +1,37 @@
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+
+# Ignore build output directories
+out/
+target/
+build/
+
+# Ignore Maven/Gradle specific files
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.swp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Ignore dependency directories
+node_modules/
+vendor/
+
+# Ignore JDK-specific files
+hs_err_pid*
+
+# Ignore compiled Python files (optional, if any Python scripts
