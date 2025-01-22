@@ -34,4 +34,12 @@ vendor/
 # Ignore JDK-specific files
 hs_err_pid*
 
-# Ignore compiled Python files (optional, if any Python scripts
+# Ignore compiled Python files (optional, if any Python scripts exist)
+__pycache__/
+*.pyc
+
+# Exclude .env files containing sensitive information
+.env
+
+# Ignore IDE-specific files (other IDEs)
+.vscode/
