@@ -22,11 +22,6 @@ build/
 Thumbs.db
 desktop.ini
 
-# Ignore logs and temporary files
-*.log
-*.tmp
-*.swp
-
 # Ignore dependency directories
 node_modules/
 vendor/
