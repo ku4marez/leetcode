@@ -81,4 +81,19 @@ public class BitOperations {
         // Check power of 2 and odd-positioned set bit
         return (n > 0) && ((n & (n - 1)) == 0) && ((n & 0xAAAAAAAA) == 0);
     }
+
+    // Bit Manipulation using XOR to cancel out duplicate characters
+    public static char findTheDifference(String s, String t) {
+        char result = 0;
+
+        for (char c : s.toCharArray()) {
+            result ^= c;
+        }
+
+        for (char c : t.toCharArray()) {
+            result ^= c;
+        }
+
+        return result;
+    }
 }

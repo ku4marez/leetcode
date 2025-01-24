@@ -93,6 +93,21 @@ public class SortOperations {
         return res;
     }
 
+    // Sorting string characters array
+    public static char findTheDifference(String s, String t) {
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+
+        Arrays.sort(sChars);
+        Arrays.sort(tChars);
+        for (int i = 0; i < sChars.length; i++) {
+            if (sChars[i] != tChars[i]) {
+                return tChars[i];
+            }
+        }
+        return tChars[tChars.length - 1];
+    }
+
     /* Quick and Merge sorting */
     public static void sortMerge(int[] arr){
         if(arr.length == 0 || arr.length == 1){

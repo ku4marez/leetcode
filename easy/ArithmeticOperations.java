@@ -30,6 +30,52 @@ public class ArithmeticOperations {
         return candidate;
     }
 
+    // Binary Search Algorithm
+    public static int arrangeCoins(int n) {
+        long left = 0, right = n;
+        int result = 0;
+
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            long coinsUsed = mid * (mid + 1) / 2; // Coins required for 'mid' rows
+
+            if (coinsUsed == n) {
+                return (int) mid; // Exact match
+            } else if (coinsUsed < n) {
+                result = (int) mid; // Save the potential result
+                left = mid + 1; // Try for a larger 'k'
+            } else {
+                right = mid - 1; // Try for a smaller 'k'
+            }
+        }
+
+        return result;
+    }
+
+    // Binary Search Algorithm
+    public static int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        Integer candidate = null;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int value = nums[mid];
+            if (value == target) {
+                return mid;
+            } else if (value < target) {
+                candidate = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        if (candidate == null || candidate != target) {
+            candidate = -1;
+        }
+        return candidate;
+    }
+
     // Mathematical Reverse and Comparison
     public static boolean isPalindrome(int x) {
         if (x < 0) {

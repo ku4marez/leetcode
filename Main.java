@@ -266,8 +266,22 @@ public class Main {
         int[] values = {3,3,4,3,4,3,0,3,3};
         System.out.println(ArrayOperations.thirdMax(values));
         // ------------------------------
-         */
         String s = "abccccdd";
         System.out.println(StringOperations.longestPalindrome(s));
+        // ------------------------------
+        String s = "abcdd";
+        String t = "abcddt";
+        System.out.println(BitOperations.findTheDifference(s, t));
+        // ------------------------------
+
+        int n = 5;
+        System.out.println(ArithmeticOperations.arrangeCoins(n));
+        // ------------------------------
+
+         */
+        int[] nums = {2,5};
+        int target = 0;
+        System.out.println(ArithmeticOperations.search(nums, target));
+
     }
 }
