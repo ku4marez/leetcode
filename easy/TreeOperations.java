@@ -298,4 +298,78 @@ public class TreeOperations {
         }
         return sum;
     }
+
+
+    //  Morris Traversal (inorder traversal)
+    public int[] findMode(TreeNode root) {
+        // Initialize variables for tracking modes
+        List<Integer> modes = new ArrayList<>();
+        Integer currentValue = null;
+        int currentCount = 0, maxCount = 0;
+
+        // Helper for in-order traversal
+        TreeNode current = root, predecessor;
+
+        while (current != null) {
+            if (current.left == null) {
+                // Process the current node
+                if (currentValue == null || current.val != currentValue) {
+                    currentValue = current.val;
+                    currentCount = 0;
+                }
+                currentCount++;
+
+                if (currentCount > maxCount) {
+                    maxCount = currentCount;
+                    modes.clear();
+                    modes.add(current.val);
+                } else if (currentCount == maxCount) {
+                    modes.add(current.val);
+                }
+
+                // Move to the right subtree
+                current = current.right;
+            } else {
+                // Find the inorder predecessor
+                predecessor = current.left;
+                while (predecessor.right != null && predecessor.right != current) {
+                    predecessor = predecessor.right;
+                }
+
+                if (predecessor.right == null) {
+                    // Link the current node to its predecessor
+                    predecessor.right = current;
+                    current = current.left;
+                } else {
+                    // Restore the tree structure
+                    predecessor.right = null;
+
+                    // Process the current node
+                    if (currentValue == null || current.val != currentValue) {
+                        currentValue = current.val;
+                        currentCount = 0;
+                    }
+                    currentCount++;
+
+                    if (currentCount > maxCount) {
+                        maxCount = currentCount;
+                        modes.clear();
+                        modes.add(current.val);
+                    } else if (currentCount == maxCount) {
+                        modes.add(current.val);
+                    }
+
+                    // Move to the right subtree
+                    current = current.right;
+                }
+            }
+        }
+
+        // Convert the list of modes to an array
+        int[] result = new int[modes.size()];
+        for (int i = 0; i < modes.size(); i++) {
+            result[i] = modes.get(i);
+        }
+        return result;
+    }
 }
