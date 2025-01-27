@@ -273,15 +273,21 @@ public class Main {
         String t = "abcddt";
         System.out.println(BitOperations.findTheDifference(s, t));
         // ------------------------------
-
         int n = 5;
         System.out.println(ArithmeticOperations.arrangeCoins(n));
         // ------------------------------
-
-         */
         int[] nums = {2,5};
         int target = 0;
         System.out.println(ArithmeticOperations.search(nums, target));
-
+        // ------------------------------
+        int[] nums = {4, 1, 3, 9, 7};
+        SortOperations.sortQuick(nums, 0, nums.length - 1);
+        // ------------------------------
+        int[][] edges = {{1, 2}, {2, 3}, {4, 2}};
+        System.out.print(GraphOperations.findCenter(edges));
+        // ------------------------------
+         */
+        int[][] edges = {{1, 3}, {2, 3}, {4, 3}};
+        System.out.print(GraphOperations.findJudge(4, edges));
     }
 }
