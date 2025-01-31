@@ -286,8 +286,26 @@ public class Main {
         int[][] edges = {{1, 2}, {2, 3}, {4, 2}};
         System.out.print(GraphOperations.findCenter(edges));
         // ------------------------------
-         */
         int[][] edges = {{1, 3}, {2, 3}, {4, 3}};
         System.out.print(GraphOperations.findJudge(4, edges));
+        // ------------------------------
+        int[] numbers = {1, 2, 3};
+        int[] s = {3};
+        System.out.print(ArrayOperations.findContentChildren(numbers, s));
+        // ------------------------------
+        int[] numbers = {1, 4, 3, 2};
+        System.out.print(ArrayOperations.arrayPairSum(numbers));
+        // ------------------------------
+        int[][] arrs = {{1, 3}, {2, 3}, {4, 3}};
+        System.out.print(ArrayOperations.islandPerimeter(arrs));
+        // ------------------------------
+        */
+        TreeOperations.TreeNode root = new TreeOperations.TreeNode(4);
+        root.left = new TreeOperations.TreeNode(2);
+        root.right = new TreeOperations.TreeNode(6);
+        root.left.left = new TreeOperations.TreeNode(1);
+        root.left.right = new TreeOperations.TreeNode(3);
+
+        System.out.println(TreeOperations.getMinimumDifference(root));
     }
 }

@@ -4,18 +4,18 @@ import java.util.*;
 
 public class TreeOperations {
     public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
 
-        TreeNode() {
+        public TreeNode() {
         }
 
-        TreeNode(int val) {
+        public TreeNode(int val) {
             this.val = val;
         }
 
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        public TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val;
             this.left = left;
             this.right = right;
@@ -278,21 +278,21 @@ public class TreeOperations {
     // BFS-Based Tree left leafs sum
     public static int sumOfLeftLeaves(TreeNode root) {
         if (root == null) return 0;
-        Queue<TreeNode> stack = new LinkedList<>();
-        stack.add(root);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
         int sum = 0;
-        while (!stack.isEmpty()) {
-            TreeNode currElem = stack.poll();
+        while (!queue.isEmpty()) {
+            TreeNode currElem = queue.poll();
             if (currElem.left != null && currElem.left.left == null && currElem.left.right == null) {
                 sum += currElem.left.val;
             }
 
             if (currElem.left != null) {
-                stack.add(currElem.left);
+                queue.add(currElem.left);
             }
 
             if (currElem.right != null) {
-                stack.add(currElem.right);
+                queue.add(currElem.right);
             }
 
         }
@@ -372,4 +372,34 @@ public class TreeOperations {
         }
         return result;
     }
+
+    // DFS-based min leaf difference in BST
+    public static int getMinimumDifference(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        Integer prev = null;
+        int minDiff = Integer.MAX_VALUE;
+
+        // In-Order Traversal (LNR) using stack
+        while (curr != null || !stack.isEmpty()) {
+            // Traverse left subtree
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            // Process the node
+            curr = stack.pop();
+            if (prev != null) {
+                minDiff = Math.min(minDiff, Math.abs(curr.val - prev));
+            }
+            prev = curr.val;
+
+            // Traverse right subtree
+            curr = curr.right;
+        }
+
+        return minDiff;
+    }
+
 }

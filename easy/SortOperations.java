@@ -108,6 +108,7 @@ public class SortOperations {
         return tChars[tChars.length - 1];
     }
 
+    /* ==================================================== */
     /* Quick and Merge sorting */
     public static void sortMerge(int[] arr){
         if(arr.length == 0 || arr.length == 1){
@@ -161,5 +162,4 @@ public class SortOperations {
         while (i < left.length) arr[k++] = left[i++];
         while (j < right.length) arr[k++] = right[j++];
     }
-
 }

@@ -1,9 +1,6 @@
 package easy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ArrayOperations {
 
@@ -186,5 +183,77 @@ public class ArrayOperations {
         }
         return third != null ? third : first;
     }
-}
 
+    // Greedy strategy with two pointer
+    public static int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int p1 = 0, p2 = 0;
+        while (p1 < g.length && p2 < s.length) {
+            if (g[p1] <= s[p2]) {
+                p1 ++;
+            }
+            p2 ++;
+        }
+        return p1;
+    }
+
+    // Greedy algorithm with sorting
+    public static int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int maxSum = 0;
+
+        for (int i = 0; i < nums.length; i+=2) {
+            maxSum += nums[i];
+        }
+        return maxSum;
+    }
+
+    // BFS traversal
+    public static int islandPerimeter(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[rows][cols];
+
+        // Directions: right, left, down, up
+        int[][] directions = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+        // Find first land cell to start BFS
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    queue.offer(new int[]{i, j});
+                    visited[i][j] = true;
+                    break; // Start BFS from the first found land cell
+                }
+            }
+            if (!queue.isEmpty()) break; // Stop searching once we find land
+        }
+
+        int perimeter = 0;
+
+        while (!queue.isEmpty()) {
+            int[] cell = queue.poll();
+            int r = cell[0], c = cell[1];
+
+            // Check all 4 neighbors
+            for (int[] dir : directions) {
+                int nr = r + dir[0]; // New row
+                int nc = c + dir[1]; // New col
+
+                // If out of bounds OR water, add to perimeter
+                if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || grid[nr][nc] == 0) {
+                    perimeter++;
+                }
+                // If land and not visited, continue BFS
+                else if (!visited[nr][nc]) {
+                    queue.offer(new int[]{nr, nc});
+                    visited[nr][nc] = true;
+                }
+            }
+        }
+
+        return perimeter;
+    }
+}
