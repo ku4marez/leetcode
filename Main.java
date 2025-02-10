@@ -299,13 +299,23 @@ public class Main {
         int[][] arrs = {{1, 3}, {2, 3}, {4, 3}};
         System.out.print(ArrayOperations.islandPerimeter(arrs));
         // ------------------------------
-        */
+
         TreeOperations.TreeNode root = new TreeOperations.TreeNode(4);
         root.left = new TreeOperations.TreeNode(2);
         root.right = new TreeOperations.TreeNode(6);
         root.left.left = new TreeOperations.TreeNode(1);
         root.left.right = new TreeOperations.TreeNode(3);
-
+        // ------------------------------
         System.out.println(TreeOperations.getMinimumDifference(root));
+        // ------------------------------
+        String s = "aabbh";
+        System.out.println(StringOperations.firstUniqChar(s));
+        // ------------------------------
+         */
+        int[][] edges = {{0, 1}, {1, 2}, {2, 0}};
+        int source = 0;
+        int dest = 2;
+        int n = 3;
+        System.out.println(GraphOperations.validPathBfs(n, edges, source, dest));
     }
 }

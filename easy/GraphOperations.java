@@ -1,5 +1,7 @@
 package easy;
 
+import java.util.*;
+
 public class GraphOperations {
 
     // Star Graph center
@@ -45,5 +47,68 @@ public class GraphOperations {
 
             // No judge found
             return -1;
+    }
+
+    // BFS if source and destination exist in the subgraph
+    public static boolean validPathBfs(int n, int[][] edges, int source, int destination) {
+        if (source == destination) {
+            return true;
+        }
+
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.add(source);
+        visited.add(source);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            if (node == destination) return true;
+
+            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        return false; // No path found
+    }
+
+    // DFS if source and destination exist in the subgraph
+    public static boolean validPathDfs(int n, int[][] edges, int source, int destination) {
+        if (source == destination) return true;
+
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+
+        Stack<Integer> stack = new Stack<>();
+        Set<Integer> visited = new HashSet<>();
+
+        stack.push(source);
+        visited.add(source);
+
+        while (!stack.isEmpty()) {
+            int node = stack.pop();
+            if (node == destination) return true;
+
+            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    stack.push(neighbor);
+                }
+            }
+        }
+
+        return false;
     }
 }
