@@ -52,6 +52,18 @@ public class ListOperations {
         return false;
     }
 
+    // Fast & Slow approach to find middle of the list
+    public ListNode findMiddle(ListNode head) {
+        ListNode slow = head, fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;        // Moves one step
+            fast = fast.next.next;    // Moves two steps
+        }
+
+        return slow; // Middle node
+    }
+
     // Merge Two Sorted Lists Using Iterative Approach
     public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0);

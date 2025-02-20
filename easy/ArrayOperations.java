@@ -111,6 +111,87 @@ public class ArrayOperations {
         return false;
     }
 
+    // Sliding Window (fixed size)
+    public int maxSumSlidingWindow(int[] arr, int k) {
+        int maxSum = 0, windowSum = 0;
+
+        // Compute first window sum
+        for (int i = 0; i < k; i++) {
+            windowSum += arr[i];
+        }
+
+        maxSum = windowSum;
+
+        // Slide the window
+        for (int i = k; i < arr.length; i++) {
+            windowSum += arr[i] - arr[i - k]; // Add next element, remove first in window
+            maxSum = Math.max(maxSum, windowSum);
+        }
+
+        return maxSum;
+    }
+
+    // Sliding window dynamic size
+    public int longestUniqueSubstring(String s) {
+        Map<Character, Integer> charIndex = new HashMap<>();
+        int maxLength = 0, left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+
+            // If duplicate character, move left pointer
+            if (charIndex.containsKey(c)) {
+                left = Math.max(left, charIndex.get(c) + 1);
+            }
+
+            charIndex.put(c, right); // Store latest index
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+
+    // Two-pointer (opposite direction)
+    public int[] twoSumSorted(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+
+            if (sum == target) {
+                return new int[]{left + 1, right + 1}; // 1-based index
+            } else if (sum < target) {
+                left++; // Increase sum
+            } else {
+                right--; // Decrease sum
+            }
+        }
+
+        return new int[]{-1, -1}; // Not found
+    }
+
+    // Two-pointer (same direction)
+    public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
+        int n = arr1.length, m = arr2.length;
+        int[] result = new int[n + m];
+        int i = 0, j = 0, k = 0;
+
+        // Merge arrays
+        while (i < n && j < m) {
+            if (arr1[i] <= arr2[j]) {
+                result[k++] = arr1[i++];
+            } else {
+                result[k++] = arr2[j++];
+            }
+        }
+
+        // Copy remaining elements
+        while (i < n) result[k++] = arr1[i++];
+        while (j < m) result[k++] = arr2[j++];
+
+        return result;
+    }
+
     // Two-Pointer Approach
     public static List<String> summaryRanges(int[] nums) {
         List<String> result = new ArrayList<>();

@@ -111,4 +111,103 @@ public class GraphOperations {
 
         return false;
     }
+
+    // BFS find the shortest path between cities
+    public int bfsShortestPath(Map<Integer, List<Integer>> graph, int start, int target) {
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.add(start);
+        visited.add(start);
+        int steps = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int node = queue.poll();
+                if (node == target) return steps;
+
+                for (int neighbor : graph.get(node)) {
+                    if (!visited.contains(neighbor)) {
+                        queue.add(neighbor);
+                        visited.add(neighbor);
+                    }
+                }
+            }
+            steps++;
+        }
+
+        return -1; // No path found
+    }
+
+    // DFS detect cycle in graph
+    public boolean hasCycle(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited, Set<Integer> recStack) {
+        if (recStack.contains(node)) return true;
+        if (visited.contains(node)) return false;
+
+        visited.add(node);
+        recStack.add(node);
+
+        for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+            if (hasCycle(graph, neighbor, visited, recStack)) return true;
+        }
+
+        recStack.remove(node);
+        return false;
+    }
+
+    // Dijkstra’s Algorithm (Shortest Path in Weighted Graph)
+    public int dijkstra(Map<Integer, List<int[]>> graph, int start, int target) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        Map<Integer, Integer> dist = new HashMap<>();
+        pq.add(new int[]{start, 0});
+        dist.put(start, 0);
+
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int node = current[0], cost = current[1];
+
+            if (node == target) return cost;
+
+            for (int[] neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                int nextNode = neighbor[0], nextCost = neighbor[1];
+                int newDist = cost + nextCost;
+
+                if (newDist < dist.getOrDefault(nextNode, Integer.MAX_VALUE)) {
+                    dist.put(nextNode, newDist);
+                    pq.add(new int[]{nextNode, newDist});
+                }
+            }
+        }
+
+        return -1; // No path
+    }
+
+    // A* Algorithm (Optimized Pathfinding)
+    public int aStar(Map<Integer, List<int[]>> graph, int start, int target, Map<Integer, Integer> heuristic) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1] + heuristic.get(a[0])));
+        Map<Integer, Integer> dist = new HashMap<>();
+        pq.add(new int[]{start, 0});
+        dist.put(start, 0);
+
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int node = current[0], cost = current[1];
+
+            if (node == target) return cost;
+
+            for (int[] neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+                int nextNode = neighbor[0], nextCost = neighbor[1];
+                int newDist = cost + nextCost;
+
+                if (newDist < dist.getOrDefault(nextNode, Integer.MAX_VALUE)) {
+                    dist.put(nextNode, newDist);
+                    pq.add(new int[]{nextNode, newDist});
+                }
+            }
+        }
+
+        return -1; // No path
+    }
+
+
 }

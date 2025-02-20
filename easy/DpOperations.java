@@ -1,6 +1,7 @@
 package easy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DpOperations {
@@ -105,5 +106,117 @@ public class DpOperations {
             b = sum;
         }
         return sum;
+    }
+
+    // Edit Distance (Levenshtein Distance)
+    public int editDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) dp[i][j] = j;
+                else if (j == 0) dp[i][j] = i;
+                else if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j]));
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    // 0/1 Knapsack
+    public int knapsack(int[] weights, int[] values, int W) {
+        int n = weights.length;
+        int[][] dp = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 0; w <= W; w++) {
+                if (weights[i - 1] <= w) {
+                    dp[i][w] = Math.max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+
+        return dp[n][W];
+    }
+
+    // =================================================
+    // Subsets (Power Set)
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int[] nums, int index, List<Integer> temp, List<List<Integer>> result) {
+        result.add(new ArrayList<>(temp)); // Store current subset
+        for (int i = index; i < nums.length; i++) {
+            temp.add(nums[i]); // Include nums[i]
+            backtrack(nums, i + 1, temp, result);
+            temp.remove(temp.size() - 1); // Undo choice
+        }
+    }
+
+    // =================================================
+    // Permutations
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(nums, new ArrayList<>(), new boolean[nums.length], result);
+        return result;
+    }
+
+    private void backtrack(int[] nums, List<Integer> temp, boolean[] used, List<List<Integer>> result) {
+        if (temp.size() == nums.length) {
+            result.add(new ArrayList<>(temp)); // Store valid order
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (!used[i]) {
+                used[i] = true;
+                temp.add(nums[i]);
+                backtrack(nums, temp, used, result);
+                used[i] = false;
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+
+    // =================================================
+    // N-Queens
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> result = new ArrayList<>();
+        char[][] board = new char[n][n];
+        for (char[] row : board) Arrays.fill(row, '.');
+        backtrack(board, 0, result);
+        return result;
+    }
+
+    private void backtrack(char[][] board, int row, List<List<String>> result) {
+        if (row == board.length) {
+            List<String> validBoard = new ArrayList<>();
+            for (char[] line : board) validBoard.add(new String(line));
+            result.add(validBoard);
+            return;
+        }
+        for (int col = 0; col < board.length; col++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = 'Q';
+                backtrack(board, row + 1, result);
+                board[row][col] = '.';
+            }
+        }
+    }
+
+    private boolean isSafe(char[][] board, int row, int col) {
+        for (int i = 0; i < row; i++) if (board[i][col] == 'Q') return false;
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) if (board[i][j] == 'Q') return false;
+        for (int i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) if (board[i][j] == 'Q') return false;
+        return true;
     }
 }
