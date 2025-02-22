@@ -109,7 +109,7 @@ public class SortOperations {
     }
 
     /* ==================================================== */
-    /* Quick and Merge sorting */
+    // Merge sort algorithm (Great for sorting linked lists and large datasets)
     public static void sortMerge(int[] arr){
         if(arr.length == 0 || arr.length == 1){
             return;
@@ -122,6 +122,7 @@ public class SortOperations {
         merge(arr, left, right); // Merge the two halves
     }
 
+    // Quick sort algorithm (Best used when in-place sorting is preferred over extra memory usage)
     public static void sortQuick(int[] arr, int low, int high) {
         if (low < high) {
             // Partition logic
@@ -146,6 +147,62 @@ public class SortOperations {
             // Recursive calls
             sortQuick(arr, low, pivotIndex - 1); // Sort left part
             sortQuick(arr, pivotIndex + 1, high); // Sort right part
+        }
+    }
+
+    // Radix sort algorithm (sorting large datasets of uniform-length numbers (e.g., phone numbers, IP addresses)
+    public void radixSort(int[] arr) {
+        int max = Arrays.stream(arr).max().getAsInt(); // Find max number
+
+        for (int place = 1; max / place > 0; place *= 10) { // Process each digit
+            int[] count = new int[10];
+
+            // Count occurrences of digits
+            for (int num : arr) count[(num / place) % 10]++;
+
+            // Convert count array to cumulative count
+            for (int i = 1; i < 10; i++) count[i] += count[i - 1];
+
+            // Build output array in sorted order
+            int[] output = new int[arr.length];
+            for (int i = arr.length - 1; i >= 0; i--) {
+                int digit = (arr[i] / place) % 10;
+                output[--count[digit]] = arr[i];
+            }
+
+            // Copy output to original array
+            System.arraycopy(output, 0, arr, 0, arr.length);
+        }
+    }
+
+    // Heap sort algorithm (priority queue-based, in place sorting with good performance)
+    public void heapSort(int[] arr) {
+        int n = arr.length;
+
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+
+        for (int i = n - 1; i > 0; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            heapify(arr, i, 0);
+        }
+    }
+
+    private void heapify(int[] arr, int n, int i) {
+        int largest = i;
+        int left = 2 * i + 1, right = 2 * i + 2;
+
+        if (left < n && arr[left] > arr[largest]) largest = left;
+        if (right < n && arr[right] > arr[largest]) largest = right;
+
+        if (largest != i) {
+            int temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            heapify(arr, n, largest);
         }
     }
 
