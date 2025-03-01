@@ -96,4 +96,10 @@ public class BitOperations {
 
         return result;
     }
+
+    // Number complement in a binary representation
+    public static int findComplement(int num) {
+        int mask = Integer.highestOneBit(num << 1) - 1;
+        return num ^ mask;
+    }
 }
