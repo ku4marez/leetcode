@@ -41,6 +41,12 @@ public class BitOperations {
         return count;
     }
 
+    // Hamming distance. Counting set of different bits between two numbers
+    public static int hammingDistance(int x, int y) {
+        int result = x ^ y;
+        return Integer.bitCount(result);
+    }
+
     // Bit Manipulation for Reversing Bits
     public static int reverseBits(int n) {
         int result = 0;

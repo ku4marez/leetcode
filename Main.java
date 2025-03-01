@@ -321,9 +321,13 @@ public class Main {
         // ------------------------------
         System.out.println(StringOperations.repeatedSubstringPattern("abcabc"));
         // ------------------------------
-        */
         // ------------------------------
         int[] nums = {4,3,2,7,8,2,3,1};
         System.out.println(ArrayOperations.findDisappearedNumbers(nums));
+        // ------------------------------
+
+         */
+        int x = 1; int y=4;
+        System.out.println(BitOperations.hammingDistance(x ,y));
     }
 }
