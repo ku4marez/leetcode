@@ -1,6 +1,7 @@
 package easy;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ArrayOperations {
 
@@ -75,6 +76,23 @@ public class ArrayOperations {
         }
         int[] result = new int[n + 1];
         result[0] = 1;
+        return result;
+    }
+
+    // In-place array marking
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int complement = Math.abs(nums[i]);
+            nums[complement - 1] = -Math.abs(nums[complement - 1]);
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                int index = i + 1;
+                result.add(index);
+            }
+        }
+
         return result;
     }
 
@@ -272,9 +290,9 @@ public class ArrayOperations {
         int p1 = 0, p2 = 0;
         while (p1 < g.length && p2 < s.length) {
             if (g[p1] <= s[p2]) {
-                p1 ++;
+                p1++;
             }
-            p2 ++;
+            p2++;
         }
         return p1;
     }
@@ -284,7 +302,7 @@ public class ArrayOperations {
         Arrays.sort(nums);
         int maxSum = 0;
 
-        for (int i = 0; i < nums.length; i+=2) {
+        for (int i = 0; i < nums.length; i += 2) {
             maxSum += nums[i];
         }
         return maxSum;
@@ -298,7 +316,7 @@ public class ArrayOperations {
         boolean[][] visited = new boolean[rows][cols];
 
         // Directions: right, left, down, up
-        int[][] directions = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
         // Find first land cell to start BFS
         for (int i = 0; i < rows; i++) {

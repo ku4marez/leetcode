@@ -317,5 +317,8 @@ public class Main {
         int dest = 2;
         int n = 3;
         System.out.println(GraphOperations.validPathBfs(n, edges, source, dest));
+        // ------------------------------
+        int[] nums = {4,3,2,7,8,2,3,1};
+        System.out.println(ArrayOperations.findDisappearedNumbers(nums));
     }
 }
