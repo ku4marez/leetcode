@@ -403,6 +403,7 @@ public class TreeOperations {
     }
 
 
+    // Merge trees recursively
     public static TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 
         if (root1 == null) return root2;
@@ -412,5 +413,57 @@ public class TreeOperations {
         root1.right = mergeTrees(root1.right, root2.right);
         return root1;
 
+    }
+
+    // Merge trees using BFS approach
+    public static TreeNode mergeTrees2(TreeNode root1, TreeNode root2) {
+        if (root1 == null) return root2;
+        if (root2 == null) return root1;
+        TreeNode node = new TreeNode(root1.val + root2.val);
+        Queue<TreeNode[]> queue = new LinkedList<>();
+        Queue<TreeNode> mergedQueue = new LinkedList<>();
+        queue.offer(new TreeNode[] {root1, root2});
+        mergedQueue.offer(node);
+        while (!queue.isEmpty()) {
+            TreeNode[] nodes = queue.poll();
+            TreeNode node1 = nodes[0], node2 = nodes[1];
+            TreeNode mergedNode = mergedQueue.poll();
+
+            // Merge left children
+            TreeNode left1 = node1.left, left2 = node2.left;
+            if (left1 != null || left2 != null) {
+                if (left1 != null && left2 != null) {
+                    mergedNode.left = new TreeNode(left1.val + left2.val);
+                    queue.offer(new TreeNode[]{left1, left2});
+                    mergedQueue.offer(mergedNode.left);
+                } else {
+                    mergedNode.left = left1 != null ? left1 : left2;
+                }
+            }
+
+            // Merge right children
+            TreeNode right1 = node1.right, right2 = node2.right;
+            if (right1 != null || right2 != null) {
+                if (right1 != null && right2 != null) {
+                    mergedNode.right = new TreeNode(right1.val + right2.val);
+                    queue.offer(new TreeNode[]{right1, right2});
+                    mergedQueue.offer(mergedNode.right);
+                } else {
+                    mergedNode.right = right1 != null ? right1 : right2;
+                }
+            }
+        }
+        return node;
+    }
+
+    // Find element in BST
+    public static TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) return null;
+        if (root.val == val) return root;
+        if (root.val > val){
+            return searchBST(root.left, val);
+        } else {
+            return searchBST(root.right, val);
+        }
     }
 }

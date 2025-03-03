@@ -325,9 +325,19 @@ public class Main {
         int[] nums = {4,3,2,7,8,2,3,1};
         System.out.println(ArrayOperations.findDisappearedNumbers(nums));
         // ------------------------------
-
-         */
         int x = 1; int y=4;
         System.out.println(BitOperations.hammingDistance(x ,y));
+        // ------------------------------
+        Integer[] values1 = {1,3,2,5};
+        Integer[] values2 = {2,1,3,null,4,null,7};
+        TreeOperations.TreeNode root1 = buildTree(values1);
+        TreeOperations.TreeNode root2 = buildTree(values2);
+        System.out.println(TreeOperations.mergeTrees2(root1, root2));
+         */
+        // ------------------------------
+        String s = "abc";
+        String t = "ahbgdc";
+        System.out.println(DpOperations.isSubsequence(s, t));
+
     }
 }
