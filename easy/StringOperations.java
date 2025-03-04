@@ -252,4 +252,17 @@ public class StringOperations {
         }
         return lps;
     }
+
+    // Recursive approach
+    public static char kthCharacter(int k) {
+        StringBuilder word = new StringBuilder("a");
+        while (word.length() < k) {
+            StringBuilder generated = new StringBuilder();
+            for (int i = 0; i < word.length(); i++) {
+                generated.append((char) ((word.charAt(i) - 'a' + 1) % 26 + 'a'));
+            }
+            word.append(generated);
+        }
+        return word.charAt(k - 1);
+    }
 }

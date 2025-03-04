@@ -333,11 +333,12 @@ public class Main {
         TreeOperations.TreeNode root1 = buildTree(values1);
         TreeOperations.TreeNode root2 = buildTree(values2);
         System.out.println(TreeOperations.mergeTrees2(root1, root2));
-         */
         // ------------------------------
         String s = "abc";
         String t = "ahbgdc";
         System.out.println(DpOperations.isSubsequence(s, t));
-
+        // ------------------------------
+         */
+        System.out.println(StringOperations.kthCharacter(5));
     }
 }
