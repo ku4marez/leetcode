@@ -253,16 +253,30 @@ public class StringOperations {
         return lps;
     }
 
-    // Recursive approach
-    public static char kthCharacter(int k) {
-        StringBuilder word = new StringBuilder("a");
-        while (word.length() < k) {
-            StringBuilder generated = new StringBuilder();
-            for (int i = 0; i < word.length(); i++) {
-                generated.append((char) ((word.charAt(i) - 'a' + 1) % 26 + 'a'));
+    // Hashing-based frequency count.
+    public static String mostCommonWord(String paragraph, String[] banned) {
+        paragraph = paragraph.toLowerCase();
+        paragraph = paragraph.replaceAll("[^a-zA-Z]", " ");
+        String[] words = paragraph.split("\\s+");
+        HashSet<String> bannedWords = new HashSet<>(Arrays.asList(banned));
+
+        HashMap<String, Integer> bannedWordCount = new HashMap<>();
+
+        for (String word : words) {
+            if (!bannedWords.contains(word)) {
+                bannedWordCount.put(word, bannedWordCount.getOrDefault(word, 0) + 1);
             }
-            word.append(generated);
         }
-        return word.charAt(k - 1);
+
+        String res = "";
+        int maxFrequency = 0;
+        for (Map.Entry<String, Integer> entry : bannedWordCount.entrySet()) {
+            if (entry.getValue() > maxFrequency) {
+                res = entry.getKey();
+                maxFrequency = entry.getValue();
+            }
+        }
+
+        return res;
     }
 }

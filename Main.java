@@ -339,6 +339,8 @@ public class Main {
         System.out.println(DpOperations.isSubsequence(s, t));
         // ------------------------------
          */
-        System.out.println(StringOperations.kthCharacter(5));
+        String s = "Bob hit a ball, the hit BALL flew far after it was hit.";
+        String[] words = new String[]{"hit"};
+        System.out.println(StringOperations.mostCommonWord(s, words));
     }
 }
