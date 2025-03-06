@@ -355,4 +355,55 @@ public class ArrayOperations {
 
         return perimeter;
     }
+
+    // Max-heap approach
+    public static String[] findRelativeRanks(int[] score) {
+        String gold = "Gold Medal";
+        String silver = "Silver Medal";
+        String bronze = "Bronze Medal";
+        if (score == null || score.length == 0) {
+            return new String[0];
+        }
+        String[] result = new String[score.length];
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));
+        for (int i = 0; i < score.length; i++) {
+            maxHeap.offer(new int[]{score[i], i});
+        }
+
+        int rank = 1;
+        int heapSize = maxHeap.size();
+        for (int i = 0; i < heapSize; i++) {
+            int[] top = maxHeap.poll();
+            int index = top[1];
+            switch (rank) {
+                case 1 -> result[index] = gold;
+                case 2 -> result[index] = silver;
+                case 3 -> result[index] = bronze;
+                default -> result[index] = String.valueOf(rank);
+            }
+            rank ++;
+        }
+        return result;
+    }
+
+    // Max-heap approach
+    public static int lastStoneWeight(int[] stones) {
+        int result = 0;
+        if (stones == null || stones.length == 0) {
+            return result;
+        }
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        for (int stone : stones) {
+            maxHeap.offer(stone);
+        }
+
+        while (maxHeap.size() > 1) {
+            int x = maxHeap.poll();
+            int y = maxHeap.poll();
+            if (x != y) {
+                maxHeap.offer(x - y);
+            }
+        }
+        return maxHeap.isEmpty() ? 0 : maxHeap.poll();
+    }
 }

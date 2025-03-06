@@ -338,9 +338,16 @@ public class Main {
         String t = "ahbgdc";
         System.out.println(DpOperations.isSubsequence(s, t));
         // ------------------------------
-         */
         String s = "Bob hit a ball, the hit BALL flew far after it was hit.";
         String[] words = new String[]{"hit"};
         System.out.println(StringOperations.mostCommonWord(s, words));
+        // ------------------------------
+        int[] score = {50, 30, 40, 10, 20};
+        System.out.println(ArrayOperations.findRelativeRanks(score));
+        // ------------------------------
+        */
+        int[] stones = {2,7,4,1,8,1};
+        System.out.println(ArrayOperations.lastStoneWeight(stones));
+
     }
 }
