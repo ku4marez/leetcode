@@ -23,6 +23,20 @@ public class ListOperations {
         }
     }
 
+    // Bitwise approach to convert Binary Number in a Linked List to Integer
+    public static int getDecimalValue(ListNode head) {
+        if (head == null) {
+            return 1;
+        }
+        int sum = 0;
+        for (ListNode cur = head; cur != null; cur = cur.next) {
+            int currentBit = cur.val;
+            sum = sum << 1;
+            sum = sum | currentBit;
+        }
+        return sum;
+    }
+
     // Iterative Traversal with Pointer Manipulation
     public static ListNode deleteDuplicates(ListNode head) {
         if (head == null) return null;

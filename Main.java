@@ -348,8 +348,14 @@ public class Main {
         int[] stones = {2,7,4,1,8,1};
         System.out.println(ArrayOperations.lastStoneWeight(stones));
         // ------------------------------
-         */
         int[] arr = {1,3,2,2,5,2,3,7};
         System.out.println(ArrayOperations.findLHS(arr));
+        // ------------------------------
+         */
+//        ListOperations.ListNode b1 = new ListOperations.ListNode(1);
+//        ListOperations.ListNode b2 = new ListOperations.ListNode(0, b1);
+        ListOperations.ListNode b3 = new ListOperations.ListNode(0);
+
+        System.out.println(ListOperations.getDecimalValue(b3));
     }
 }
