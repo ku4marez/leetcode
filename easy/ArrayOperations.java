@@ -111,6 +111,27 @@ public class ArrayOperations {
         return resultIndex;
     }
 
+    // Sliding Window (harmonious array)
+    public static int findLHS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        int result = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (map.containsKey(entry.getKey() + 1)) {
+                int length = map.get(entry.getKey() + 1) + map.get(entry.getKey());
+                result = Math.max(result, length);
+            }
+        }
+        return result;
+    }
+
     // Sliding Window
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
         if (nums == null || nums.length == 0) {

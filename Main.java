@@ -345,9 +345,11 @@ public class Main {
         int[] score = {50, 30, 40, 10, 20};
         System.out.println(ArrayOperations.findRelativeRanks(score));
         // ------------------------------
-        */
         int[] stones = {2,7,4,1,8,1};
         System.out.println(ArrayOperations.lastStoneWeight(stones));
-
+        // ------------------------------
+         */
+        int[] arr = {1,3,2,2,5,2,3,7};
+        System.out.println(ArrayOperations.findLHS(arr));
     }
 }
