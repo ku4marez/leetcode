@@ -299,6 +299,36 @@ public class TreeOperations {
         return sum;
     }
 
+    // BFS-Based Tree average sum of all nodes in the level
+    public static List<Double> averageOfLevels(TreeNode root) {
+        List<Double> result = new LinkedList<>();
+        if (root == null) return Collections.emptyList();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            long sum = 0;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+
+                TreeNode currElem = queue.poll();
+                if (currElem != null) {
+                    sum += currElem.val;
+
+                    if (currElem.left != null) {
+                        queue.add(currElem.left);
+                    }
+
+                    if (currElem.right != null) {
+                        queue.add(currElem.right);
+                    }
+                }
+            }
+
+            result.add(sum / (double) size);
+        }
+
+        return result;
+    }
 
     //  Morris Traversal (inorder traversal)
     public int[] findMode(TreeNode root) {
@@ -422,7 +452,7 @@ public class TreeOperations {
         TreeNode node = new TreeNode(root1.val + root2.val);
         Queue<TreeNode[]> queue = new LinkedList<>();
         Queue<TreeNode> mergedQueue = new LinkedList<>();
-        queue.offer(new TreeNode[] {root1, root2});
+        queue.offer(new TreeNode[]{root1, root2});
         mergedQueue.offer(node);
         while (!queue.isEmpty()) {
             TreeNode[] nodes = queue.poll();
@@ -460,7 +490,7 @@ public class TreeOperations {
     public static TreeNode searchBST(TreeNode root, int val) {
         if (root == null) return null;
         if (root.val == val) return root;
-        if (root.val > val){
+        if (root.val > val) {
             return searchBST(root.left, val);
         } else {
             return searchBST(root.right, val);

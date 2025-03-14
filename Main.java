@@ -351,11 +351,22 @@ public class Main {
         int[] arr = {1,3,2,2,5,2,3,7};
         System.out.println(ArrayOperations.findLHS(arr));
         // ------------------------------
-         */
-//        ListOperations.ListNode b1 = new ListOperations.ListNode(1);
-//        ListOperations.ListNode b2 = new ListOperations.ListNode(0, b1);
+        ListOperations.ListNode b1 = new ListOperations.ListNode(1);
+        ListOperations.ListNode b2 = new ListOperations.ListNode(0, b1);
         ListOperations.ListNode b3 = new ListOperations.ListNode(0);
 
         System.out.println(ListOperations.getDecimalValue(b3));
+        // ------------------------------
+        Integer[] values = {3,9,20,null,null,15,7};
+        TreeOperations.TreeNode root = buildTree(values);
+        System.out.println(TreeOperations.averageOfLevels(root));
+        // ------------------------------
+        int[] nums = {0,0,1,1,1,2,2,3,3,4};
+        int i = ArrayOperations.removeDuplicates(nums);
+        System.out.println(i);
+        // ------------------------------
+         */
+        String s = "the sky is blue";
+        System.out.println(StringOperations.reverseWords(s));
     }
 }

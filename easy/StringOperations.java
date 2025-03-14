@@ -185,6 +185,32 @@ public class StringOperations {
         }
     }
 
+    public static String reverseWords(String s) {
+//        List<String> words = Arrays.asList(s.trim().split("\\s+")).reversed();
+//        return String.join(" ", words);
+
+        List<String> words = new ArrayList<>();
+        int n = s.length();
+        StringBuilder word = new StringBuilder();
+
+        for (int i = n - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c != ' ') {
+                word.append(c);
+            } else if (!word.isEmpty()) {
+                words.add(word.reverse().toString());
+                word.setLength(0);
+            }
+        }
+
+        // Add the last word (if any)
+        if (!word.isEmpty()) {
+            words.add(word.reverse().toString());
+        }
+
+        return String.join(" ", words);
+    }
+
     // Two-Pointer Iterative Approach
     public static String reverseVowels(String s) {
         int start = 0, end = s.length() - 1;

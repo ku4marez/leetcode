@@ -30,6 +30,19 @@ public class ArrayOperations {
         return p;
     }
 
+    // Two-Pointer Technique
+    public static int removeDuplicates2(int[] nums) {
+        if (nums.length == 0) return 0;
+        int p = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (p < 2 || nums[i] != nums[p - 2]) {
+                nums[p] = nums[i];
+                p++;
+            }
+        }
+        return p;
+    }
+
     // HashMap for Complement Search
     public static int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -286,8 +299,8 @@ public class ArrayOperations {
         Integer first = null, second = null, third = null;
         for (int num : nums) {
             if ((first != null && num == first) ||
-                    (second != null && num == second) ||
-                    (third != null && num == third)) {
+                (second != null && num == second) ||
+                (third != null && num == third)) {
                 continue;
             }
             if (first == null || num > first) {
@@ -402,7 +415,7 @@ public class ArrayOperations {
                 case 3 -> result[index] = bronze;
                 default -> result[index] = String.valueOf(rank);
             }
-            rank ++;
+            rank++;
         }
         return result;
     }
