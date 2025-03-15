@@ -173,6 +173,55 @@ public class StringOperations {
         return true;
     }
 
+    // HashMap for constructing one string from another
+    public static boolean canConstruct(String ransomNote, String magazine) {
+        if (ransomNote.isEmpty() || magazine.isEmpty()) {
+            return false;
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : magazine.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        for (char c : ransomNote.toCharArray()) {
+            if (!map.containsKey(c) || map.get(c) == 0) {
+                return false;
+            }
+            map.put(c, map.get(c) - 1);
+        }
+        return true;
+    }
+
+    // HashMap for one to one matching
+    public static boolean wordPattern(String pattern, String s) {
+        String[] words = s.trim().split("\\s+");
+        Map<Character, String> mapCharWord = new HashMap<>();
+        Map<String, Character> mapWordChar = new HashMap<>();
+
+        if (pattern.length() != words.length) {
+            return false;
+        }
+
+        for (int i = 0; i < pattern.length(); i++) {
+            char c = pattern.charAt(i);
+            String word = words[i];
+
+            // If the pattern char exists but doesn't match the current word, return false
+            if (mapCharWord.containsKey(c) && !mapCharWord.get(c).equals(word)) {
+                return false;
+            }
+
+            // If the word exists but doesn't match the current char, return false
+            if (mapWordChar.containsKey(word) && !mapWordChar.get(word).equals(c)) {
+                return false;
+            }
+
+            // Add both mappings at the same time
+            mapCharWord.put(c, word);
+            mapWordChar.put(word, c);
+        }
+        return true;
+    }
+
     // Two-Pointer Iterative Approach
     public static void reverseString(char[] s) {
         int start = 0, end = s.length - 1;

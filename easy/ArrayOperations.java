@@ -183,6 +183,22 @@ public class ArrayOperations {
         return maxSum;
     }
 
+    // Sliding window
+    public static int minSubArrayLen(int target, int[] nums) {
+        int sum = 0;
+        int left = 0;
+        int minLength = Integer.MAX_VALUE;
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+            while (sum >= target) {
+                minLength = Math.min(minLength, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;
+    }
+
     // Sliding window dynamic size
     public int longestUniqueSubstring(String s) {
         Map<Character, Integer> charIndex = new HashMap<>();
@@ -439,5 +455,40 @@ public class ArrayOperations {
             }
         }
         return maxHeap.isEmpty() ? 0 : maxHeap.poll();
+    }
+
+    // Greedy (or iterative linear) algorithm for Min and Max
+    public static int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price;
+            }
+            int profit = price - minPrice;
+            if (profit > maxProfit) {
+                maxProfit = profit;
+            }
+        }
+        return maxProfit;
+    }
+
+    // Iterative Linear Scan for Min and Max
+    public static int maxProfit2(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        int maxProfit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                maxProfit += prices[i] - prices[i - 1];
+            }
+        }
+        return maxProfit;
     }
 }

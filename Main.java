@@ -365,8 +365,21 @@ public class Main {
         int i = ArrayOperations.removeDuplicates(nums);
         System.out.println(i);
         // ------------------------------
-         */
         String s = "the sky is blue";
         System.out.println(StringOperations.reverseWords(s));
+        // ------------------------------
+        int[] nums = {7,1,5,3,6,4};
+        System.out.println(ArrayOperations.maxProfit(nums));
+        // ------------------------------
+        int[] nums = {2,3,1,2,4,3};
+        int target = 7;
+        System.out.println(ArrayOperations.minSubArrayLen(target, nums));
+        // ------------------------------
+        System.out.println(StringOperations.canConstruct("ada", "aab"));
+        // ------------------------------
+         */
+        String pattern = "abba";
+        String s = "dog dog dog dog";
+        System.out.println(StringOperations.wordPattern(pattern, s));
     }
 }
