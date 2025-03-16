@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DpOperations {
 
-    // Knapsack to calculate amount from the given coins
+    // Knapsack to calculate sum by using min coins
     public static int coinChange(int[] coins, int amount) {
         if (amount == 0) return 0;
         int[] dp = new int[amount + 1];
@@ -19,7 +19,7 @@ public class DpOperations {
                 }
             }
         }
-        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+        return dp[amount] > amount ? -1 : dp[amount];
     }
 
     // Dynamic Programming (Fibonacci Sequence)
