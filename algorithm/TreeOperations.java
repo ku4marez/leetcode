@@ -1,4 +1,4 @@
-package easy;
+package algorithm;
 
 import java.util.*;
 
@@ -110,37 +110,6 @@ public class TreeOperations {
         Integer rightDepth = maxDepth(root.right);
 
         return Math.max(leftDepth, rightDepth) + 1;
-    }
-
-    // Recursive Sorted Array to Balanced BST Conversion
-    public static TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null || nums.length == 0) return null;
-
-        TreeNode root = new TreeNode(nums[nums.length / 2]);
-
-        root.left = sortedArrayToBST(Arrays.copyOfRange(nums, 0, nums.length / 2));
-        root.right = sortedArrayToBST(Arrays.copyOfRange(nums, nums.length / 2 + 1, nums.length));
-
-        return root;
-    }
-
-    // DFS-Based Tree Balance Check
-    public static boolean isBalanced(TreeNode root) {
-        return isBalancedTree(root) != -1;
-    }
-
-    private static int isBalancedTree(TreeNode node) {
-        if (node == null) return 0;
-
-        int leftHeight = isBalancedTree(node.left);
-        if (leftHeight == -1) return -1;
-
-        int rightHeight = isBalancedTree(node.right);
-        if (rightHeight == -1) return -1;
-
-        if (Math.abs(leftHeight - rightHeight) > 1) return -1;
-
-        return 1 + Math.max(leftHeight, rightHeight);
     }
 
     // Recursive Minimum Depth Calculation
@@ -275,60 +244,6 @@ public class TreeOperations {
         return result;
     }
 
-    // BFS-Based Tree left leafs sum
-    public static int sumOfLeftLeaves(TreeNode root) {
-        if (root == null) return 0;
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int sum = 0;
-        while (!queue.isEmpty()) {
-            TreeNode currElem = queue.poll();
-            if (currElem.left != null && currElem.left.left == null && currElem.left.right == null) {
-                sum += currElem.left.val;
-            }
-
-            if (currElem.left != null) {
-                queue.add(currElem.left);
-            }
-
-            if (currElem.right != null) {
-                queue.add(currElem.right);
-            }
-
-        }
-        return sum;
-    }
-
-    // BFS-Based Tree average sum of all nodes in the level
-    public static List<Double> averageOfLevels(TreeNode root) {
-        List<Double> result = new LinkedList<>();
-        if (root == null) return Collections.emptyList();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            long sum = 0;
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-
-                TreeNode currElem = queue.poll();
-                if (currElem != null) {
-                    sum += currElem.val;
-
-                    if (currElem.left != null) {
-                        queue.add(currElem.left);
-                    }
-
-                    if (currElem.right != null) {
-                        queue.add(currElem.right);
-                    }
-                }
-            }
-
-            result.add(sum / (double) size);
-        }
-
-        return result;
-    }
 
     //  Morris Traversal (inorder traversal)
     public int[] findMode(TreeNode root) {
@@ -403,36 +318,6 @@ public class TreeOperations {
         return result;
     }
 
-    // DFS-based min leaf difference in BST
-    public static int getMinimumDifference(TreeNode root) {
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode curr = root;
-        Integer prev = null;
-        int minDiff = Integer.MAX_VALUE;
-
-        // In-Order Traversal (LNR) using stack
-        while (curr != null || !stack.isEmpty()) {
-            // Traverse left subtree
-            while (curr != null) {
-                stack.push(curr);
-                curr = curr.left;
-            }
-
-            // Process the node
-            curr = stack.pop();
-            if (prev != null) {
-                minDiff = Math.min(minDiff, Math.abs(curr.val - prev));
-            }
-            prev = curr.val;
-
-            // Traverse right subtree
-            curr = curr.right;
-        }
-
-        return minDiff;
-    }
-
-
     // Merge trees recursively
     public static TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 
@@ -443,57 +328,5 @@ public class TreeOperations {
         root1.right = mergeTrees(root1.right, root2.right);
         return root1;
 
-    }
-
-    // Merge trees using BFS approach
-    public static TreeNode mergeTrees2(TreeNode root1, TreeNode root2) {
-        if (root1 == null) return root2;
-        if (root2 == null) return root1;
-        TreeNode node = new TreeNode(root1.val + root2.val);
-        Queue<TreeNode[]> queue = new LinkedList<>();
-        Queue<TreeNode> mergedQueue = new LinkedList<>();
-        queue.offer(new TreeNode[]{root1, root2});
-        mergedQueue.offer(node);
-        while (!queue.isEmpty()) {
-            TreeNode[] nodes = queue.poll();
-            TreeNode node1 = nodes[0], node2 = nodes[1];
-            TreeNode mergedNode = mergedQueue.poll();
-
-            // Merge left children
-            TreeNode left1 = node1.left, left2 = node2.left;
-            if (left1 != null || left2 != null) {
-                if (left1 != null && left2 != null) {
-                    mergedNode.left = new TreeNode(left1.val + left2.val);
-                    queue.offer(new TreeNode[]{left1, left2});
-                    mergedQueue.offer(mergedNode.left);
-                } else {
-                    mergedNode.left = left1 != null ? left1 : left2;
-                }
-            }
-
-            // Merge right children
-            TreeNode right1 = node1.right, right2 = node2.right;
-            if (right1 != null || right2 != null) {
-                if (right1 != null && right2 != null) {
-                    mergedNode.right = new TreeNode(right1.val + right2.val);
-                    queue.offer(new TreeNode[]{right1, right2});
-                    mergedQueue.offer(mergedNode.right);
-                } else {
-                    mergedNode.right = right1 != null ? right1 : right2;
-                }
-            }
-        }
-        return node;
-    }
-
-    // Find element in BST
-    public static TreeNode searchBST(TreeNode root, int val) {
-        if (root == null) return null;
-        if (root.val == val) return root;
-        if (root.val > val) {
-            return searchBST(root.left, val);
-        } else {
-            return searchBST(root.right, val);
-        }
     }
 }

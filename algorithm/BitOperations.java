@@ -1,6 +1,4 @@
-package easy;
-
-import java.util.Arrays;
+package algorithm;
 
 public class BitOperations {
     // XOR for Missing Number

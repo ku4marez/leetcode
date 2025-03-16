@@ -1,4 +1,4 @@
-package easy;
+package algorithm;
 
 import java.util.*;
 
@@ -39,20 +39,6 @@ public class SortOperations {
             count += (num == element) ? 1 : -1;
         }
         return element;
-    }
-
-    // Sliding Window
-    public static boolean containsDuplicate(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return false;
-        }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(nums[i])) {
-                return true;
-            } else map.put(nums[i], i);
-        }
-        return false;
     }
 
     // Sorting-Based Anagram Check

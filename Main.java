@@ -1,15 +1,10 @@
-import easy.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static easy.TreeOperations.buildTree;
+import algorithm.ListOperations;
 
 public class Main {
     public static void main(String[] args) {
 
         // =========================================================
-        // EASY & MEDIUM PROBLEM SOLVING
+        // PROBLEM SOLVING
         // =========================================================
 
         /*

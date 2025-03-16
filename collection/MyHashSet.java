@@ -1,54 +1,40 @@
-package easy;
+package collection;
 
-class MyHashMap {
+public class MyHashSet {
 
     private static class Node {
-        int key, value;
+        int key;
         Node next;
 
-        Node(int key, int value) {
+        Node(int key) {
             this.key = key;
-            this.value = value;
         }
     }
 
     private static final int SIZE = 1000;
     private final Node[] buckets;
 
-    public MyHashMap() {
-        buckets = new Node[SIZE];
+    public MyHashSet() {
+        buckets = new Node[SIZE]; // Initialize bucket array
     }
 
     private int hash(int key) {
-        return key % SIZE;
+        return key % SIZE; // Compute bucket index
     }
 
-    public void put(int key, int value) {
+    public void add(int key) {
         int index = hash(key);
         if (buckets[index] == null) {
-            buckets[index] = new Node(key, value);
+            buckets[index] = new Node(key);
         } else {
             Node curr = buckets[index];
             while (true) {
-                if (curr.key == key) {
-                    curr.value = value; // Update existing key
-                    return;
-                }
+                if (curr.key == key) return; // Prevent duplicate insertion
                 if (curr.next == null) break;
                 curr = curr.next;
             }
-            curr.next = new Node(key, value);
+            curr.next = new Node(key); // Append to linked list
         }
-    }
-
-    public int get(int key) {
-        int index = hash(key);
-        Node curr = buckets[index];
-        while (curr != null) {
-            if (curr.key == key) return curr.value;
-            curr = curr.next;
-        }
-        return -1; // Key not found
     }
 
     public void remove(int key) {
@@ -64,19 +50,29 @@ class MyHashMap {
         Node prev = null;
         while (curr != null) {
             if (curr.key == key) {
-                prev.next = curr.next;
+                prev.next = curr.next; // Unlink node
                 return;
             }
             prev = curr;
             curr = curr.next;
         }
     }
+
+    public boolean contains(int key) {
+        int index = hash(key);
+        Node curr = buckets[index];
+        while (curr != null) {
+            if (curr.key == key) return true; // Key found
+            curr = curr.next;
+        }
+        return false; // Key not found
+    }
 }
 
 /**
- * Your MyHashMap object will be instantiated and called as such:
- * MyHashMap obj = new MyHashMap();
- * obj.put(key,value);
- * int param_2 = obj.get(key);
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet obj = new MyHashSet();
+ * obj.add(key);
  * obj.remove(key);
+ * boolean param_3 = obj.contains(key);
  */

@@ -1,4 +1,4 @@
-package easy;
+package algorithm;
 
 import java.util.*;
 
