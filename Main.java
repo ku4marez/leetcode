@@ -395,9 +395,20 @@ public class Main {
         int k = 2;
         System.out.println(ArrayOperations.findKthLargest(arr, k));
         // ------------------------------
-         */
         int[] coins = new int[]{1,2,5};
         int money = 11;
         System.out.println(DpOperations.coinChange(coins, money));
+        // ------------------------------
+        int[] arr = new int[]{1,2,3,4,5,6,7};
+        ArrayOperations.rotate(arr, 3);
+        // ------------------------------
+         */
+        ListOperations.ListNode b1 = new ListOperations.ListNode(1);
+        ListOperations.ListNode b2 = new ListOperations.ListNode(2, b1);
+        ListOperations.ListNode b3 = new ListOperations.ListNode(3, b2);
+        ListOperations.ListNode b4 = new ListOperations.ListNode(4, b3);
+        ListOperations.ListNode b5 = new ListOperations.ListNode(5, b4);
+
+        System.out.println(ListOperations.rotateRight(b5, 2));
     }
 }

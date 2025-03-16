@@ -78,6 +78,38 @@ public class ListOperations {
         return slow; // Middle node
     }
 
+    // Rotate a Linked List by k Places
+    public static ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null || k == 0) return head;
+
+        // Step 1: Find the length of the list
+        ListNode current = head;
+        int n = 1;
+        while (current.next != null) {
+            n++;
+            current = current.next;
+        }
+
+        // Step 2: Reduce k within bounds
+        k %= n;
+        if (k == 0) return head;  // If k is now 0, no rotation is needed
+
+        // Step 3: Find the new tail (n-k-1 node)
+        ListNode newTail = head;
+        for (int i = 0; i < n - k - 1; i++) {
+            newTail = newTail.next;
+        }
+
+        // Step 4: Set new head and break the list
+        ListNode newHead = newTail.next;
+        newTail.next = null;
+
+        // Step 5: Connect old tail to old head
+        current.next = head;  // Current was already at the old tail
+
+        return newHead;
+    }
+
     // Merge Two Sorted Lists Using Iterative Approach
     public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0);
