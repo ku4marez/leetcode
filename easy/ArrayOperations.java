@@ -457,6 +457,21 @@ public class ArrayOperations {
         return maxHeap.isEmpty() ? 0 : maxHeap.poll();
     }
 
+    // Min-heap approach
+    public static int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int num : nums) {
+            minHeap.offer(num);
+        }
+
+        while (minHeap.size() > k) {
+            minHeap.poll();
+        }
+
+        return minHeap.isEmpty() ? 0 : minHeap.peek();
+    }
+
     // Greedy (or iterative linear) algorithm for Min and Max
     public static int maxProfit(int[] prices) {
         if (prices == null || prices.length == 0) {

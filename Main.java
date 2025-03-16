@@ -381,7 +381,6 @@ public class Main {
         String s = "dog dog dog dog";
         System.out.println(StringOperations.wordPattern(pattern, s));
         // ------------------------------
-         */
         ListOperations.ListNode a1 = new ListOperations.ListNode(2);
         ListOperations.ListNode a2 = new ListOperations.ListNode(4, a1);
         ListOperations.ListNode a3 = new ListOperations.ListNode(3, a2);
@@ -391,5 +390,14 @@ public class Main {
         ListOperations.ListNode b3 = new ListOperations.ListNode(4, b2);
 
         System.out.println(ListOperations.addTwoNumbers(a3, b3));
+        // ------------------------------
+        int[] arr = new int[]{3,2,1,5,6,4};
+        int k = 2;
+        System.out.println(ArrayOperations.findKthLargest(arr, k));
+        // ------------------------------
+         */
+        int[] coins = new int[]{1,2,5};
+        int money = 11;
+        System.out.println(DpOperations.coinChange(coins, money));
     }
 }
