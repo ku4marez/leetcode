@@ -1,7 +1,6 @@
 package algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TwoPointerOperations {
 
@@ -109,6 +108,54 @@ public class TwoPointerOperations {
         while (j < m) result[k++] = arr2[j++];
 
         return result;
+    }
+
+    // Two-Pointer Technique
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p = m + n - 1;
+        while (p1 >= 0 && p2 >= 0) {
+            if (nums1[p1] > nums2[p2]) {
+                nums1[p] = nums1[p1];
+                p1--;
+            } else {
+                nums1[p] = nums2[p2];
+                p2--;
+            }
+            p--;
+        }
+        while (p2 >= 0) {
+            nums1[p] = nums2[p2];
+            p2--;
+            p--;
+        }
+    }
+
+    // Two pointer approach to merge only values that exist in both arrays (unique)
+    public static int[] intersection(int[] nums1, int[] nums2) {
+        int p1 = 0;
+        int p2 = 0;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        Set<Integer> set = new HashSet<>();
+        while (p1 < nums1.length && p2 < nums2.length) {
+            if (nums1[p1] == nums2[p2]) {
+                set.add(nums1[p1]);
+                p1++;
+                p2++;
+            } else if (nums1[p1] < nums2[p2]) {
+                p1++;
+            } else if (nums1[p1] > nums2[p2]) {
+                p2++;
+            }
+        }
+        int[] res = new int[set.size()];
+        int i = 0;
+        for (int num : set) {
+            res[i++] = num;
+        }
+        return res;
     }
 
     // Two-Pointer Approach

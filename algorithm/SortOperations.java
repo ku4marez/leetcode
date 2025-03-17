@@ -3,43 +3,6 @@ package algorithm;
 import java.util.*;
 
 public class SortOperations {
-    // Two-Pointer Technique
-    public static void merge(int[] nums1, int m, int[] nums2, int n) {
-        int p1 = m - 1;
-        int p2 = n - 1;
-        int p = m + n - 1;
-        while (p1 >= 0 && p2 >= 0) {
-            if (nums1[p1] > nums2[p2]) {
-                nums1[p] = nums1[p1];
-                p1--;
-            } else {
-                nums1[p] = nums2[p2];
-                p2--;
-            }
-            p--;
-        }
-        while (p2 >= 0) {
-            nums1[p] = nums2[p2];
-            p2--;
-            p--;
-        }
-    }
-
-    // Boyer-Moore Voting Algorithm
-    public static int majorityElement(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int count = 0;
-        int element = nums[0];
-        for (int num : nums) {
-            if (count == 0) {
-                element = num;
-            }
-            count += (num == element) ? 1 : -1;
-        }
-        return element;
-    }
 
     // Sorting-Based Anagram Check
     public static boolean isAnagram(String s, String t) {
@@ -51,32 +14,6 @@ public class SortOperations {
         Arrays.sort(sChars);
         Arrays.sort(tChars);
         return Arrays.equals(sChars, tChars);
-    }
-
-    // Two pointer approach to merge only values that exist in both arrays (unique)
-    public static int[] intersection(int[] nums1, int[] nums2) {
-        int p1 = 0;
-        int p2 = 0;
-        Arrays.sort(nums1);
-        Arrays.sort(nums2);
-        Set<Integer> set = new HashSet<>();
-        while (p1 < nums1.length && p2 < nums2.length) {
-            if (nums1[p1] == nums2[p2]) {
-                set.add(nums1[p1]);
-                p1++;
-                p2++;
-            } else if (nums1[p1] < nums2[p2]) {
-                p1++;
-            } else if (nums1[p1] > nums2[p2]) {
-                p2++;
-            }
-        }
-        int[] res = new int[set.size()];
-        int i = 0;
-        for (int num : set) {
-            res[i++] = num;
-        }
-        return res;
     }
 
     // Sorting string characters array
@@ -175,6 +112,31 @@ public class SortOperations {
             arr[i] = temp;
             heapify(arr, i, 0);
         }
+    }
+
+    // Cycle sort algorithm
+    public static int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+
+        // Step 1: Place numbers in the correct index using swaps
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
+                // Swap nums[i] with nums[nums[i] - 1] to place it correctly
+                int temp = nums[i];
+                nums[i] = nums[temp - 1];
+                nums[temp - 1] = temp;
+            }
+        }
+
+        // Step 2: Find the first missing positive number
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;  // First missing positive
+            }
+        }
+
+        // Step 3: If all numbers are placed correctly, return n + 1
+        return n + 1;
     }
 
     private void heapify(int[] arr, int n, int i) {

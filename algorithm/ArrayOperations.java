@@ -57,6 +57,25 @@ public class ArrayOperations {
         return result;
     }
 
+    // Index Marking (Negation Trick)
+    public static List<Integer> findDuplicates(int[] nums) {
+        List<Integer> duplicates = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int index = Math.abs(nums[i]) - 1;  // Get correct index
+
+            if (nums[index] < 0) {
+                // If already negative, it means the number is duplicate
+                duplicates.add(index + 1);
+            } else {
+                // Mark as visited by making it negative
+                nums[index] *= -1;
+            }
+        }
+
+        return duplicates; // Return list of duplicates
+    }
+
     // Iterative Linear Search
     public static int searchInsert(int[] nums, int target) {
         int resultIndex = 0;
@@ -70,6 +89,22 @@ public class ArrayOperations {
             }
         }
         return resultIndex;
+    }
+
+    // Boyer-Moore Voting Algorithm
+    public static int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int count = 0;
+        int element = nums[0];
+        for (int num : nums) {
+            if (count == 0) {
+                element = num;
+            }
+            count += (num == element) ? 1 : -1;
+        }
+        return element;
     }
 
     // Integer by integer comparison
