@@ -1,4 +1,5 @@
 import algorithm.ListOperations;
+import algorithm.StringOperations;
 
 public class Main {
     public static void main(String[] args) {
@@ -397,13 +398,15 @@ public class Main {
         int[] arr = new int[]{1,2,3,4,5,6,7};
         ArrayOperations.rotate(arr, 3);
         // ------------------------------
-         */
         ListOperations.ListNode b1 = new ListOperations.ListNode(1);
         ListOperations.ListNode b2 = new ListOperations.ListNode(2, b1);
         ListOperations.ListNode b3 = new ListOperations.ListNode(3, b2);
         ListOperations.ListNode b4 = new ListOperations.ListNode(4, b3);
         ListOperations.ListNode b5 = new ListOperations.ListNode(5, b4);
-
         System.out.println(ListOperations.rotateRight(b5, 2));
+        // ------------------------------
+         */
+        int num = 3749;
+        System.out.println(StringOperations.intToRoman(num));
     }
 }
