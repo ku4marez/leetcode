@@ -5,6 +5,31 @@ import java.util.*;
 public class ArrayOperations {
 
 
+    // Print numbers from 0 to 100 in a random order (Fisher–Yates shuffle or Knuth shuffle)
+    public static void printNumbers() {
+        int[] nums = new int[100];
+
+        // Step 1: Fill the array with numbers 1 to 100
+        for (int i = 0; i < 100; i++) {
+            nums[i] = i + 1;
+        }
+
+        // Step 2: Shuffle the array using Fisher-Yates algorithm
+        Random rand = new Random();
+        for (int i = nums.length - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1); // Random index from 0 to i
+            // Swap nums[i] and nums[j]
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
+
+        // Step 3: Print shuffled numbers
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
+    }
+
     // Character-by-Character Comparison
     public static String commonPrefix(String[] strs) {
         if (strs == null || strs.length == 0) {
@@ -129,6 +154,24 @@ public class ArrayOperations {
             }
         }
         return third != null ? third : first;
+    }
+
+    // Greedy algorithm with one pointer
+    public static boolean canJump(int[] nums) {
+        int index = 0;
+        int farthest = nums[0];
+        int size = nums.length;
+        while (index < size) {
+            if (index > farthest) {
+                return false;
+            }
+            farthest = Math.max(farthest, index + nums[index]);
+            if (farthest >= size - 1) {
+                return true;
+            }
+            index = index + 1;
+        }
+        return true;
     }
 
     // Greedy strategy with two pointer

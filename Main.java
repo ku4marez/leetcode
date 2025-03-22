@@ -1,3 +1,4 @@
+import algorithm.ArrayOperations;
 import algorithm.ListOperations;
 import algorithm.StringOperations;
 
@@ -405,8 +406,13 @@ public class Main {
         ListOperations.ListNode b5 = new ListOperations.ListNode(5, b4);
         System.out.println(ListOperations.rotateRight(b5, 2));
         // ------------------------------
-         */
         int num = 3749;
         System.out.println(StringOperations.intToRoman(num));
+        // ------------------------------
+        ArrayOperations.printNumbers();
+        // ------------------------------
+         */
+        int[] arr = new int[]{3,2,1,0,4};
+        System.out.println(ArrayOperations.canJump(arr));
     }
 }
