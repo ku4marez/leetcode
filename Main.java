@@ -1,6 +1,4 @@
-import algorithm.ArrayOperations;
-import algorithm.ListOperations;
-import algorithm.StringOperations;
+import algorithm.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -411,8 +409,16 @@ public class Main {
         // ------------------------------
         ArrayOperations.printNumbers();
         // ------------------------------
-         */
         int[] arr = new int[]{3,2,1,0,4};
         System.out.println(ArrayOperations.canJump(arr));
+        // ------------------------------
+        String s1 = "ab";
+        String s2 = "eidbaooo";
+        System.out.println(SlidingWindowOperations.checkInclusion(s1, s2));
+        // ------------------------------
+         */
+        String s = "babad";
+        System.out.println(TwoPointerOperations.longestPalindrome(s));
+
     }
 }

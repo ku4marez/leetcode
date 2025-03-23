@@ -192,6 +192,38 @@ public class TwoPointerOperations {
     }
 
     // Two-Pointer Technique
+    public static String longestPalindrome(String s) {
+        int maxStart = 0, maxEnd = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int[] odd = expandAroundCenter(s, i, i);
+            int[] even = expandAroundCenter(s, i, i + 1);
+
+            int oddLen = odd[1] - odd[0];
+            int evenLen = even[1] - even[0];
+
+            if (oddLen > maxEnd - maxStart) {
+                maxStart = odd[0];
+                maxEnd = odd[1];
+            }
+            if (evenLen > maxEnd - maxStart) {
+                maxStart = even[0];
+                maxEnd = even[1];
+            }
+        }
+
+        return s.substring(maxStart, maxEnd + 1);
+    }
+
+    private static int[] expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return new int[]{left + 1, right - 1};
+    }
+
+    // Two-Pointer Technique
     public static void moveZeroes(int[] nums) {
         if (nums != null && nums.length != 0) {
             int lastNonZeroIndex = 0;

@@ -128,7 +128,7 @@ public class StringOperations {
         }
 
         String str = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        return str.equals(new StringBuilder(str).reverse().toString());
+        return str.contentEquals(new StringBuilder(str).reverse());
     }
 
     // Reverse words in a string

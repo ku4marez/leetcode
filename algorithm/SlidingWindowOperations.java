@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,5 +113,29 @@ public class SlidingWindowOperations {
         }
 
         return maxLength;
+    }
+
+    // Sliding window (Frequency count, permutation)
+    public static boolean checkInclusion(String s1, String s2) {
+        int[] s1Freq = new int[26];
+        int[] s2Window = new int[26];
+        if (s2.length() < s1.length()) {
+            return false;
+        }
+        for (int i = 0; i < s1.length(); i++) {
+            s1Freq[s1.charAt(i) - 'a']++;
+            s2Window[s2.charAt(i) - 'a']++;
+        }
+
+        if (Arrays.equals(s1Freq, s2Window)) return true;
+
+        for (int i = s1.length(); i < s2.length(); i++) {
+            s2Window[s2.charAt(i) - 'a']++;
+            s2Window[s2.charAt(i - s1.length()) - 'a']--;
+
+            if (Arrays.equals(s1Freq, s2Window)) return true;
+        }
+
+        return false;
     }
 }
