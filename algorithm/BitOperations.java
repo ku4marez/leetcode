@@ -119,4 +119,45 @@ public class BitOperations {
         }
         return word.charAt(k - 1);
     }
+
+    // Bitwise division and Exponential search
+    public static int divide(int dividend, int divisor) {
+        // Edge case: if result would overflow (e.g., Integer.MIN_VALUE / -1)
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+
+        int result = 0;
+
+        // Convert both dividend and divisor to long to avoid overflow
+        // Take absolute values to simplify division logic (sign handled later)
+        long positiveDividend = Math.abs((long) dividend);
+        long positiveDivisor = Math.abs((long) divisor);
+
+        // Keep subtracting the largest shifted divisor from dividend
+        while (positiveDividend >= positiveDivisor) {
+            long temp = positiveDivisor;
+            int multiple = 1;
+
+            // Double temp until it's larger than the remaining dividend
+            while (positiveDividend >= (temp << 1)) {
+                temp <<= 1;         // Multiply temp by 2
+                multiple <<= 1;     // Multiply multiple by 2 (number of divisors subtracted)
+            }
+
+            // Subtract the largest found chunk from the dividend
+            positiveDividend -= temp;
+
+            // Add how many times we subtracted the divisor to the result
+            result += multiple;
+        }
+
+        // Apply the correct sign to the result
+        if ((dividend > 0) != (divisor > 0)) {
+            result = -result;
+        }
+
+        return result;
+    }
+
 }

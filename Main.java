@@ -416,9 +416,13 @@ public class Main {
         String s2 = "eidbaooo";
         System.out.println(SlidingWindowOperations.checkInclusion(s1, s2));
         // ------------------------------
-         */
         String s = "babad";
         System.out.println(TwoPointerOperations.longestPalindrome(s));
+        // ------------------------------
+        System.out.println(BitOperations.divide(10, 3));
+        // ------------------------------
+         */
+        System.out.println(ArithmeticOperations.isPerfectSquare(16));
 
     }
 }
