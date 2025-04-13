@@ -421,8 +421,12 @@ public class Main {
         // ------------------------------
         System.out.println(BitOperations.divide(10, 3));
         // ------------------------------
-         */
         System.out.println(ArithmeticOperations.isPerfectSquare(16));
+        // ------------------------------
+        System.out.println(StringOperations.convertToTitle(28));
+        // ------------------------------
+         */
+        System.out.println(StringOperations.titleToNumber("AB"));
 
     }
 }

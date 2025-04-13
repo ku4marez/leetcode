@@ -61,6 +61,33 @@ public class StringOperations {
         };
     }
 
+    // Excel Column Title (base 26 charset) (Integer - Character)
+    public static String convertToTitle(int columnNumber) {
+        StringBuilder title = new StringBuilder();
+        while (columnNumber > 0) {
+            columnNumber--;
+            int remainder = columnNumber % 26;
+            char letter = (char) ('A' + remainder);
+            // add to front of result
+            columnNumber /= 26;
+            title.append(letter);
+        }
+        return title.reverse().toString();
+    }
+
+    // Excel Column Title (base 26 charset) (Character - Integer)
+    public static int titleToNumber(String columnTitle) {
+        int result = 0;
+        while (!columnTitle.isEmpty()) {
+            char currentChar = columnTitle.charAt(0);
+            int remainder = currentChar - 'A' + 1;
+            columnTitle = columnTitle.substring(1);
+            // append remainder
+            result = result * 26 + remainder;
+        }
+        return result;
+    }
+
     // Stack-Based Valid Parentheses Check
     public static boolean isValid(String s) {
         Map<Character, Character> map = new HashMap<>();
