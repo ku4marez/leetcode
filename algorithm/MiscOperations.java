@@ -26,6 +26,9 @@ public class MiscOperations {
 
         String longestStr = "abcbde";
         longestUniqueSubstring(longestStr);
+
+        int[] arrProd = new int[]{1, 1, 2, 6};
+        productOfArray(arrProd);
     }
 
     // Use Prefix Sum + HashMap
@@ -159,5 +162,22 @@ public class MiscOperations {
         }
 
         return s.substring(startOfMax, startOfMax + maxLen);
+    }
+
+    // Build prefix and suffix products and combine them.
+    private static int[] productOfArray(int[] arr) {
+        int n = arr.length;
+        int[] res = new int[n];
+
+        res[0] = 1;
+        for (int i = 1; i < n; i++) {
+            res[i] = res[i - 1] * arr[i - 1];
+        }
+        int suffix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            res[i] = res[i] * suffix;
+            suffix *= arr[i];
+        }
+        return res;
     }
 }
