@@ -47,11 +47,46 @@ public class SlidingWindowAlgorithm {
     }
 
     private static int minSubArrSum(int[] arr, int target) {
-        return 0;
+        if (arr == null || arr.length == 0) return 0;
+        int left = 0, sum = 0;
+        int minLength = Integer.MAX_VALUE;
+        for (int right = 0; right < arr.length; right++) {
+            int num = arr[right];
+            // Expand the window
+            sum += num;
+
+            // Try to shrink the window while sum ≥ target
+            while (sum >= target) {
+                // Update minimum
+                minLength = Math.min(minLength, right - left + 1);
+                // Shrink from the left
+                sum -= arr[left];
+                left++;
+            }
+        }
+        return minLength != Integer.MAX_VALUE ? minLength : 0;
     }
 
     private static int maxSubArrSum(int[] arr, int k) {
-        return 0;
-    }
+        if (arr == null || arr.length == 0) return 0;
+        int left = 0, sum = 0;
+        int maxSum = Integer.MIN_VALUE;
+        for (int right = 0; right < arr.length; right++) {
+            int num = arr[right];
+            // Expand the window
+            sum += num;
 
+            // Shrink the window if it's larger than size k
+            if (right - left + 1 > k) {
+                sum -= arr[left];
+                left++;
+            }
+
+            // If window size == k, update maxSum
+            if (right - left + 1 == k) {
+                maxSum = Math.max(maxSum, sum);
+            }
+        }
+        return maxSum;
+    }
 }
