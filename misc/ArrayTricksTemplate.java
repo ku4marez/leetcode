@@ -307,11 +307,27 @@ public class ArrayTricksTemplate {
     }
 
     public static void backtrackSubsets(int[] nums, int start, List<Integer> temp, List<List<Integer>> result) {
-        // TODO: Implement Backtracking to generate subsets
+        result.add(new ArrayList<>(temp));
+        for (int i = start; i < nums.length; i++) {
+            temp.add(nums[i]);
+            backtrackSubsets(nums, i + 1, temp, result);
+            temp.remove(temp.size() - 1);
+        }
     }
 
     public static int maxNonOverlappingIntervals(int[][] intervals) {
-        // TODO: Implement Greedy Interval Selection
-        return 0;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[1]));
+
+        int count = 0;
+        int end = Integer.MIN_VALUE;
+
+        for (int[] interval : intervals) {
+            if (interval[0] > end) {
+                count++;
+                end = interval[1];
+            }
+        }
+
+        return count;
     }
 }
