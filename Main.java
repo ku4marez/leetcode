@@ -425,8 +425,10 @@ public class Main {
         // ------------------------------
         System.out.println(StringOperations.convertToTitle(28));
         // ------------------------------
-         */
         System.out.println(StringOperations.titleToNumber("AB"));
+        // ------------------------------
+         */
+        ArrayOperations.printNumbers();
 
     }
 }
