@@ -18,10 +18,10 @@ public class MiscOperations {
         int[] topK = new int[]{1, 1, 1, 2, 2, 3};
         topKFrequent(topK, 2);
 
-        String[] str = new String[]{"eat","tea","tan","ate","nat","bat"};
+        String[] str = new String[]{"eat", "tea", "tan", "ate", "nat", "bat"};
         groupAnagrams(str);
 
-        int[] duplicateArr = new int[]{4,3,2,7,8,2,3,1};
+        int[] duplicateArr = new int[]{4, 3, 2, 7, 8, 2, 3, 1};
         findDuplicates(duplicateArr);
 
         String longestStr = "abcbde";
@@ -34,6 +34,9 @@ public class MiscOperations {
         System.out.println(longestValidParentheses(parenthesis));
 
         System.out.println(generateParenthesis(5));
+
+        int[][] intervals = new int[][]{{1, 4}, {4, 5}};
+        System.out.println(Arrays.toString(merge(intervals)));
     }
 
     // Use Prefix Sum + HashMap
@@ -80,7 +83,7 @@ public class MiscOperations {
                 int curr = nums[i];
                 int currStreak = 1;
                 while (set.contains(curr + 1)) {
-                    curr ++;
+                    curr++;
                     currStreak++;
                 }
                 max = Math.max(max, currStreak);
@@ -94,8 +97,8 @@ public class MiscOperations {
         for (int i = 0; i < nums.length; i++) {
             while (
                     nums[i] >= 1 &&
-                    nums[i] <= nums.length &&
-                    nums[i] != nums[nums[i] - 1]
+                            nums[i] <= nums.length &&
+                            nums[i] != nums[nums[i] - 1]
             ) {
                 int correctIndex = nums[i] - 1;
 
@@ -229,5 +232,24 @@ public class MiscOperations {
             generateParenthesis(res, temp, open, close + 1, n);
             temp.deleteCharAt(temp.length() - 1);
         }
+    }
+
+    private static int[][] merge(int[][] intervals) {
+        if (intervals.length == 0) return new int[0][0];
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        List<int[]> res = new ArrayList<>();
+        int[] curr = intervals[0];
+        res.add(curr);
+        for (int i = 1; i < intervals.length; i++) {
+            int[] next = intervals[i];
+
+            if (curr[1] >= next[0]) {
+                curr[1] = Math.max(curr[1], next[1]);
+            } else {
+                curr = next;
+                res.add(curr);
+            }
+        }
+        return res.toArray(new int[res.size()][]);
     }
 }
