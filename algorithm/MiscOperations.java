@@ -29,6 +29,11 @@ public class MiscOperations {
 
         int[] arrProd = new int[]{1, 1, 2, 6};
         productOfArray(arrProd);
+
+        String parenthesis = "(()())";
+        System.out.println(longestValidParentheses(parenthesis));
+
+        System.out.println(generateParenthesis(5));
     }
 
     // Use Prefix Sum + HashMap
@@ -179,5 +184,50 @@ public class MiscOperations {
             suffix *= arr[i];
         }
         return res;
+    }
+
+    private static int longestValidParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int maxLen = 0;
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                } else {
+                    maxLen = Math.max(maxLen, i - stack.peek());
+                }
+            }
+        }
+        return maxLen;
+    }
+
+    private static List<String> generateParenthesis(int n) {
+        if (n == 0) return new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        generateParenthesis(res, new StringBuilder(), 0, 0, n);
+        return res;
+    }
+
+    private static void generateParenthesis(List<String> res, StringBuilder temp, int open, int close, int n) {
+        if (temp.length() == n * 2) {
+            res.add(temp.toString());
+        }
+
+        if (open < n) {
+            temp.append("(");
+            generateParenthesis(res, temp, open + 1, close, n);
+            temp.deleteCharAt(temp.length() - 1);
+        }
+
+        if (close < open) {
+            temp.append(")");
+            generateParenthesis(res, temp, open, close + 1, n);
+            temp.deleteCharAt(temp.length() - 1);
+        }
     }
 }
