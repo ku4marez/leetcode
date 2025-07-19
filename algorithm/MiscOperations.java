@@ -37,6 +37,19 @@ public class MiscOperations {
 
         int[][] intervals = new int[][]{{1, 4}, {4, 5}};
         System.out.println(Arrays.toString(merge(intervals)));
+
+        int reverseInt = 123;
+        System.out.println(reverse(reverseInt));
+
+        String str1 = "231";
+        String str2 = "10";
+        System.out.println(multiply(str1, str2));
+
+        System.out.println(missingNumber(new int[]{1, 2, 3, 5}));
+
+        System.out.println(missingNumbers(new int[]{4, 3, 2, 7, 8, 2, 3, 1}));
+
+        System.out.println(duplicateNumbers(new int[]{1, 1, 3, 3, 4, 5, 6, 7}));
     }
 
     // Use Prefix Sum + HashMap
@@ -251,5 +264,84 @@ public class MiscOperations {
             }
         }
         return res.toArray(new int[res.size()][]);
+    }
+
+    private static int reverse(int x) {
+        int rev = 0;
+        while (x != 0) {
+            int y = x % 10;
+            x /= 10;
+            if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && y > 7)) return 0;
+            if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && y < -8)) return 0;
+
+            rev = rev * 10 + y;
+        }
+        return rev;
+    }
+
+    private static String multiply(String num1, String num2) {
+        int[] arr = new int[num1.length() + num2.length()];
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            int n1 = num1.charAt(i) - '0';
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int n2 = num2.charAt(j) - '0';
+                int product = n1 * n2;
+
+                int p1 = i + j;
+                int p2 = i + j + 1;
+
+                int sum = product + arr[p2];
+
+                arr[p2] = sum % 10;
+                arr[p1] += sum / 10;  // carry
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean leadingZero = true;
+
+        for (int digit : arr) {
+            if (digit == 0 && leadingZero) continue;
+            leadingZero = false;
+            sb.append(digit);
+        }
+
+        return sb.isEmpty() ? "0" : sb.toString();
+    }
+
+    private static int missingNumber(int[] arr) {
+        int n = arr.length;
+        int actualSum = 0;
+        int expectedSum = (n + 1) * (n + 2) / 2;
+        for (int val : arr) {
+            actualSum += val;
+        }
+        return expectedSum - actualSum;
+    }
+
+    private static int[] missingNumbers(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            int index = Math.abs(arr[i]) - 1;
+            if (arr[index] > 0) {
+                arr[index] *= -1;
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 0) {
+                res.add(i + 1);
+            }
+        }
+        return res.stream().mapToInt(i -> i).toArray();
+    }
+
+    private static int[] duplicateNumbers(int[] arr) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+            int index = Math.abs(arr[i]) - 1;
+            if (arr[index] > 0) {
+                arr[index] *= -1;
+            } else res.add(index + 1);
+        }
+        return res.stream().mapToInt(i -> i).toArray();
     }
 }
