@@ -230,4 +230,32 @@ public class StringOperations {
         return lps;
     }
 
+    public static int myAtoi(String s) {
+        s = s.trim();
+        if (s.length() == 0) return 0;
+
+        boolean negative = false;
+        int i = 0;
+        if (s.charAt(i) == '-' || s.charAt(i) == '+') {
+            negative = s.charAt(i) == '-';
+            i++;
+        }
+
+        long res = 0;
+        while (i < s.length() && Character.isDigit(s.charAt(i))) {
+            int digit = s.charAt(i) - '0';
+
+            if (res > Integer.MAX_VALUE / 10 ||
+                    (res == Integer.MAX_VALUE / 10 && digit > (negative ? 8 : 7))) {
+                return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+
+            res = res * 10 + digit;
+            i++;
+        }
+
+        return (int) (negative ? -res : res);
+    }
+
+
 }

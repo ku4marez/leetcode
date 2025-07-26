@@ -427,8 +427,10 @@ public class Main {
         // ------------------------------
         System.out.println(StringOperations.titleToNumber("AB"));
         // ------------------------------
-         */
         ArrayOperations.printNumbers();
+        // ------------------------------
+         */
+        System.out.println(StringOperations.myAtoi("-21474836482"));
 
     }
 }

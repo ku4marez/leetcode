@@ -38,8 +38,9 @@ public class MathOperations {
     private static int computeMod(int a, int b, int mod) {
         long result = 1, base = a % mod;
         while (b > 0) {
-            if ((b & 1) == 1)
+            if ((b & 1) == 1) {
                 result = (result * base) % mod;
+            }
             base = (base * base) % mod;
             b >>= 1;
         }
@@ -47,7 +48,14 @@ public class MathOperations {
     }
 
     private static int nCr(int n, int m) {
-        return 0;
+        int MOD = 1_000_000_007;
+        long[] fact = new long[n + 1];
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) fact[i] = (fact[i - 1] * i) % MOD;
+        long numerator = fact[n];
+        long denominator = (fact[m] * fact[n - m]) % MOD;
+        long inverse = computeMod((int) denominator, MOD - 2, MOD);
+        return (int) ((numerator * inverse) % MOD);
     }
 
     private static int nCoins(int n) {
