@@ -2,8 +2,18 @@ package interview.interview;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class Top50Easy {
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) {
         // Arrays
         int[] rotateArr = new int[]{1, 2, 3, 4, 5, 6, 7};
@@ -40,11 +50,34 @@ public class Top50Easy {
         String palindromeStr1 = "A man, a plan, a canal: Panama";
         System.out.println(isPalindrome(palindromeStr1));
 
-        String[] commonPrefix = new String[]{"flower","flow","flight"};
+        String[] commonPrefix = new String[]{"flower", "flow", "flight"};
         System.out.println(longestCommonPrefix(commonPrefix));
 
         String uniqueCharString = "leetcode";
         System.out.println(firstUniqChar(uniqueCharString));
+
+        // LinkedList
+        ListNode deleteHead = new ListNode(4);
+        deleteHead.next = new ListNode(5);
+        deleteHead.next.next = new ListNode(6);
+        deleteHead.next.next.next = new ListNode(7);
+
+        deleteNode(deleteHead.next);
+        System.out.println(deleteHead);
+
+        ListNode cycleHead = new ListNode(3);
+        cycleHead.next = new ListNode(2);
+        cycleHead.next.next = new ListNode(0);
+        cycleHead.next.next.next = new ListNode(-4);
+        System.out.println(hasCycle(cycleHead));
+
+        System.out.println(mergeTwoLists(cycleHead, deleteHead));
+
+        ListNode reverseHead = new ListNode(3);
+        reverseHead.next = new ListNode(2);
+        reverseHead.next.next = new ListNode(0);
+        reverseHead.next.next.next = new ListNode(  1);
+        System.out.println(reverseList(reverseHead));
     }
 
     // Arrays
@@ -186,7 +219,7 @@ public class Top50Easy {
         for (int i = 1; i < strs.length; i++) {
             String curr = strs[i];
             int j = 0;
-            while (j < curr.length() && j< res.length() && res.charAt(j) == curr.charAt(j)) {
+            while (j < curr.length() && j < res.length() && res.charAt(j) == curr.charAt(j)) {
                 j++;
             }
             res = res.substring(0, j);
@@ -205,5 +238,76 @@ public class Top50Easy {
             if (freq[ch - 'a'] == 1) return i;
         }
         return -1;
+    }
+
+    // LinkedList
+    private static void deleteNode(ListNode node) {
+        if (node == null) return;
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+    private static boolean hasCycle(ListNode head) {
+        if (head == null) return false;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
+        }
+        return false;
+    }
+
+    private static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if (list1 == null) return list2;
+        if (list2 == null) return list1;
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                curr.next = list1;
+                list1 = list1.next;
+            } else {
+                curr.next = list2;
+                list2 = list2.next;
+            }
+            curr = curr.next;
+        }
+        if (list1 != null) curr.next = list1;
+        else curr.next = list2;
+        return dummy.next;
+    }
+
+//    private static ListNode reverseList(ListNode head) {
+//        if (head == null) return null;
+//        ListNode current = head;
+//        Stack<ListNode> stack = new Stack<>();
+//        while (current != null) {
+//            stack.push(current);
+//            current = current.next;
+//        }
+//        ListNode newHead = stack.pop();
+//        current = newHead;
+//        while (!stack.isEmpty()) {
+//            current.next = stack.pop();
+//            current = current.next;
+//        }
+//        current.next = null;
+//        return newHead;
+//    }
+
+    private static ListNode reverseList(ListNode head) {
+        if (head == null) return null;
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
     }
 }
