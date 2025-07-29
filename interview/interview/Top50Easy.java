@@ -1,8 +1,8 @@
 package interview.interview;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Stack;
+import interview.preparation.Day3;
+
+import java.util.*;
 
 public class Top50Easy {
     static class ListNode {
@@ -11,6 +11,34 @@ public class Top50Easy {
 
         ListNode(int x) {
             val = x;
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    static class NodeDepth {
+        TreeNode node;
+        int depth;
+        NodeDepth(TreeNode n, int d) {
+            node = n;
+            depth = d;
         }
     }
 
@@ -76,8 +104,28 @@ public class Top50Easy {
         ListNode reverseHead = new ListNode(3);
         reverseHead.next = new ListNode(2);
         reverseHead.next.next = new ListNode(0);
-        reverseHead.next.next.next = new ListNode(  1);
+        reverseHead.next.next.next = new ListNode(1);
         System.out.println(reverseList(reverseHead));
+
+        //Trees
+        Integer[] maxDepthArr = new Integer[]{1, 2, 3, 4, null, 5};
+        System.out.println(maxDepth(buildTree(maxDepthArr)));
+
+        Integer[] levelOrder = new Integer[]{3,9,20,null,null,15,7};
+        System.out.println(levelOrder(buildTree(levelOrder)));
+
+        Integer[] isValidBSTArr = new Integer[]{5,1,4,null,null,3,6};
+        System.out.println(isValidBST(buildTree(isValidBSTArr)));
+
+        Integer[] symmetricTreeArr = new Integer[]{1,2,2,3,4,4,3};
+        System.out.println(isSymmetric(buildTree(symmetricTreeArr)));
+
+        int[] mergeArr1 = new int[]{1,2,3,0,0,0};
+        int[] mergeArr2 = new int[]{2,5,6};
+        merge(mergeArr1, 3, mergeArr2, 3);
+        System.out.println(Arrays.toString(mergeArr1));
+
+        System.out.println(firstBadVersion(4));
     }
 
     // Arrays
@@ -309,5 +357,170 @@ public class Top50Easy {
             curr = next;
         }
         return prev;
+    }
+
+    //Trees
+    private static TreeNode buildTree(Integer[] arr) {
+        if (arr == null || arr.length == 0) return null;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        TreeNode root = new TreeNode(arr[0]);
+        queue.add(root);
+        int i = 1;
+        while (i < arr.length) {
+            TreeNode node = queue.poll();
+            if (i < arr.length && arr[i] != null) {
+                node.left = new TreeNode(arr[i]);
+                queue.add(node.left);
+            }
+            i++;
+            if (i < arr.length && arr[i] != null) {
+                node.right = new TreeNode(arr[i]);
+                queue.add(node.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+//    private static int maxDepth(TreeNode root) {
+//        if (root == null) return 0;
+//        Integer left = maxDepth(root.left);
+//        Integer right = maxDepth(root.right);
+//        return Math.max(left, right) + 1;
+//    }
+
+    private static int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        Stack<NodeDepth> stack = new Stack<>();
+        stack.push(new NodeDepth(root, 1));
+        int maxDepth = 0;
+        while (!stack.isEmpty()) {
+            NodeDepth nodeDepth = stack.pop();
+            TreeNode node = nodeDepth.node;
+            int depth = nodeDepth.depth;
+            maxDepth = Math.max(maxDepth, depth);
+            TreeNode leftNode = node.left;
+            if (leftNode != null) {
+                stack.push(new NodeDepth(leftNode, depth + 1));
+            }
+            TreeNode rightNode = node.right;
+            if (rightNode != null) {
+                stack.push(new NodeDepth(rightNode, depth + 1));
+            }
+        }
+        return maxDepth;
+    }
+
+    private static List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) return Collections.emptyList();
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                level.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            res.add(level);
+        }
+        return res;
+    }
+
+    private static boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private static boolean isValidBST(TreeNode node, long min, long max) {
+        if (node == null) return true;
+        if (min >= node.val) return false;
+        if (max <= node.val) return false;
+        return isValidBST(node.left, min, node.val) && isValidBST(node.right, node.val, max);
+    }
+
+//    private static boolean isSymmetric(TreeNode root) {
+//        if (root == null) return true;
+//        if (root.left == null && root.right == null) return true;
+//        if (root.left == null || root.right == null) return false;
+//        if (root.left.val != root.right.val) return false;
+//        return isSymmetric(root.left, root.right);
+//    }
+
+    private static boolean isSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (left == null || right== null) return false;
+        if (left.val != right.val) return false;
+        return isSymmetric(left.left, right.right) && isSymmetric(right.left, left.right);
+    }
+
+    private static boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        if (root.left == null && root.right == null) return true;
+        if (root.left == null || root.right == null) return false;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root.left);
+        queue.add(root.right);
+        while (!queue.isEmpty()) {
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+            if (left == null && right == null) continue;
+            if (left == null || right== null) return false;
+            if (left.val != right.val) return false;
+            //ArrayDeque doesnt allow null elements
+            if (left.left != null || right.right != null) {
+                queue.add(left.left);
+                queue.add(right.right);
+            }
+            if (left.right != null || right.left != null) {
+                queue.add(left.right);
+                queue.add(right.left);
+            }
+        }
+        return true;
+    }
+
+    //Sorting
+    private static void merge(int[] nums1, int m, int[] nums2, int n) {
+        if (nums1 == null || nums1.length == 0) return;
+        if (nums2 == null || nums2.length == 0) return;
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p = m + n - 1;
+        while (p1 >= 0 && p2 >= 0) {
+            if (nums1[p1] > nums2[p2]) {
+                nums1[p] = nums1[p1];
+                p1--;
+            } else {
+                nums1[p] = nums2[p2];
+                p2--;
+            }
+            p--;
+        }
+        while (p2 >= 0) {
+            nums1[p] = nums2[p2];
+            p2--;
+            p--;
+        }
+    }
+
+    private static int firstBadVersion(int n) {
+        int left = 1, right = n;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (isBadVersion(mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private static boolean isBadVersion(int version) {
+        return version >= 3;
     }
 }
