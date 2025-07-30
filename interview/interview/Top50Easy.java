@@ -5,6 +5,8 @@ import interview.preparation.Day3;
 import java.util.*;
 
 public class Top50Easy {
+    static final int MOD = 1_000_000_007;
+
     static class ListNode {
         int val;
         ListNode next;
@@ -36,6 +38,7 @@ public class Top50Easy {
     static class NodeDepth {
         TreeNode node;
         int depth;
+
         NodeDepth(TreeNode n, int d) {
             node = n;
             depth = d;
@@ -59,6 +62,17 @@ public class Top50Easy {
 
         int[] plusOneArr = new int[]{4, 9, 2, 8};
         System.out.println(Arrays.toString(plusOne(plusOneArr)));
+
+        int[] maxProfit2 = new int[]{4, 9, 2, 8};
+        System.out.println(maxProfit2(maxProfit2));
+
+        int[] intersectionArr1 = new int[]{1, 2, 2, 1};
+        int[] intersectionArr2 = new int[]{2, 2};
+        System.out.println(Arrays.toString(intersect(intersectionArr1, intersectionArr2)));
+
+        int[] moveZeroArr = new int[]{1, 2, 0, 0, 12};
+        moveZeroes(moveZeroArr);
+        System.out.println(Arrays.toString(moveZeroArr));
 
         // Strings
         char[] charArray = new char[]{'h', 'e', 'l', 'l', 'o'};
@@ -84,6 +98,9 @@ public class Top50Easy {
         String uniqueCharString = "leetcode";
         System.out.println(firstUniqChar(uniqueCharString));
 
+        String aystack = "adbutsad", needle = "sad";
+        System.out.println(strStr(aystack, needle));
+
         // LinkedList
         ListNode deleteHead = new ListNode(4);
         deleteHead.next = new ListNode(5);
@@ -103,29 +120,57 @@ public class Top50Easy {
 
         ListNode reverseHead = new ListNode(3);
         reverseHead.next = new ListNode(2);
-        reverseHead.next.next = new ListNode(0);
-        reverseHead.next.next.next = new ListNode(1);
+        reverseHead.next.next = new ListNode(1);
+        reverseHead.next.next.next = new ListNode(0);
         System.out.println(reverseList(reverseHead));
+
+        ListNode removeNth = new ListNode(3);
+        removeNth.next = new ListNode(2);
+        removeNth.next.next = new ListNode(0);
+        removeNth.next.next.next = new ListNode(1);
+        System.out.println(removeNthFromEnd(removeNth, 2));
+
+        ListNode palindromeList = new ListNode(1);
+        palindromeList.next = new ListNode(2);
+        palindromeList.next.next = new ListNode(2);
+        palindromeList.next.next.next = new ListNode(1);
+        System.out.println(isPalindrome(palindromeList));
 
         //Trees
         Integer[] maxDepthArr = new Integer[]{1, 2, 3, 4, null, 5};
         System.out.println(maxDepth(buildTree(maxDepthArr)));
 
-        Integer[] levelOrder = new Integer[]{3,9,20,null,null,15,7};
+        Integer[] levelOrder = new Integer[]{3, 9, 20, null, null, 15, 7};
         System.out.println(levelOrder(buildTree(levelOrder)));
 
-        Integer[] isValidBSTArr = new Integer[]{5,1,4,null,null,3,6};
+        Integer[] isValidBSTArr = new Integer[]{5, 1, 4, null, null, 3, 6};
         System.out.println(isValidBST(buildTree(isValidBSTArr)));
 
-        Integer[] symmetricTreeArr = new Integer[]{1,2,2,3,4,4,3};
+        Integer[] symmetricTreeArr = new Integer[]{1, 2, 2, 3, 4, 4, 3};
         System.out.println(isSymmetric(buildTree(symmetricTreeArr)));
 
-        int[] mergeArr1 = new int[]{1,2,3,0,0,0};
-        int[] mergeArr2 = new int[]{2,5,6};
+        int[] sortedArrToBST = new int[]{-10, -3, 0, 5, 9};
+        System.out.println(sortedArrayToBST(sortedArrToBST));
+
+        //Sorting
+        int[] mergeArr1 = new int[]{1, 2, 3, 0, 0, 0};
+        int[] mergeArr2 = new int[]{2, 5, 6};
         merge(mergeArr1, 3, mergeArr2, 3);
         System.out.println(Arrays.toString(mergeArr1));
 
         System.out.println(firstBadVersion(4));
+
+        //DP
+        System.out.println(climbStairs(4));
+        System.out.println(maxProfit(new int[]{1, 2, 3, 4}));
+        System.out.println(maxSubArray(new int[]{1, 2, -3, -5}));
+        System.out.println(rob(new int[]{2, 7, 9, 3, 1}));
+
+        //Design
+        MinStack obj = new MinStack();
+        obj.push(4);
+        obj.push(3);
+        obj.push(5);
     }
 
     // Arrays
@@ -186,6 +231,52 @@ public class Top50Easy {
         int[] result = new int[n + 1];
         result[0] = 1;
         return result;
+    }
+
+    private static int maxProfit2(int[] prices) {
+        int maxProfit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                maxProfit += prices[i] - prices[i - 1];
+            }
+        }
+        return maxProfit;
+    }
+
+    private static int[] intersect(int[] nums1, int[] nums2) {
+        int p1 = 0;
+        int p2 = 0;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        List<Integer> set = new ArrayList<>();
+        while (p1 < nums1.length && p2 < nums2.length) {
+            if (nums1[p1] == nums2[p2]) {
+                set.add(nums1[p1++]);
+                p2++;
+            } else if (nums1[p1] < nums2[p2]) {
+                p1++;
+            } else if (nums1[p1] > nums2[p2]) {
+                p2++;
+            }
+        }
+        int[] result = new int[set.size()];
+        int index = 0;
+        for (Iterator<Integer> iterator = set.iterator(); iterator.hasNext(); ) {
+            result[index] = iterator.next();
+            index++;
+        }
+        return result;
+    }
+
+    private static void moveZeroes(int[] nums) {
+        if (nums == null || nums.length == 0) return;
+        int lastNonZeroIndex = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) nums[lastNonZeroIndex++] = nums[i];
+        }
+        for (int i = lastNonZeroIndex; i < nums.length; i++) {
+            nums[i] = 0;
+        }
     }
 
     // Strings
@@ -288,6 +379,16 @@ public class Top50Easy {
         return -1;
     }
 
+    private static int strStr(String haystack, String needle) {
+        if (haystack == null || needle == null) return -1;
+        for (int i = 0; i <= haystack.length() - needle.length(); i++) {
+            if (haystack.substring(i, i + needle.length()).equals(needle)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     // LinkedList
     private static void deleteNode(ListNode node) {
         if (node == null) return;
@@ -357,6 +458,41 @@ public class Top50Easy {
             curr = next;
         }
         return prev;
+    }
+
+    private static ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = dummy, fast = dummy;
+        for (int i = 0; i < n; i++) {
+            fast = fast.next;
+        }
+        while(fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return dummy.next;
+    }
+
+    private static boolean isPalindrome(ListNode head) {
+        if (head == null) return true;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode reversed = reverseList(slow.next);
+        ListNode curr = head;
+        while (reversed != null) {
+            if (reversed.val != curr.val) return false;
+            reversed = reversed.next;
+            curr = curr.next;
+
+        }
+        return true;
     }
 
     //Trees
@@ -442,6 +578,14 @@ public class Top50Easy {
         return isValidBST(node.left, min, node.val) && isValidBST(node.right, node.val, max);
     }
 
+    private static TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+        TreeNode root = new TreeNode(nums[nums.length / 2]);
+        root.left = sortedArrayToBST(Arrays.copyOfRange(nums, 0, nums.length / 2));
+        root.right = sortedArrayToBST(Arrays.copyOfRange(nums, nums.length / 2 + 1, nums.length));
+        return root;
+    }
+
 //    private static boolean isSymmetric(TreeNode root) {
 //        if (root == null) return true;
 //        if (root.left == null && root.right == null) return true;
@@ -452,7 +596,7 @@ public class Top50Easy {
 
     private static boolean isSymmetric(TreeNode left, TreeNode right) {
         if (left == null && right == null) return true;
-        if (left == null || right== null) return false;
+        if (left == null || right == null) return false;
         if (left.val != right.val) return false;
         return isSymmetric(left.left, right.right) && isSymmetric(right.left, left.right);
     }
@@ -468,7 +612,7 @@ public class Top50Easy {
             TreeNode left = queue.poll();
             TreeNode right = queue.poll();
             if (left == null && right == null) continue;
-            if (left == null || right== null) return false;
+            if (left == null || right == null) return false;
             if (left.val != right.val) return false;
             //ArrayDeque doesnt allow null elements
             if (left.left != null || right.right != null) {
@@ -523,4 +667,154 @@ public class Top50Easy {
     private static boolean isBadVersion(int version) {
         return version >= 3;
     }
+
+    //DP
+    private static int climbStairs(int n) {
+        if (n <= 1) return 1;
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+
+    public int climbStairs2(int n) {
+        long totalWays = 0;
+        for (int k = 0; 2 * k <= n; k++) {
+            totalWays = (totalWays + nCr(n - k, k)) % MOD;
+        }
+        return (int) totalWays;
+    }
+
+    private long nCr(int n, int r) {
+        if (r > n || r < 0) return 0;
+
+        long[] fact = new long[n + 1];
+        fact[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            fact[i] = (fact[i - 1] * i) % MOD;
+        }
+
+        long numerator = fact[n];
+        long denominator = (fact[r] * fact[n - r]) % MOD;
+        long inverse = modPow(denominator, MOD - 2, MOD);
+
+        return (numerator * inverse) % MOD;
+    }
+
+    // Fast exponentiation for modular inverse
+    private long modPow(long base, int exp, int mod) {
+        long result = 1;
+        base %= mod;
+
+        while (exp > 0) {
+            if ((exp & 1) == 1)
+                result = (result * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+
+        return result;
+    }
+
+    private static int maxProfit(int[] prices) {
+        int maxProfit = 0;
+        int minPrice = Integer.MAX_VALUE;
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price;
+            }
+            maxProfit = Math.max(maxProfit, price - minPrice);
+        }
+        return maxProfit;
+    }
+
+    private static int maxSubArray(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int maxSum = nums[0];
+        int currentSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(nums[i], nums[i] + currentSum);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
+
+    private static int rob(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
+        if (nums.length == 2) return Math.max(nums[0], nums[1]);
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[nums.length - 1];
+    }
+
+    //Design
+    static class MinStack {
+        Stack<Integer> minStack;
+        Stack<Integer> stack;
+
+        public MinStack() {
+            minStack = new Stack<>();
+            stack = new Stack<>();
+        }
+
+        public void push(int val) {
+            stack.push(val);
+            if (minStack.isEmpty() || val <= minStack.peek()) {
+                minStack.push(val);
+            } else {
+                minStack.push(minStack.peek());
+            }
+        }
+
+        public void pop() {
+            minStack.pop();
+            stack.pop();
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minStack.peek();
+        }
+    }
+
+    static class Solution {
+        int[] arr;
+        int[] shuffled;
+        Random rand;
+
+        public Solution(int[] nums) {
+            rand = new Random();
+            arr = nums.clone();
+            shuffled = nums.clone();
+        }
+
+        public int[] reset() {
+            shuffled = arr.clone();
+            return arr;
+        }
+
+        public int[] shuffle() {
+            for (int i = shuffled.length - 1; i >= 0; i--) {
+                int index = rand.nextInt(i + 1);
+                int temp = shuffled[index];
+                shuffled[index] = shuffled[i];
+                shuffled[i] = temp;
+            }
+            return shuffled;
+        }
+    }
+
 }
