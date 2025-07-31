@@ -171,6 +171,28 @@ public class Top50Easy {
         obj.push(4);
         obj.push(3);
         obj.push(5);
+
+        int[] solutionArr = new int[]{2, 7, 9, 3, 1};
+        Solution solution = new Solution(solutionArr);
+        solution.shuffle();
+        System.out.println(Arrays.toString(solutionArr));
+        solution.reset();
+        System.out.println(Arrays.toString(solutionArr));
+
+        //Other
+        int count1s = 12;
+        System.out.println(hammingWeight(count1s));
+
+        int reverseBits = 43261596;
+        System.out.println(reverseBits(reverseBits));
+
+        String isValidStr = "]";
+        System.out.println(isValid(isValidStr));
+
+        System.out.println(hammingDistance(4, 7));
+
+        int[] missingNumArr = new int[]{3, 0, 1};
+        System.out.println(missingNumber(missingNumArr));
     }
 
     // Arrays
@@ -468,7 +490,7 @@ public class Top50Easy {
         for (int i = 0; i < n; i++) {
             fast = fast.next;
         }
-        while(fast.next != null) {
+        while (fast.next != null) {
             fast = fast.next;
             slow = slow.next;
         }
@@ -815,6 +837,70 @@ public class Top50Easy {
             }
             return shuffled;
         }
+    }
+
+    //Others
+    private static int hammingWeight(int n) {
+        System.out.println(Integer.toBinaryString(n));
+        int sum = 0;
+        while (n != 0) {
+            n = n & (n - 1);
+            sum++;
+        }
+        return sum;
+    }
+
+    private static int reverseBits(int n) {
+        int result = 0;
+
+        for (int i = 0; i < 32; i++) {
+            int bit = n & 1;
+            result = (result << 1) | bit;
+            n = n >> 1;
+        }
+
+        return result;
+    }
+
+    private static boolean isValid(String s) {
+        Map<Character, Character> map = new HashMap<>();
+        map.put('[', ']');
+        map.put('{', '}');
+        map.put('(', ')');
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                Character top = stack.pop();
+                if (!Objects.equals(map.get(top), c)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    private static int hammingDistance(int x, int y) {
+        System.out.println(Integer.toBinaryString(x));
+        System.out.println(Integer.toBinaryString(y));
+        System.out.println(Integer.toBinaryString(x ^ y));
+        return Integer.bitCount(x ^ y);
+    }
+
+    private static int missingNumber(int[] nums) {
+        int xor = 0;
+        for (int i = 0; i <= nums.length; i++) {
+            xor ^= i;
+        }
+        for (int num : nums) {
+            xor ^= num;
+        }
+        return xor;
     }
 
 }
