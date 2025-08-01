@@ -179,6 +179,15 @@ public class Top50Easy {
         solution.reset();
         System.out.println(Arrays.toString(solutionArr));
 
+        //Math
+        System.out.println(isPowerOfThree(9));
+
+        System.out.println(romanToInt("MCMXCIV"));
+
+        System.out.println(countPrimes(10));
+
+        System.out.println(fizzBuzz(15));
+
         //Other
         int count1s = 12;
         System.out.println(hammingWeight(count1s));
@@ -193,6 +202,8 @@ public class Top50Easy {
 
         int[] missingNumArr = new int[]{3, 0, 1};
         System.out.println(missingNumber(missingNumArr));
+
+        System.out.println((generate(5)));
     }
 
     // Arrays
@@ -299,6 +310,14 @@ public class Top50Easy {
         for (int i = lastNonZeroIndex; i < nums.length; i++) {
             nums[i] = 0;
         }
+    }
+
+    public boolean isValidSudoku(char[][] board) {
+        return false;
+    }
+
+    public void rotate(int[][] matrix) {
+
     }
 
     // Strings
@@ -839,6 +858,80 @@ public class Top50Easy {
         }
     }
 
+    //Math
+    private static boolean isPowerOfThree(int n) {
+        if (n == 0) return false;
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        return n == 1;
+    }
+
+    private static int romanToInt(String s) {
+        int result = 0;
+        for (int i = 0; i < s.length() - 1; i++) {
+            char currentChar = s.charAt(i);
+            char nextChar = s.charAt(i + 1);
+            int currNum = romanCharToInt(currentChar);
+            int nextNum = romanCharToInt(nextChar);
+            if (currNum < nextNum) {
+                result -= currNum;
+            } else
+                result += currNum;
+        }
+        result += romanCharToInt(s.charAt(s.length() - 1));
+        return result;
+    }
+
+    private static int romanCharToInt(char c) {
+        return switch (c) {
+            case 'I' -> 1;
+            case 'V' -> 5;
+            case 'X' -> 10;
+            case 'L' -> 50;
+            case 'C' -> 100;
+            case 'D' -> 500;
+            case 'M' -> 1000;
+            default -> 0;
+        };
+    }
+
+    private static int countPrimes(int n) {
+        if (n <= 1) return 0;
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        for (int i = 2; i * i < n; i++) {
+            for (int j = i * i; j < n; j += i){
+                isPrime[j] = false;
+            }
+        }
+
+        int result = 0;
+        for (int i = 2; i < n; i++) {
+            result += isPrime[i] ? 1 : 0;
+        }
+        return result;
+
+    }
+
+    private static List<String> fizzBuzz(int n) {
+        List<String> result = new ArrayList<>();
+        for (int i = 1; i < n + 1; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                result.add("FizzBuzz");
+            } else if (i % 3 == 0) {
+                result.add("Fizz");
+            } else if (i % 5 == 0) {
+                result.add("Buzz");
+            } else {
+                result.add(String.valueOf(i));
+            }
+        }
+        return result;
+    }
+
     //Others
     private static int hammingWeight(int n) {
         System.out.println(Integer.toBinaryString(n));
@@ -903,4 +996,21 @@ public class Top50Easy {
         return xor;
     }
 
+    private static List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> firstElem = new ArrayList<>();
+        firstElem.add(1);
+        res.add(firstElem);
+        for (int i = 1; i < numRows; i++) {
+            List<Integer> elem = new ArrayList<>();
+            List<Integer> lastElem = res.get(i - 1);
+            elem.add(1);
+            for (int j = 1; j < lastElem.size(); j++) {
+                elem.add(lastElem.get(j - 1) + lastElem.get(j));
+            }
+            elem.add(1);
+            res.add(elem);
+        }
+        return res;
+    }
 }
