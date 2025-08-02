@@ -74,6 +74,30 @@ public class Top50Easy {
         moveZeroes(moveZeroArr);
         System.out.println(Arrays.toString(moveZeroArr));
 
+        char[][] board = {
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+        };
+
+        System.out.println(isValidSudoku(board));
+
+        int[][] matrix = {
+                { 5,  1,  9, 11 },
+                { 2,  4,  8, 10 },
+                {13,  3,  6,  7 },
+                {15, 14, 12, 16 }
+        };
+
+        rotate(matrix);
+        System.out.println(Arrays.toString(matrix));
+
         // Strings
         char[] charArray = new char[]{'h', 'e', 'l', 'l', 'o'};
         reverseString(charArray);
@@ -312,12 +336,82 @@ public class Top50Easy {
         }
     }
 
-    public boolean isValidSudoku(char[][] board) {
-        return false;
+    private static boolean isValidSudoku(char[][] board) {
+        if (board == null || board.length == 0) return false;
+
+        for (int row = 0; row < 9; row++) {
+            boolean[] visited = new boolean[9];
+            for (int col = 0; col < 9; col++) {
+                char c = board[row][col];
+                if (Character.isDigit(c) && Character.getNumericValue(c) != 0) {
+                    if (!visited[c - '0' - 1]) {
+                        visited[c - '0' - 1] = true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        for (int col = 0; col < 9; col++) {
+            boolean[] visited = new boolean[9];
+            for (int row = 0; row < 9; row++) {
+                char c = board[row][col];
+                if (Character.isDigit(c) && Character.getNumericValue(c) != 0) {
+                    if (!visited[c - '0' - 1]) {
+                        visited[c - '0' - 1] = true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        for (int box = 0; box < 9; box++) {
+            int startRow = (box / 3) * 3;
+            int startCol = (box % 3) * 3;
+            boolean[] visited = new boolean[9];
+            for (int row = startRow; row < startRow + 3; row++) {
+                for (int col = startCol; col < startCol + 3; col++) {
+                    char c = board[row][col];
+                    if (Character.isDigit(c) && Character.getNumericValue(c) != 0) {
+                        if (!visited[c - '0' - 1]) {
+                            visited[c - '0' - 1] = true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
-    public void rotate(int[][] matrix) {
+    private static void rotate(int[][] matrix) {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = row + 1; col < matrix[0].length; col++) {
+                int temp = matrix[row][col];
+                matrix[row][col] = matrix[col][row];
+                matrix[col][row] = temp;
+            }
+        }
 
+        for (int[] row : matrix) {
+            reverse(row);
+        }
+    }
+
+    private static void reverse(int[] row) {
+        int p1 = 0;
+        int p2 = row.length - 1;
+        while (p1 < p2) {
+            int temp = row[p1];
+            row[p1] = row[p2];
+            row[p2] = temp;
+            p1++;
+            p2--;
+        }
     }
 
     // Strings
