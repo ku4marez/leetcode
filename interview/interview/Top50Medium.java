@@ -7,6 +7,10 @@ public class Top50Medium {
     public static void main(String[] args) {
 
         //Array and strings
+        int[][] matrix = {{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}};
+        setZeroes(matrix);
+        System.out.println(Arrays.deepToString(matrix));
+
         System.out.println(groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
 
         System.out.println(lengthOfLongestSubstring("abcabcbb"));
@@ -17,6 +21,59 @@ public class Top50Medium {
         int[] topKFreq = new int[]{1, 1, 1, 2, 2, 3};
         int k = 3;
         System.out.println(topKFrequent(topKFreq, k));
+
+        int[][] mergeInts = new int[][]{{1, 2}, {2, 6}, {5, 6}, {8, 10}};
+        System.out.println(Arrays.toString(merge(mergeInts)));
+
+        int[] kLargest = new int[]{3, 2, 1, 5, 6, 4};
+        k = 2;
+        System.out.println(findKthLargest(kLargest, k));
+    }
+
+    //Array and strings
+    private static void setZeroes(int[][] matrix) {
+        boolean firstRowHasZero = false;
+        boolean firstColHasZero = false;
+        for (int i = 0; i < matrix[0].length; i++) {
+            if (matrix[0][i] == 0) {
+                firstRowHasZero = true;
+                break;
+            }
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][0] == 0) {
+                firstColHasZero = true;
+                break;
+            }
+        }
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        if (firstRowHasZero) {
+            for (int i = 0; i < matrix[0].length; i++) {
+                matrix[0][i] = 0;
+            }
+        }
+        if (firstColHasZero) {
+            for (int i = 0; i < matrix.length; i++) {
+                matrix[i][0] = 0;
+            }
+        }
     }
 
     private static List<List<String>> groupAnagrams(String[] strs) {
@@ -72,6 +129,7 @@ public class Top50Medium {
         return right - left - 1;
     }
 
+    //Sorting and search
     private static int[] topKFrequent(int[] nums, int k) {
         if (nums == null || nums.length == 0) return new int[0];
         Map<Integer, Integer> map = new HashMap<>();
@@ -89,4 +147,35 @@ public class Top50Medium {
         }
         return result;
     }
+
+    private static int[][] merge(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) return new int[0][0];
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        List<int[]> result = new ArrayList<>();
+        result.add(intervals[0]);
+        for (int i = 1; i < intervals.length; i++) {
+            int[] curr = intervals[i];
+            int[] prev = result.getLast();
+            if (prev[1] >= curr[0]) {
+                prev[1] = Math.max(prev[1], curr[1]);
+            } else {
+                result.add(curr);
+            }
+        }
+        return result.toArray(new int[result.size()][]);
+    }
+
+    private static int findKthLargest(int[] nums, int k) {
+        if (nums == null || nums.length == 0) return -1;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+        for (int num : nums) {
+            pq.offer(num);
+        }
+        int res = -1;
+        for (int i = 0; i < k; i++) {
+            res = pq.poll();
+        }
+        return res;
+    }
+
 }
