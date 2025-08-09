@@ -4,6 +4,34 @@ import java.util.*;
 
 public class Top50Medium {
 
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public static void main(String[] args) {
 
         //Array and strings
@@ -17,6 +45,34 @@ public class Top50Medium {
 
         System.out.println(longestPalindrome("babad"));
 
+        //Linked List
+        ListNode head1 = new ListNode(9);
+        head1.next = new ListNode(9);
+
+        ListNode head2 = new ListNode(9);
+        head2.next = new ListNode(9);
+        head2.next.next = new ListNode(9);
+        head2.next.next = new ListNode(9);
+
+        System.out.println(addTwoNumbers(head1, head2));
+
+        //Tree
+        Integer[] inorderTraversal = new Integer[]{1, null, 2, 3};
+        TreeNode inorderTraversalTree = buildTree(inorderTraversal);
+        System.out.println(inorderTraversal(inorderTraversalTree));
+
+        int[] preorder = new int[]{3, 9, 20, 15, 7};
+        int[] inorder = new int[]{9, 3, 15, 20, 7};
+        System.out.println(buildTree(preorder, inorder));
+
+        //Backtracking
+        int[] backtrackingArr = new int[]{1, 2, 3};
+        System.out.println(permute(backtrackingArr));
+
+        int[] subsetArr = new int[]{1, 2, 3};
+        System.out.println(subsets(subsetArr));
+
+        System.out.println(generateParenthesis(3));
         //Sorting and search
         int[] topKFreq = new int[]{1, 1, 1, 2, 2, 3};
         int k = 3;
@@ -127,6 +183,164 @@ public class Top50Medium {
             right++;
         }
         return right - left - 1;
+    }
+
+    //Tree
+    public static TreeNode buildTree(Integer[] values) {
+        if (values == null || values.length == 0) return null;
+
+        TreeNode root = new TreeNode(values[0]);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int i = 1;
+        while (i < values.length) {
+            TreeNode current = queue.poll();
+
+            if (values[i] != null) {
+                current.left = new TreeNode(values[i]);
+                queue.add(current.left);
+            }
+            i++;
+
+            if (i < values.length && values[i] != null) {
+                current.right = new TreeNode(values[i]);
+                queue.add(current.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
+    private static List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
+        inorderTraversal(root, ans);
+        return ans;
+    }
+
+    private static void inorderTraversal(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        inorderTraversal(root.left, res);
+        res.add(root.val);
+        inorderTraversal(root.right, res);
+    }
+
+    private static TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder == null || inorder == null) return null;
+        int pi = 0, ii = 0;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode root = new TreeNode(preorder[pi++]);
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.peek();
+            if (node.val != inorder[ii]) {
+                TreeNode left = new TreeNode(preorder[pi++]);
+                node.left = left;
+                stack.push(left);
+            } else {
+                TreeNode popped = null;
+                while (!stack.isEmpty() && stack.peek().val == inorder[ii]) {
+                    popped = stack.pop();
+                    ii++;
+                }
+                if (pi < preorder.length) {
+                    TreeNode right = new TreeNode(preorder[pi++]);
+                    popped.right = right;
+                    stack.push(right);
+                }
+            }
+        }
+        return root;
+    }
+
+    //Backtracking
+    private static List<List<Integer>> permute(int[] nums) {
+        if (nums == null || nums.length == 0) return new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        permute(nums, new ArrayList<>(), res, new boolean[nums.length]);
+        return res;
+    }
+
+    private static void permute(int[] nums, List<Integer> temp, List<List<Integer>> res, boolean[] visited) {
+        if (temp.size() == nums.length) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i]) continue;
+            visited[i] = true;
+            temp.add(nums[i]);
+            permute(nums, temp, res, visited);
+            temp.removeLast();
+            visited[i] = false;
+        }
+    }
+
+    private static List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private static void backtrack(int[] nums, int index, List<Integer> temp, List<List<Integer>> result) {
+        result.add(new ArrayList<>(temp));
+        for (int i = index; i < nums.length; i++) {
+            temp.add(nums[i]);
+            backtrack(nums, i + 1, temp, result);
+            temp.removeLast();
+        }
+    }
+
+    private static List<String> generateParenthesis(int n) {
+        if (n == 0) return new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        generateParenthesis(res, new StringBuilder(), 0, 0, n);
+        return res;
+    }
+
+    private static void generateParenthesis(List<String> res, StringBuilder sb, int left, int right, int n) {
+        if (sb.length() == n * 2) {
+            res.add(sb.toString());
+            return;
+        }
+        if (left < n) {
+            sb.append('(');
+            generateParenthesis(res, sb, left + 1, right, n);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        if (right < left) {
+            sb.append(')');
+            generateParenthesis(res, sb, left, right + 1, n);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    //Linked list
+    private static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int val1 = l1 != null ? l1.val : 0;
+            int val2 = l2 != null ? l2.val : 0;
+            int sum = val1 + val2 + carry;
+            carry = sum / 10;
+
+            cur.next = new ListNode(sum % 10);
+            cur = cur.next;
+
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+
+        if (carry > 0) {
+            cur.next = new ListNode(carry);
+        }
+        return dummy.next;
     }
 
     //Sorting and search
