@@ -73,6 +73,14 @@ public class Top50Medium {
         headB.next.next.next = shared;
         System.out.println(getIntersectionNode(headA, headB));
 
+        ListNode headEvenOdd = new ListNode(1);
+        headEvenOdd.next = new ListNode(2);
+        headEvenOdd.next.next = new ListNode(3);
+        headEvenOdd.next.next.next = new ListNode(4);
+        headEvenOdd.next.next.next.next = new ListNode(5);
+        headEvenOdd.next.next.next.next.next = new ListNode(6);
+        System.out.println(oddEvenList(headEvenOdd));
+
         //Tree
         Integer[] inorderTraversal = new Integer[]{1, null, 2, 3};
         TreeNode inorderTraversalTree = buildTree(inorderTraversal);
@@ -116,7 +124,7 @@ public class Top50Medium {
         int[] rotateArr = new int[]{4, 5, 6, 7, 0, 1, 2};
         System.out.println(search(rotateArr, 0));
 
-        int[] rangeArr = new int[]{5,7,7,8,8,10};
+        int[] rangeArr = new int[]{5, 7, 7, 8, 8, 10};
         System.out.println(searchRange(rangeArr, 8));
     }
 
@@ -424,6 +432,21 @@ public class Top50Medium {
         return posA;
     }
 
+    private static ListNode oddEvenList(ListNode head) {
+        if (head == null) return null;
+        ListNode even = head.next;
+        ListNode odd = head;
+        ListNode evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            even.next = odd.next.next;
+            odd = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+
     //DP
     private static int coinChange(int[] coins, int amount) {
         if (amount == 0) return 0;
@@ -548,7 +571,7 @@ public class Top50Medium {
         while (left < right) {
             int mid = left + (right - left + 1) / 2;
             if (nums[mid] == target) {
-                 left = mid;
+                left = mid;
             } else if (nums[mid] <= target) {
                 left = mid + 1;
             } else {
