@@ -45,6 +45,9 @@ public class Top50Medium {
 
         System.out.println(longestPalindrome("babad"));
 
+        int[] peakArr = new int[]{1, 2, 3, 1};
+        System.out.println(findPeakElement(peakArr));
+
         //Linked List
         ListNode head1 = new ListNode(9);
         head1.next = new ListNode(9);
@@ -56,6 +59,20 @@ public class Top50Medium {
 
         System.out.println(addTwoNumbers(head1, head2));
 
+        ListNode shared = new ListNode(8);
+        shared.next = new ListNode(4);
+        shared.next.next = new ListNode(5);
+
+        ListNode headA = new ListNode(4);
+        headA.next = new ListNode(1);
+        headA.next.next = shared;
+
+        ListNode headB = new ListNode(5);
+        headB.next = new ListNode(6);
+        headB.next.next = new ListNode(1);
+        headB.next.next.next = shared;
+        System.out.println(getIntersectionNode(headA, headB));
+
         //Tree
         Integer[] inorderTraversal = new Integer[]{1, null, 2, 3};
         TreeNode inorderTraversalTree = buildTree(inorderTraversal);
@@ -65,6 +82,9 @@ public class Top50Medium {
         int[] inorder = new int[]{9, 3, 15, 20, 7};
         System.out.println(buildTree(preorder, inorder));
 
+        Integer[] kthSmallest = new Integer[]{5, 3, 6, 2, 4, null, null, 1};
+        System.out.println(kthSmallest(buildTree(kthSmallest), 3));
+
         //Backtracking
         int[] backtrackingArr = new int[]{1, 2, 3};
         System.out.println(permute(backtrackingArr));
@@ -73,6 +93,14 @@ public class Top50Medium {
         System.out.println(subsets(subsetArr));
 
         System.out.println(generateParenthesis(3));
+
+        //DP
+        int[] coinsChangeArr = new int[]{1, 2, 5};
+        System.out.println(coinChange(coinsChangeArr, 11));
+
+        int[] canJumpArr = new int[]{1, 0, 1};
+        System.out.println(canJump(canJumpArr));
+
         //Sorting and search
         int[] topKFreq = new int[]{1, 1, 1, 2, 2, 3};
         int k = 3;
@@ -84,6 +112,12 @@ public class Top50Medium {
         int[] kLargest = new int[]{3, 2, 1, 5, 6, 4};
         k = 2;
         System.out.println(findKthLargest(kLargest, k));
+
+        int[] rotateArr = new int[]{4, 5, 6, 7, 0, 1, 2};
+        System.out.println(search(rotateArr, 0));
+
+        int[] rangeArr = new int[]{5,7,7,8,8,10};
+        System.out.println(searchRange(rangeArr, 8));
     }
 
     //Array and strings
@@ -185,6 +219,23 @@ public class Top50Medium {
         return right - left - 1;
     }
 
+    private static int findPeakElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < nums[mid + 1]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return right;
+    }
+
     //Tree
     public static TreeNode buildTree(Integer[] values) {
         if (values == null || values.length == 0) return null;
@@ -253,6 +304,25 @@ public class Top50Medium {
             }
         }
         return root;
+    }
+
+    private static int kthSmallest(TreeNode root, int k) {
+        if (root == null) return -1;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        int count = 0;
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();
+            if (++count == k) {
+                return curr.val;
+            }
+            curr = curr.right;
+        }
+        return -1;
     }
 
     //Backtracking
@@ -343,6 +413,50 @@ public class Top50Medium {
         return dummy.next;
     }
 
+    private static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode posA = headA;
+        ListNode posB = headB;
+
+        while (posA != posB) {
+            posA = posA == null ? headB : posA.next;
+            posB = posB == null ? headA : posB.next;
+        }
+        return posA;
+    }
+
+    //DP
+    private static int coinChange(int[] coins, int amount) {
+        if (amount == 0) return 0;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    private static boolean canJump(int[] nums) {
+        int index = 0;
+        int farthest = nums[0];
+        int size = nums.length;
+        while (index < size) {
+            if (index > farthest) {
+                return false;
+            }
+            farthest = Math.max(farthest, index + nums[index]);
+            if (farthest >= size - 1) {
+                return true;
+            }
+            index = index + 1;
+        }
+        return true;
+    }
+
     //Sorting and search
     private static int[] topKFrequent(int[] nums, int k) {
         if (nums == null || nums.length == 0) return new int[0];
@@ -390,6 +504,63 @@ public class Top50Medium {
             res = pq.poll();
         }
         return res;
+    }
+
+    private static int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[left] <= nums[mid]) {
+                if (target >= nums[left] && target <= nums[mid]) right = mid - 1;
+                else left = mid + 1;
+            } else {
+                if (target >= nums[mid] && target <= nums[right]) left = mid + 1;
+                else right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int[] searchRange(int[] nums, int target) {
+        int[] result = new int[]{-1, -1};
+        if (nums == null || nums.length == 0) return result;
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                right = mid;
+            } else if (nums[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        if (nums[left] == target) {
+            result[0] = left;
+        }
+
+        left = 0;
+        right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left + 1) / 2;
+            if (nums[mid] == target) {
+                 left = mid;
+            } else if (nums[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        if (nums[right] == target) {
+            result[1] = right;
+        }
+
+        return result;
     }
 
 }
