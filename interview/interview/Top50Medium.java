@@ -93,6 +93,9 @@ public class Top50Medium {
         Integer[] kthSmallest = new Integer[]{5, 3, 6, 2, 4, null, null, 1};
         System.out.println(kthSmallest(buildTree(kthSmallest), 3));
 
+        Integer[] zigzag = new Integer[]{3,9,20,null,null,15,7};
+        System.out.println(zigzagLevelOrder(buildTree(zigzag)));
+
         //Backtracking
         int[] backtrackingArr = new int[]{1, 2, 3};
         System.out.println(permute(backtrackingArr));
@@ -101,6 +104,9 @@ public class Top50Medium {
         System.out.println(subsets(subsetArr));
 
         System.out.println(generateParenthesis(3));
+
+        char[][] wordSearch = new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        System.out.println(exist(wordSearch, "BCE"));
 
         //DP
         int[] coinsChangeArr = new int[]{1, 2, 5};
@@ -126,6 +132,10 @@ public class Top50Medium {
 
         int[] rangeArr = new int[]{5, 7, 7, 8, 8, 10};
         System.out.println(searchRange(rangeArr, 8));
+
+        int[] colorArr = new int[]{2, 0, 2, 1, 1, 0};
+        sortColors(colorArr);
+        System.out.println(Arrays.toString(colorArr));
     }
 
     //Array and strings
@@ -333,6 +343,37 @@ public class Top50Medium {
         return -1;
     }
 
+    private static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+
+        boolean isLeft = true;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            List<Integer> level = new ArrayList<>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (isLeft) {
+                    level.add(node.val);
+                } else {
+                    level.addFirst(node.val);
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            result.add(level);
+            isLeft = !isLeft;
+        }
+        return result;
+    }
+
     //Backtracking
     private static List<List<Integer>> permute(int[] nums) {
         if (nums == null || nums.length == 0) return new ArrayList<>();
@@ -395,6 +436,31 @@ public class Top50Medium {
             generateParenthesis(res, sb, left, right + 1, n);
             sb.deleteCharAt(sb.length() - 1);
         }
+    }
+
+    private static boolean exist(char[][] board, String word) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if(exist(board, word, i, j, 0)) return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean exist(char[][] board, String word, int x, int y, int index) {
+        if (index == word.length()) return true;
+        if (x < 0 || y < 0 || x >= board.length || y >= board[0].length) return false;
+        if (board[x][y] != word.charAt(index)) return false;
+
+        char temp = board[x][y];
+        board[x][y] = '#';
+        boolean exist = exist(board, word, x + 1, y, index + 1)
+                || exist(board, word, x - 1, y, index + 1)
+                || exist(board, word, x, y + 1, index + 1)
+                || exist(board, word, x, y - 1, index + 1);
+        board[x][y] = temp;
+
+        return exist;
     }
 
     //Linked list
@@ -586,4 +652,26 @@ public class Top50Medium {
         return result;
     }
 
+    //Dutch national flag
+    private static void sortColors(int[] nums) {
+        int low = 0;
+        int mid = 0;
+        int high = nums.length - 1;
+        while (mid <= high) {
+            if(nums[mid] == 0) {
+                int temp = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp;
+                mid++;
+                low++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else {
+                int temp = nums[high];
+                nums[high] = nums[mid];
+                nums[mid] = temp;
+                high--;
+            }
+        }
+    }
 }
