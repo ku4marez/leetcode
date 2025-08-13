@@ -1,5 +1,7 @@
 package interview.interview;
 
+import interview.preparation.Day8;
+
 import java.util.*;
 
 public class Top50Medium {
@@ -29,6 +31,47 @@ public class Top50Medium {
             this.val = val;
             this.left = left;
             this.right = right;
+        }
+    }
+
+    static class RandomizedSet {
+        List<Integer> list;
+        Map<Integer, Integer> map;
+        Random random;
+
+        public RandomizedSet() {
+            list = new ArrayList<>();
+            map = new HashMap<>();
+            random = new Random();
+        }
+
+        public boolean insert(int val) {
+            if (map.containsKey(val)) {
+                return false;
+            }
+            list.add(val);
+            map.put(val, list.size() - 1);
+            return true;
+        }
+
+        public boolean remove(int val) {
+            if (!map.containsKey(val)) {
+                return false;
+            }
+            int index = map.get(val);
+            int last = list.getLast();
+
+            list.set(index, last);
+            map.put(last, index);
+
+            list.removeLast();
+            map.remove(val);
+            return true;
+        }
+
+        public int getRandom() {
+            int index = random.nextInt(list.size());
+            return list.get(index);
         }
     }
 
@@ -93,7 +136,7 @@ public class Top50Medium {
         Integer[] kthSmallest = new Integer[]{5, 3, 6, 2, 4, null, null, 1};
         System.out.println(kthSmallest(buildTree(kthSmallest), 3));
 
-        Integer[] zigzag = new Integer[]{3,9,20,null,null,15,7};
+        Integer[] zigzag = new Integer[]{3, 9, 20, null, null, 15, 7};
         System.out.println(zigzagLevelOrder(buildTree(zigzag)));
 
         //Backtracking
@@ -105,7 +148,7 @@ public class Top50Medium {
 
         System.out.println(generateParenthesis(3));
 
-        char[][] wordSearch = new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        char[][] wordSearch = new char[][]{{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
         System.out.println(exist(wordSearch, "BCE"));
 
         //DP
@@ -136,6 +179,22 @@ public class Top50Medium {
         int[] colorArr = new int[]{2, 0, 2, 1, 1, 0};
         sortColors(colorArr);
         System.out.println(Arrays.toString(colorArr));
+
+        //Design
+        Integer[] serializeArr = new Integer[]{1, 2, 3, null, null, 4, 5};
+        System.out.println(serialize(buildTree(serializeArr)));
+
+        String deserializeStr = "[1,2,3,null,null,4,5]";
+        System.out.println(deserialize(deserializeStr));
+
+        RandomizedSet randomizedSet = new RandomizedSet();
+        randomizedSet.insert(0);
+        randomizedSet.insert(1);
+        randomizedSet.remove(0);
+        randomizedSet.insert(2);
+        randomizedSet.remove(1);
+        randomizedSet.getRandom();
+
     }
 
     //Array and strings
@@ -441,7 +500,7 @@ public class Top50Medium {
     private static boolean exist(char[][] board, String word) {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                if(exist(board, word, i, j, 0)) return true;
+                if (exist(board, word, i, j, 0)) return true;
             }
         }
         return false;
@@ -658,7 +717,7 @@ public class Top50Medium {
         int mid = 0;
         int high = nums.length - 1;
         while (mid <= high) {
-            if(nums[mid] == 0) {
+            if (nums[mid] == 0) {
                 int temp = nums[low];
                 nums[low] = nums[mid];
                 nums[mid] = temp;
@@ -673,5 +732,51 @@ public class Top50Medium {
                 high--;
             }
         }
+    }
+
+    //Design
+    private static String serialize(TreeNode root) {
+        if (root == null) return "";
+        List<Integer> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+
+            res.add(node != null ? node.val : null);
+
+            if (node != null) queue.add(node.left);
+            if (node != null) queue.add(node.right);
+        }
+
+        while (!res.isEmpty() && res.getLast() == null) {
+            res.removeLast();
+        }
+
+        return Arrays.toString(res.toArray());
+    }
+
+    private static TreeNode deserialize(String data) {
+        if (data == null || data.length() == 0) return null;
+        String clean = data.replaceAll("[\\[\\]\\s]", "");
+        String[] tokens = clean.split(",");
+        Integer[] nums = Arrays.stream(tokens).map(string -> string.equals("null") ? null : Integer.parseInt(string)).toArray(Integer[]::new);
+        TreeNode root = new TreeNode(nums[0]);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int i = 1;
+        while (!queue.isEmpty() && i < tokens.length) {
+            TreeNode node = queue.poll();
+
+            if (i < nums.length) node.left = nums[i] != null ? new TreeNode(nums[i]) : null;
+            i++;
+
+            if (i < nums.length) node.right = nums[i] != null ? new TreeNode(nums[i]) : null;
+            i++;
+
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+        return root;
     }
 }
