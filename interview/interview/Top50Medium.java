@@ -195,6 +195,15 @@ public class Top50Medium {
         randomizedSet.remove(1);
         randomizedSet.getRandom();
 
+        //Math
+        System.out.println(isHappy(19));
+
+        System.out.println(divide(2147483647, -1));
+
+        System.out.println(myPow(2, 3));
+
+        System.out.println(mySqrt(8));
+
     }
 
     //Array and strings
@@ -778,5 +787,82 @@ public class Top50Medium {
             if (node.right != null) queue.add(node.right);
         }
         return root;
+    }
+
+    //Math
+    private static boolean isHappy(int n) {
+        int slow = n;
+        int fast = getNext(n);
+        while (fast != 1 && slow != fast) {
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
+        }
+        return fast == 1;
+    }
+
+    private static int getNext(int n){
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    private static int divide(int dividend, int divisor) {
+        if (divisor == 0) throw new ArithmeticException("Divide by zero");
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+        if (divisor == 1) {
+            return dividend;
+        }
+        boolean isNegative = (dividend < 0) ^ (divisor < 0);
+        long dividendLong = Math.abs((long) dividend);
+        long divisorLong = Math.abs((long) divisor);
+        int res = 0;
+        while (dividendLong >= divisorLong) {
+            dividendLong -= divisorLong;
+            res ++;
+        }
+        return isNegative ? -res : res;
+    }
+
+    private static double myPow(double x, int n) {
+        long power = n;
+        if (power < 0) {
+            x = 1 / x;
+            power = -power;
+        }
+
+        double result = 1.0;
+        while (power > 0) {
+            if ((power & 1) == 1) {
+                result *= x;
+            }
+            x *= x;
+            power >>= 1;
+        }
+
+        return result;
+    }
+
+    private static int mySqrt(int x) {
+        if (x < 2) return x;
+
+        int left = 1, right = x;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if ((long) mid * mid == x) {
+                return mid;
+            } else if ((long) mid * mid < x) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return right;
     }
 }
