@@ -204,6 +204,13 @@ public class Top50Medium {
 
         System.out.println(mySqrt(8));
 
+        System.out.println(trailingZeroes(2));
+
+        //Others
+        System.out.println(getSum(2, 3));
+
+        int[] majoriteArr = new int[]{1, 1, 2, 3, 4};
+        System.out.println(majorityElement(majoriteArr));
     }
 
     //Array and strings
@@ -800,7 +807,7 @@ public class Top50Medium {
         return fast == 1;
     }
 
-    private static int getNext(int n){
+    private static int getNext(int n) {
         int sum = 0;
         while (n > 0) {
             int digit = n % 10;
@@ -824,7 +831,7 @@ public class Top50Medium {
         int res = 0;
         while (dividendLong >= divisorLong) {
             dividendLong -= divisorLong;
-            res ++;
+            res++;
         }
         return isNegative ? -res : res;
     }
@@ -864,5 +871,36 @@ public class Top50Medium {
             }
         }
         return right;
+    }
+
+    public static int trailingZeroes(int n) {
+        int count = 0;
+        for (int i = 5; i <= n; i *= 5) {
+            count += n / i;
+        }
+        return count;
+    }
+
+    //Others
+    private static int getSum(int a, int b) {
+        while (b != 0) {
+            int carry = a & b;     // where both bits are 1 → need to carry
+            a = a ^ b;             // add without carry
+            b = carry << 1;        // move carry to the next left bit
+        }
+        return a;
+    }
+
+    private static int majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0) return -1;
+        int count = 0;
+        int element = nums[0];
+        for (int num : nums) {
+            if (count == 0) {
+                element = num;
+            }
+            count += num == element ? 1 : -1;
+        }
+        return element;
     }
 }

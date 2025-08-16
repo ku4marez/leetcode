@@ -132,18 +132,18 @@ public class RegexPlayground {
     // 15) Extract domain names from URLs (captures domain as group 1)
     public static List<String> task15_domains(String s) {
         // Matches protocol, optional www, capture domain.tld, then optional path
-        return new ArrayList<>();
+        return findAllFull("\\b[\\w-]+\\.[a-z]{2,}(?:\\.[a-z]{2,})*(?:\\/\\S*)?\n", s);
     }
 
     // 16) Numbers with optional decimals and optional leading minus
     public static List<String> task16_numbers(String s) {
-        return new ArrayList<>();
+        return findAllFull("\\b-?\\d+(\\.\\d+)?\\b", s);
     }
 
     // 17) Repeated adjacent words (captures the repeated word)
-    public static List<String> task17_repeatedWords(String s) {
-        return new ArrayList<>();
-    }
+        public static List<String> task17_repeatedWords(String s) {
+            return findAllFull("(?i)\\b(\\w+)\\b\\s+\\b\\1\\b", s);
+        }
 
     // 18) HTML tags (simple, not a full parser)
     public static List<String> task18_htmlTags(String s) {
@@ -182,7 +182,7 @@ public class RegexPlayground {
 
     // 24) Find hashtags
     public static List<String> task24_hashtags(String s) {
-        return new ArrayList<>();
+        return findAllFull("(?<=\\s|^)#\\w+", s);
     }
 
     /* ---------------------- Quick demo ---------------------- */

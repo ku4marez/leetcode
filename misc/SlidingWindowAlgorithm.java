@@ -17,7 +17,6 @@ public class SlidingWindowAlgorithm {
         int k = 3;
         System.out.println("Maximum sum of a subarray of size k: " + maxSubArrSum(nums2, k));
 
-
     }
 
     // Returns the length of the longest substring without repeating characters
