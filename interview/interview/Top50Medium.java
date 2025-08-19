@@ -91,6 +91,12 @@ public class Top50Medium {
         int[] peakArr = new int[]{1, 2, 3, 1};
         System.out.println(findPeakElement(peakArr));
 
+        System.out.println(countAndSay(4));
+
+        System.out.println(threeSum(new int[]{-1,0,1,2,-1,-4}));
+
+        System.out.println(increasingTriplet(new int[]{2,1,5,0,4,6}));
+
         //Linked List
         ListNode head1 = new ListNode(9);
         head1.next = new ListNode(9);
@@ -180,6 +186,12 @@ public class Top50Medium {
         sortColors(colorArr);
         System.out.println(Arrays.toString(colorArr));
 
+        int[][] matrix2 = {
+                {1, 4},
+                {2, 5}
+        };
+        System.out.println(searchMatrix(matrix2, 2)); // true
+
         //Design
         Integer[] serializeArr = new Integer[]{1, 2, 3, null, null, 4, 5};
         System.out.println(serialize(buildTree(serializeArr)));
@@ -211,6 +223,9 @@ public class Top50Medium {
 
         int[] majoriteArr = new int[]{1, 1, 2, 3, 4};
         System.out.println(majorityElement(majoriteArr));
+
+        char[] taskScheduler = new char[]{'A','A','A','B','B','B'};
+        System.out.println(leastInterval(taskScheduler, 2));
     }
 
     //Array and strings
@@ -327,6 +342,85 @@ public class Top50Medium {
             }
         }
         return right;
+    }
+
+    private static String countAndSay(int n) {
+        String res = "1";
+        if (n == 1) return res;
+        for (int i = 1; i < n; i++) {
+            List<int[]> matrix = groupDigits(res);
+            res = buildNext(matrix);
+        }
+        return res;
+    }
+
+    private static List<int[]> groupDigits(String n) {
+        List<int[]> result = new ArrayList<>();
+        int i = 0;
+
+        while (i < n.length()) {
+            char ch = n.charAt(i);
+            int count = 1;
+            while (i + 1 < n.length() && ch == n.charAt(i + 1)) {
+                count++;
+                i++;
+            }
+
+            result.add(new int[]{ch - '0', count});
+            i++;
+        }
+        return result;
+    }
+
+    private static String buildNext(List<int[]> nums) {
+        StringBuilder res = new StringBuilder();
+        for (int[] num : nums) {
+            res.append(num[1]).append(num[0]);
+        }
+        return res.toString();
+    }
+
+    private static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length < 3) return result;
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+
+    private static boolean increasingTriplet(int[] nums) {
+        if (nums == null || nums.length < 3) return false;
+        int first = Integer.MAX_VALUE;
+        int second = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num <= first) {
+                first = num;
+            } else if (num <= second) {
+                second = num;
+            } else {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     //Tree
@@ -750,6 +844,19 @@ public class Top50Medium {
         }
     }
 
+    private static boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0) return false;
+        int row = 0;
+        int col = matrix[0].length - 1;
+        while(row < matrix.length && col >= 0) {
+            int val = matrix[row][col];
+            if (val == target) return true;
+            else if (val < target) row++;
+            else col--;
+        }
+        return false;
+    }
+
     //Design
     private static String serialize(TreeNode root) {
         if (root == null) return "";
@@ -902,5 +1009,30 @@ public class Top50Medium {
             count += num == element ? 1 : -1;
         }
         return element;
+    }
+
+    private static int leastInterval(char[] tasks, int n) {
+        if (tasks == null || tasks.length == 0) return -1;
+        int time = 0;
+        Queue<int[]> cooldownQueue = new LinkedList<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        HashMap<Character, Integer> freqMap = new HashMap<>();
+        for (char c : tasks) {
+            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+        }
+        maxHeap.addAll(freqMap.values());
+        while (!cooldownQueue.isEmpty() || !maxHeap.isEmpty()) {
+            if(!cooldownQueue.isEmpty() && cooldownQueue.peek()[1] == time) {
+                maxHeap.offer(cooldownQueue.poll()[0]);
+            }
+            if (!maxHeap.isEmpty()) {
+                int remaining = maxHeap.poll() - 1;
+                if (remaining > 0) {
+                    cooldownQueue.offer(new int[]{remaining, time + n + 1});
+                }
+            }
+            time++;
+        }
+        return time;
     }
 }
