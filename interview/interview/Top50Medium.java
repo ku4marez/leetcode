@@ -6,6 +6,29 @@ import java.util.*;
 
 public class Top50Medium {
 
+    static class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    }
+
+    ;
+
     static class ListNode {
         int val;
         ListNode next;
@@ -93,9 +116,9 @@ public class Top50Medium {
 
         System.out.println(countAndSay(4));
 
-        System.out.println(threeSum(new int[]{-1,0,1,2,-1,-4}));
+        System.out.println(threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
 
-        System.out.println(increasingTriplet(new int[]{2,1,5,0,4,6}));
+        System.out.println(increasingTriplet(new int[]{2, 1, 5, 0, 4, 6}));
 
         //Linked List
         ListNode head1 = new ListNode(9);
@@ -145,6 +168,16 @@ public class Top50Medium {
         Integer[] zigzag = new Integer[]{3, 9, 20, null, null, 15, 7};
         System.out.println(zigzagLevelOrder(buildTree(zigzag)));
 
+        System.out.println(connect(buildTreeNode(new Integer[]{1, 2, 3, 4, 5, 6, 7})));
+
+        System.out.println(numIslands(new char[][]{
+                {'1', '1', '0', '0', '0'},
+                {'1', '1', '0', '1', '1'},
+                {'0', '0', '0', '1', '0'},
+                {'0', '1', '1', '0', '0'},
+                {'0', '0', '0', '0', '0'}
+        }));
+
         //Backtracking
         int[] backtrackingArr = new int[]{1, 2, 3};
         System.out.println(permute(backtrackingArr));
@@ -156,6 +189,8 @@ public class Top50Medium {
 
         char[][] wordSearch = new char[][]{{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
         System.out.println(exist(wordSearch, "BCE"));
+
+        System.out.println(letterCombinations(""));
 
         //DP
         int[] coinsChangeArr = new int[]{1, 2, 5};
@@ -224,7 +259,7 @@ public class Top50Medium {
         int[] majoriteArr = new int[]{1, 1, 2, 3, 4};
         System.out.println(majorityElement(majoriteArr));
 
-        char[] taskScheduler = new char[]{'A','A','A','B','B','B'};
+        char[] taskScheduler = new char[]{'A', 'A', 'A', 'B', 'B', 'B'};
         System.out.println(leastInterval(taskScheduler, 2));
     }
 
@@ -451,6 +486,33 @@ public class Top50Medium {
         return root;
     }
 
+    public static Node buildTreeNode(Integer[] values) {
+        if (values == null || values.length == 0) return null;
+
+        Node root = new Node(values[0]);
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+
+        int i = 1;
+        while (i < values.length) {
+            Node current = queue.poll();
+
+            if (values[i] != null) {
+                current.left = new Node(values[i]);
+                queue.add(current.left);
+            }
+            i++;
+
+            if (i < values.length && values[i] != null) {
+                current.right = new Node(values[i]);
+                queue.add(current.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
     private static List<Integer> inorderTraversal(TreeNode root) {
         if (root == null) return new ArrayList<>();
         List<Integer> ans = new ArrayList<>();
@@ -543,6 +605,60 @@ public class Top50Medium {
         return result;
     }
 
+    private static Node connect(Node root) {
+        if (root == null) return null;
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            Node prev = null;
+            for (int i = 0; i < size; i++) {
+                Node current = queue.poll();
+                if (prev != null) {
+                    prev.next = current;
+                }
+                prev = current;
+
+                if (current.left != null) {
+                    queue.add(current.left);
+                }
+                if (current.right != null) {
+                    queue.add(current.right);
+                }
+            }
+            prev.next = null;
+        }
+        return root;
+    }
+
+    private static int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+        int count = 0;
+        int row = grid.length;
+        int col = grid[0].length;
+        boolean[][] visited = new boolean[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    countIslands(grid, i, j, visited);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static void countIslands(char[][] grid, int i, int j, boolean[][] visited) {
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || visited[i][j] || grid[i][j] == '0') {
+            return;
+        }
+        visited[i][j] = true;
+        countIslands(grid, i + 1, j, visited);
+        countIslands(grid, i - 1, j, visited);
+        countIslands(grid, i, j + 1, visited);
+        countIslands(grid, i, j - 1, visited);
+    }
+
     //Backtracking
     private static List<List<Integer>> permute(int[] nums) {
         if (nums == null || nums.length == 0) return new ArrayList<>();
@@ -630,6 +746,27 @@ public class Top50Medium {
         board[x][y] = temp;
 
         return exist;
+    }
+
+    private static List<String> letterCombinations(String digits) {
+        if (digits == null || digits.isEmpty()) return new ArrayList<>();
+        String[] mapping = {null, null, "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> result = new ArrayList<>();
+        backtrackLetterCombinations(digits, 0, new StringBuilder(), mapping, result);
+        return result;
+    }
+
+    private static void backtrackLetterCombinations(String digits, int index, StringBuilder sb, String[] mapping, List<String> result) {
+        if (index == digits.length()) {
+            result.add(sb.toString());
+            return;
+        }
+        String letters = mapping[digits.charAt(index) - '0'];
+        for (char letter : letters.toCharArray()) {
+            sb.append(letter);
+            backtrackLetterCombinations(digits, index + 1, sb, mapping, result);
+            sb.deleteCharAt(sb.length() - 1);
+        }
     }
 
     //Linked list
@@ -845,10 +982,10 @@ public class Top50Medium {
     }
 
     private static boolean searchMatrix(int[][] matrix, int target) {
-        if(matrix == null || matrix.length == 0) return false;
+        if (matrix == null || matrix.length == 0) return false;
         int row = 0;
         int col = matrix[0].length - 1;
-        while(row < matrix.length && col >= 0) {
+        while (row < matrix.length && col >= 0) {
             int val = matrix[row][col];
             if (val == target) return true;
             else if (val < target) row++;
@@ -1022,7 +1159,7 @@ public class Top50Medium {
         }
         maxHeap.addAll(freqMap.values());
         while (!cooldownQueue.isEmpty() || !maxHeap.isEmpty()) {
-            if(!cooldownQueue.isEmpty() && cooldownQueue.peek()[1] == time) {
+            if (!cooldownQueue.isEmpty() && cooldownQueue.peek()[1] == time) {
                 maxHeap.offer(cooldownQueue.poll()[0]);
             }
             if (!maxHeap.isEmpty()) {
