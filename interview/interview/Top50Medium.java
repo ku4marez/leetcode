@@ -199,6 +199,10 @@ public class Top50Medium {
         int[] canJumpArr = new int[]{1, 0, 1};
         System.out.println(canJump(canJumpArr));
 
+        System.out.println(uniquePaths(3, 7));
+
+        System.out.println(lengthOfLIS(new int[]{0, 1, 0, 3, 2, 3}));
+
         //Sorting and search
         int[] topKFreq = new int[]{1, 1, 1, 2, 2, 3};
         int k = 3;
@@ -253,6 +257,9 @@ public class Top50Medium {
 
         System.out.println(trailingZeroes(2));
 
+        System.out.println(fractionToDecimal(1, 2));
+
+        System.out.println(titleToNumber("AB"));
         //Others
         System.out.println(getSum(2, 3));
 
@@ -261,6 +268,8 @@ public class Top50Medium {
 
         char[] taskScheduler = new char[]{'A', 'A', 'A', 'B', 'B', 'B'};
         System.out.println(leastInterval(taskScheduler, 2));
+
+        System.out.println(evalRPN(new String[]{"2", "1", "+", "3", "*"}));
     }
 
     //Array and strings
@@ -852,6 +861,40 @@ public class Top50Medium {
         return true;
     }
 
+    public static int uniquePaths(int m, int n) {
+        if (m == 0 || n == 0) return 0;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    public static int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int max = 1;
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
     //Sorting and search
     private static int[] topKFrequent(int[] nums, int k) {
         if (nums == null || nums.length == 0) return new int[0];
@@ -1125,6 +1168,40 @@ public class Top50Medium {
         return count;
     }
 
+    public static String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) return "0";
+        StringBuilder sb = new StringBuilder();
+        if (denominator < 0 ^ numerator < 0) sb.append("-");
+        long numeratorLong = Math.abs((long) numerator);
+        long denominatorLong = Math.abs((long) denominator);
+        sb.append(numeratorLong / denominatorLong);
+        long remainder = (numeratorLong % denominatorLong) * 10;
+        if (remainder == 0) return sb.toString();
+        sb.append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        while (remainder != 0) {
+            if (map.containsKey(remainder)) {
+                int index = map.get(remainder);
+                sb.insert(index, "(");
+                sb.append(")");
+                break;
+            }
+            map.put(remainder, sb.length());
+            sb.append(remainder / denominatorLong);
+            remainder = (remainder % denominatorLong) * 10;
+        }
+        return sb.toString();
+    }
+
+    public static int titleToNumber(String columnTitle) {
+        int result = 0;
+        for (int i = 0; i < columnTitle.length(); i++) {
+            char c = columnTitle.charAt(i);
+            result = result * 26 + (c - 'A' + 1);
+        }
+        return result;
+    }
+
     //Others
     private static int getSum(int a, int b) {
         while (b != 0) {
@@ -1171,5 +1248,35 @@ public class Top50Medium {
             time++;
         }
         return time;
+    }
+
+    public static int evalRPN(String[] tokens) {
+        if (tokens == null || tokens.length == 0) return -1;
+        Stack<Integer> stack = new Stack<>();
+        for (String token : tokens) {
+            if (isOperator(token)) {
+                int b = stack.pop();
+                int a = stack.pop();
+                int res = applyOperator(a, b, token);
+                stack.push(res);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
+    }
+
+    private static boolean isOperator(String token) {
+        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
+    }
+
+    private static int applyOperator(int a, int b, String operator) {
+        return switch (operator) {
+            case "+" -> a + b;
+            case "-" -> a - b;
+            case "*" -> a * b;
+            case "/" -> a / b;
+            default -> throw new IllegalArgumentException("Invalid operator: " + operator);
+        };
     }
 }
