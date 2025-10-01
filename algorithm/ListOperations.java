@@ -209,6 +209,43 @@ public class ListOperations {
         return newHead;
     }
 
+    public static ListNode reverseList2(ListNode head) {
+        if (head == null) return null;
+
+        ListNode newHead = head;
+        if (head.next != null) {
+            newHead = reverseList2(head.next);
+            head.next.next = head;
+        }
+        head.next = null;
+        return newHead;
+    }
+
+    public static ListNode mergeSort(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode left = head;
+        ListNode right = getMiddle(head);
+
+        ListNode temp = right.next;
+        right.next = null;
+        right = temp;
+
+        left = mergeSort(left);
+        right = mergeSort(right);
+        return mergeTwoLists(left, right);
+    }
+
+    private static ListNode getMiddle(ListNode head) {
+        if (head == null) return head;
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
     // Two-Pointer Approach and Reversal for Palindrome Check
     public static boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {

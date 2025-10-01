@@ -55,6 +55,9 @@ public class Interview2 {
                 {0, 1, 5}, {1, 2, 2}, {0, 2, 9}
         }, 0))); // [0,5,7]
 
+        int[] quickSort = new int[]{20, 2, 7, 12, 15, 1, 6, 8};
+        quickSort(quickSort);
+        System.out.println("Quick Sort:" + Arrays.toString(quickSort));
     }
 
     // 1. Count Connected Components
@@ -245,5 +248,32 @@ public class Interview2 {
             res.add(entry.getKey());
         }
         return res.reversed();
+    }
+
+    public static void quickSort(int[] arr) {
+        if (arr == null || arr.length == 0) return;
+        quickSort(arr, 0, arr.length - 1);
+    }
+
+    public static void quickSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int pivotValue = arr[right];
+            int i = left - 1, j = left;
+            while (j < right) {
+                if (arr[j] <= pivotValue) {
+                    i++;
+                    int temp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = temp;
+                }
+                j++;
+            }
+            int temp = arr[i + 1];
+            arr[right] = temp;
+            arr[i + 1] = pivotValue;
+            int pi = i + 1;
+            quickSort(arr, left, pi - 1);
+            quickSort(arr, pi + 1, right);
+        }
     }
 }

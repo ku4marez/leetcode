@@ -1,4 +1,6 @@
 import algorithm.*;
+import collection.MyArray;
+import collection.MySinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
@@ -429,8 +431,39 @@ public class Main {
         // ------------------------------
         ArrayOperations.printNumbers();
         // ------------------------------
-         */
-        System.out.println(StringOperations.myAtoi("-21474836482"));
 
+        System.out.println(StringOperations.myAtoi("-21474836482"));
+        // ------------------------------
+        MyArray<Integer> myArray = new MyArray<>();
+        myArray.add(1);
+        myArray.add(2);
+        myArray.add(3);
+        myArray.add(4);
+        myArray.remove(2);
+        System.out.println(myArray);
+        // ------------------------------
+
+        MySinglyLinkedList.Node<Integer> head = new MySinglyLinkedList.Node<>(1);
+        MySinglyLinkedList<Integer> mySinglyLinkedList = new MySinglyLinkedList<>(head, 1);
+        mySinglyLinkedList.add(2);
+        mySinglyLinkedList.add(3);
+        mySinglyLinkedList.add(4);
+        mySinglyLinkedList.removeFirst();
+        mySinglyLinkedList.removeAt(2);
+        mySinglyLinkedList.remove();
+        System.out.println(mySinglyLinkedList);
+        // ------------------------------
+
+        ListOperations.ListNode node1 = new ListOperations.ListNode(3);
+        ListOperations.ListNode node2 = new ListOperations.ListNode(2, node1);
+        ListOperations.ListNode node3 = new ListOperations.ListNode(1, node2);
+        System.out.println(ListOperations.reverseList2(node3));
+        // ------------------------------
+        */
+        ListOperations.ListNode node1 = new ListOperations.ListNode(3);
+        ListOperations.ListNode node2 = new ListOperations.ListNode(1, node1);
+        ListOperations.ListNode node3 = new ListOperations.ListNode(2, node2);
+        ListOperations.ListNode node4 = new ListOperations.ListNode(4, node3);
+        System.out.println(ListOperations.mergeSort(node4));
     }
 }
