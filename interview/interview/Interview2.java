@@ -58,6 +58,30 @@ public class Interview2 {
         int[] quickSort = new int[]{20, 2, 7, 12, 15, 1, 6, 8};
         quickSort(quickSort);
         System.out.println("Quick Sort:" + Arrays.toString(quickSort));
+
+        int[] mergeSort = new int[]{20, 2, 7, 12, 15, 1, 6, 8};
+        mergeSort = mergeSort(mergeSort);
+        System.out.println("Merge Sort:" + Arrays.toString(mergeSort));
+
+        int[] minHeapSort = new int[]{20, 2, 7, 12, 15, 1, 6, 8};
+        minHeapSort = buildMinHeap(minHeapSort);
+        System.out.println("Min Heap Sort:" + Arrays.toString(minHeapSort));
+
+        String sortStringCount = "hjksadkjh";
+        System.out.println(countingSort(sortStringCount));
+
+        String isAnagramA = "anagram";
+        String isAnagramB = "nagaram";
+        System.out.println(isAnagram(isAnagramA, isAnagramB));
+
+        String parenthesis = "()(){{}]";
+        System.out.println(isValidParentheses(parenthesis));
+
+        int[] arr = new int[]{2, 7, 9, 11, 12, 13};
+        System.out.println(twoSum2(arr, 20));
+
+        int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        System.out.println(search2DMatrix(matrix, 3));
     }
 
     // 1. Count Connected Components
@@ -100,9 +124,10 @@ public class Interview2 {
     static class MedianFinder {
         PriorityQueue<Integer> minHeap;
         PriorityQueue<Integer> maxHeap;
+
         public MedianFinder() {
-         minHeap = new PriorityQueue<>();
-         maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+            minHeap = new PriorityQueue<>();
+            maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
         }
 
         public void addNum(int num) {
@@ -250,6 +275,7 @@ public class Interview2 {
         return res.reversed();
     }
 
+    // Some sorting stuff to refresh
     public static void quickSort(int[] arr) {
         if (arr == null || arr.length == 0) return;
         quickSort(arr, 0, arr.length - 1);
@@ -275,5 +301,199 @@ public class Interview2 {
             quickSort(arr, left, pi - 1);
             quickSort(arr, pi + 1, right);
         }
+    }
+
+    public static int[] mergeSort(int[] arr) {
+        if (arr == null || arr.length == 0) return arr;
+        if (arr.length == 1) return arr;
+        int mid = arr.length / 2;
+        int[] left = Arrays.copyOfRange(arr, 0, mid);
+        int[] right = Arrays.copyOfRange(arr, mid, arr.length);
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
+    private static int[] merge(int[] left, int[] right) {
+        int i = 0, j = 0, k = 0;
+        int[] arr = new int[left.length + right.length];
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) {
+                arr[k++] = left[i++];
+            } else {
+                arr[k++] = right[j++];
+            }
+        }
+        while (i < left.length) {
+            arr[k++] = left[i++];
+        }
+        while (j < right.length) {
+            arr[k++] = right[j++];
+        }
+        return arr;
+    }
+
+    public static int[] buildMinHeap(int[] arr) {
+        if (arr == null || arr.length == 0) return arr;
+        int n = arr.length;
+
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, i, n);
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            heapify(arr, 0, i);
+        }
+        return arr;
+    }
+
+    private static void heapify(int[] arr, int i, int length) {
+        int smallest = i;
+        int leftChild = 2 * i + 1;
+        int rightChild = 2 * i + 2;
+        if (leftChild < length && arr[leftChild] < arr[smallest]) {
+            smallest = leftChild;
+        }
+        if (rightChild < length && arr[rightChild] < arr[smallest]) {
+            smallest = rightChild;
+        }
+        if (smallest != i) {
+            int temp = arr[smallest];
+            arr[smallest] = arr[i];
+            arr[i] = temp;
+            heapify(arr, smallest, length);
+        }
+    }
+
+    private static boolean isAnagram(String s, String t) {
+//        if (s.length() != t.length()) return false;
+//        Map<Character, Integer> countS = new HashMap<>();
+//        Map<Character, Integer> countT = new HashMap<>();
+//        int length = s.length();
+//        for (int i = 0; i < length; i++) {
+//            char sChar = s.charAt(i);
+//            char tChar = t.charAt(i);
+//            countS.put(sChar, countS.getOrDefault(sChar, 0) + 1);
+//            countT.put(tChar, countT.getOrDefault(tChar, 0) + 1);
+//        }
+//        if (countS.size() != countT.size()) return false;
+//        int pos = 0;
+//
+//        while (pos < countS.size()) {
+//            Map.Entry<Character, Integer> entryS = countS.entrySet().iterator().next();
+//            Map.Entry<Character, Integer> entryT = countT.entrySet().iterator().next();
+//            if (!entryS.getKey().equals(entryT.getKey())) return false;
+//            if (!entryS.getValue().equals(entryT.getValue())) return false;
+//            pos++;
+//        }
+        if (s.length() != t.length()) return false;
+        int[] count = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            count[s.charAt(i) - 'a']++;
+            count[t.charAt(i) - 'a']--;
+        }
+        for (int c : count) {
+            if (c != 0) return false;
+        }
+
+        return true;
+    }
+
+    private static String countingSort(String s) {
+        char[] chars = new char[26];
+        for (int i = 0; i < s.length(); i++) {
+            chars[s.charAt(i) - 'a']++;
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < 26; i++) {
+            while (chars[i]-- > 0) {
+                res.append((char) ('a' + i));
+            }
+        }
+        return res.toString();
+    }
+
+    private static boolean isValidParentheses(String s) {
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put(']', '[');
+        map.put('}', '{');
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (stack.isEmpty() || !map.containsKey(c)) {
+                stack.push(c);
+            } else {
+                Character openingBracket = stack.pop();
+                if (!map.get(c).equals(openingBracket)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    private static int[] twoSum(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return new int[2];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+        }
+        return new int[2];
+    }
+
+    private static int[] twoSum2(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return new int[2];
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == target) {
+                return new int[]{left, right};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[2];
+    }
+
+    private static boolean search2DMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int top = 0, bottom = rows - 1;
+        int foundRow = -1;
+        while (top <= bottom) {
+            int row = (top + bottom) / 2;
+            if (matrix[row][cols - 1] < target) {
+                top = row + 1;
+            } else if (matrix[row][0] > target) {
+                bottom = row - 1;
+            } else {
+                foundRow = row;
+                break;
+            }
+        }
+
+        if (foundRow == -1) return false;
+        int left = 0, right = cols - 1;
+        while (left <= right) {
+            int col = (left + right) / 2;
+            if (matrix[foundRow][col] < target) {
+                left = col + 1;
+            } else if (matrix[foundRow][col] > target) {
+                right = col - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,10 @@
 import algorithm.*;
+import collection.CustomRandomizedCollection;
+import collection.KthLargest;
 import collection.MyArray;
 import collection.MySinglyLinkedList;
+
+import static algorithm.TreeOperations.buildTree;
 
 public class Main {
     public static void main(String[] args) {
@@ -465,5 +469,25 @@ public class Main {
         ListOperations.ListNode node3 = new ListOperations.ListNode(2, node2);
         ListOperations.ListNode node4 = new ListOperations.ListNode(4, node3);
         System.out.println(ListOperations.mergeSort(node4));
+
+        // ------------------------------
+        Integer[] values = {1, 2, 3, 4, 5, 6, 7};
+        TreeOperations.TreeNode root = buildTree(values);
+        System.out.println(TreeOperations.diameterOfBinaryTree(root));
+
+        KthLargest obj = new KthLargest(3, new int[]{4, 5, 8, 2});
+        int largest = obj.add(9);
+        System.out.println(largest);
+
+        int[] minCostClimbStairs = {10,15,20,25,10};
+        System.out.println(DpOperations.minCostClimbingStairs(minCostClimbStairs));
+
+        CustomRandomizedCollection collection = new CustomRandomizedCollection();
+        collection.insert(1);
+        collection.remove(1);
+        collection.insert(1);
+//        collection.remove(1);
+//        collection.insert(2);
+        collection.getRandom();
     }
 }

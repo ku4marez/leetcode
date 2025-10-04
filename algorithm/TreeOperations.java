@@ -1,5 +1,7 @@
 package algorithm;
 
+import com.sun.source.tree.Tree;
+
 import java.util.*;
 
 public class TreeOperations {
@@ -328,5 +330,27 @@ public class TreeOperations {
         root1.right = mergeTrees(root1.right, root2.right);
         return root1;
 
+    }
+
+    public static int diameterOfBinaryTree(TreeNode root) {
+        if (root == null) return 0;
+        int[] diameter = new int[1];
+        depth(root, diameter);
+        return diameter[0];
+    }
+
+    private static int depth(TreeNode root, int[] diameter) {
+        if (root == null) return 0;
+        int left = depth(root.left, diameter);
+        int right = depth(root.right, diameter);
+        diameter[0] = Math.max(left + right, diameter[0]);
+        return Math.max(left, right) + 1;
+    }
+
+    public static boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) return false;
+        if (subRoot == null) return true;
+        if (isSameTree(root, subRoot)) return true;
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
 }
