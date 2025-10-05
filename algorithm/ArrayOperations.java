@@ -347,4 +347,24 @@ public class ArrayOperations {
         }
         return maxProfit;
     }
+
+    public static int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int res = 0;
+        for (int val: set) {
+            if (!set.contains(val - 1)) {
+                int max = 1;
+                int curr = val;
+                while (set.contains(curr + 1)) {
+                    max ++;
+                    curr ++;
+                }
+                res = Math.max(max, res);
+            }
+        }
+        return res;
+    }
 }

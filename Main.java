@@ -479,7 +479,7 @@ public class Main {
         int largest = obj.add(9);
         System.out.println(largest);
 
-        int[] minCostClimbStairs = {10,15,20,25,10};
+        int[] minCostClimbStairs = {10, 15, 20, 25, 10};
         System.out.println(DpOperations.minCostClimbingStairs(minCostClimbStairs));
 
         CustomRandomizedCollection collection = new CustomRandomizedCollection();
@@ -489,5 +489,7 @@ public class Main {
 //        collection.remove(1);
 //        collection.insert(2);
         collection.getRandom();
+
+        System.out.println(ArrayOperations.longestConsecutive(new int[]{100, 1, 200, 2, 3, 4}));
     }
 }
