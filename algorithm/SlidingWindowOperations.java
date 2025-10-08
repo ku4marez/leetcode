@@ -138,4 +138,24 @@ public class SlidingWindowOperations {
 
         return false;
     }
+
+    public static int characterReplacement(String s, int k) {
+        if (s.length() == 0) return 0;
+        HashMap<Character, Integer> charCount = new HashMap<>();
+        int maxCount = 0;
+        int left = 0, right = 0;
+        int res = 0;
+        while (right < s.length()) {
+            char r = s.charAt(right);
+            charCount.put(s.charAt(right), charCount.getOrDefault(s.charAt(right), 0) + 1);
+            maxCount = Math.max(maxCount, charCount.get(r));
+            while ((right - left + 1) - maxCount > k) {
+                charCount.put(s.charAt(left), charCount.getOrDefault(s.charAt(left), 0) - 1);
+                left++;
+            }
+            res = Math.max(res, right - left + 1);
+            right++;
+        }
+        return res;
+    }
 }

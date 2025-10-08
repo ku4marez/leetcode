@@ -277,4 +277,80 @@ public class ListOperations {
 
         return isPalindrome;
     }
+
+    public static void reorderList(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode secondHalfStart = slow.next;
+        ListNode prev = null;
+        slow.next = null;
+        while (secondHalfStart != null) {
+            ListNode temp = secondHalfStart.next;
+            secondHalfStart.next = prev;
+            prev = secondHalfStart;
+            secondHalfStart = temp;
+        }
+
+        ListNode first = head;
+        ListNode second = prev;
+        while (second != null) {
+            ListNode temp1 = first.next;
+            ListNode temp2 = second.next;
+            first.next = second;
+            second.next = temp1;
+            first = temp1;
+            second = temp2;
+        }
+    }
+
+    public static ListNode rotateLeft(ListNode head, int k) {
+        if (head == null || head.next == null) return head;
+        ListNode tail = head;
+        int length = 0;
+        while (tail.next != null) {
+            tail = tail.next;
+            length++;
+        }
+        k = k % length;
+        if (k == 0) return head;
+
+        ListNode cut = head;
+        for (int i = 1; i < k; i++) {
+            cut = cut.next;
+        }
+        ListNode newHead = cut.next;
+        cut.next = null;
+        tail.next = head;
+        return newHead;
+    }
+
+    public static ListNode mergeAlternating(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+        while (list1 != null && list2 != null) {
+            current.next = list1;
+            list1 = list1.next;
+            current = current.next;
+            current.next = list2;
+            list2 = list2.next;
+            current = current.next;
+
+        }
+        while (list1 != null) {
+            current.next = list1;
+            list1 = list1.next;
+            current = current.next;
+        }
+        while (list2 != null) {
+            current.next = list2;
+            list2 = list2.next;
+            current = current.next;
+        }
+        return dummy.next;
+    }
 }

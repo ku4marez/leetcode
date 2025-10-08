@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DpOperations {
+public class DpGreedyOperations {
 
     // Knapsack to calculate sum by using min coins
     public static int coinChange(int[] coins, int amount) {
@@ -149,45 +149,32 @@ public class DpOperations {
         return dp[n][W];
     }
 
-    // =================================================
-    // Subsets (Power Set)
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        backtrack(nums, 0, new ArrayList<>(), result);
-        return result;
-    }
-
-    private void backtrack(int[] nums, int index, List<Integer> temp, List<List<Integer>> result) {
-        result.add(new ArrayList<>(temp)); // Store current subset
-        for (int i = index; i < nums.length; i++) {
-            temp.add(nums[i]); // Include nums[i]
-            backtrack(nums, i + 1, temp, result);
-            temp.remove(temp.size() - 1); // Undo choice
-        }
-    }
-
-    // =================================================
-    // Permutations
-    public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        backtrack(nums, new ArrayList<>(), new boolean[nums.length], result);
-        return result;
-    }
-
-    private void backtrack(int[] nums, List<Integer> temp, boolean[] used, List<List<Integer>> result) {
-        if (temp.size() == nums.length) {
-            result.add(new ArrayList<>(temp)); // Store valid order
-            return;
-        }
-        for (int i = 0; i < nums.length; i++) {
-            if (!used[i]) {
-                used[i] = true;
-                temp.add(nums[i]);
-                backtrack(nums, temp, used, result);
-                used[i] = false;
-                temp.remove(temp.size() - 1);
+    // Greedy
+    public static boolean canJump(int[] nums) {
+        if (nums == null || nums.length == 0) return true;
+        int pointer = nums.length - 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (i + nums[i] >= pointer) {
+                pointer = i;
             }
         }
+        return pointer == 0;
+    }
+
+    public static int jump2(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int left = 0, right = 0;
+        int res = 0;
+        while (right < nums.length - 1) {
+            int farthest = 0;
+            for (int i = left; i <= right; i++) {
+                farthest = Math.max(farthest, i + nums[i]);
+            }
+            left = right +1;
+            right = farthest;
+            res += 1;
+        }
+        return res;
     }
 
     // Longest Common Subsequence Algorithm
@@ -195,7 +182,7 @@ public class DpOperations {
         int m = s.length(), n = t.length();
         int[][] dp = new int[m + 1][n + 1];
 
-        for (int i = 1; i <= m ; i++) {
+        for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
                     dp[i][j] = 1 + dp[i - 1][j - 1];
@@ -207,36 +194,4 @@ public class DpOperations {
         return dp[m][n] == m;
     }
 
-    // =================================================
-    // N-Queens
-    public List<List<String>> solveNQueens(int n) {
-        List<List<String>> result = new ArrayList<>();
-        char[][] board = new char[n][n];
-        for (char[] row : board) Arrays.fill(row, '.');
-        backtrack(board, 0, result);
-        return result;
-    }
-
-    private void backtrack(char[][] board, int row, List<List<String>> result) {
-        if (row == board.length) {
-            List<String> validBoard = new ArrayList<>();
-            for (char[] line : board) validBoard.add(new String(line));
-            result.add(validBoard);
-            return;
-        }
-        for (int col = 0; col < board.length; col++) {
-            if (isSafe(board, row, col)) {
-                board[row][col] = 'Q';
-                backtrack(board, row + 1, result);
-                board[row][col] = '.';
-            }
-        }
-    }
-
-    private boolean isSafe(char[][] board, int row, int col) {
-        for (int i = 0; i < row; i++) if (board[i][col] == 'Q') return false;
-        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) if (board[i][j] == 'Q') return false;
-        for (int i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) if (board[i][j] == 'Q') return false;
-        return true;
-    }
 }

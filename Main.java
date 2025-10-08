@@ -1,8 +1,6 @@
 import algorithm.*;
 import collection.CustomRandomizedCollection;
 import collection.KthLargest;
-import collection.MyArray;
-import collection.MySinglyLinkedList;
 
 import static algorithm.TreeOperations.buildTree;
 
@@ -463,7 +461,7 @@ public class Main {
         ListOperations.ListNode node3 = new ListOperations.ListNode(1, node2);
         System.out.println(ListOperations.reverseList2(node3));
         // ------------------------------
-        */
+
         ListOperations.ListNode node1 = new ListOperations.ListNode(3);
         ListOperations.ListNode node2 = new ListOperations.ListNode(1, node1);
         ListOperations.ListNode node3 = new ListOperations.ListNode(2, node2);
@@ -474,14 +472,17 @@ public class Main {
         Integer[] values = {1, 2, 3, 4, 5, 6, 7};
         TreeOperations.TreeNode root = buildTree(values);
         System.out.println(TreeOperations.diameterOfBinaryTree(root));
+        // ------------------------------
 
         KthLargest obj = new KthLargest(3, new int[]{4, 5, 8, 2});
         int largest = obj.add(9);
         System.out.println(largest);
 
+        // ------------------------------
         int[] minCostClimbStairs = {10, 15, 20, 25, 10};
-        System.out.println(DpOperations.minCostClimbingStairs(minCostClimbStairs));
+        System.out.println(DpGreedyOperations.minCostClimbingStairs(minCostClimbStairs));
 
+        // ------------------------------
         CustomRandomizedCollection collection = new CustomRandomizedCollection();
         collection.insert(1);
         collection.remove(1);
@@ -490,6 +491,57 @@ public class Main {
 //        collection.insert(2);
         collection.getRandom();
 
+        // ------------------------------
         System.out.println(ArrayOperations.longestConsecutive(new int[]{100, 1, 200, 2, 3, 4}));
+
+        // ------------------------------
+        System.out.println(BacktrackingOperations.combinationSum(new int[]{2,3,6,7}, 7));
+
+        // ------------------------------
+        System.out.println(BacktrackingOperations.combinationSum2(new int[]{10,1,2,7,6,5,1}, 8));
+
+        // ------------------------------
+        System.out.println(DpGreedyOperations.canJump(new int[]{2, 4, 0, 1, 4}));
+
+        // ------------------------------
+        System.out.println(DpGreedyOperations.jump2(new int[]{2, 4, 0, 1, 4}));
+
+        // ------------------------------
+        System.out.println(BacktrackingOperations.subsetsWithDup(new int[]{1,2,2}));
+
+        // ------------------------------
+        System.out.println(ArrayOperations.findDuplicate(new int[]{1,3,4,2,2}));
+
+        // ------------------------------
+        System.out.println(SlidingWindowOperations.characterReplacement("AABABBA", 1));
+
+        // ------------------------------
+        ListOperations.ListNode node1 = new ListOperations.ListNode(4);
+        ListOperations.ListNode node2 = new ListOperations.ListNode(3, node1);
+        ListOperations.ListNode node3 = new ListOperations.ListNode(2, node2);
+        ListOperations.ListNode node4 = new ListOperations.ListNode(1, node3);
+        ListOperations.reorderList(node4);
+
+        // ------------------------------
+        System.out.println(TwoPointerOperations.twoSumSorted(new int[]{2, 7, 11, 15}, 9));
+        // ------------------------------
+        ListOperations.ListNode list1Node1 = new ListOperations.ListNode(5);
+        ListOperations.ListNode list1Node2 = new ListOperations.ListNode(3, list1Node1);
+        ListOperations.ListNode list1Node3 = new ListOperations.ListNode(1, list1Node2);
+
+        ListOperations.ListNode list2Node1 = new ListOperations.ListNode(6);
+        ListOperations.ListNode list2Node2 = new ListOperations.ListNode(4, list2Node1);
+        ListOperations.ListNode list2Node3 = new ListOperations.ListNode(2, list2Node2);
+        ListOperations.mergeAlternating(list1Node3, list2Node3);
+        // ------------------------------
+
+         */
+
+        ListOperations.ListNode node1 = new ListOperations.ListNode(5);
+        ListOperations.ListNode node2 = new ListOperations.ListNode(4, node1);
+        ListOperations.ListNode node3 = new ListOperations.ListNode(3, node2);
+        ListOperations.ListNode node4 = new ListOperations.ListNode(2, node3);
+        ListOperations.ListNode node5 = new ListOperations.ListNode(1, node4);
+        ListOperations.rotateLeft(node5, 2);
     }
 }

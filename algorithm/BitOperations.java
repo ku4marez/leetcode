@@ -159,5 +159,4 @@ public class BitOperations {
 
         return result;
     }
-
 }

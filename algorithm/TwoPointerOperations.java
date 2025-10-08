@@ -43,7 +43,7 @@ public class TwoPointerOperations {
     }
 
     // Two-pointer (opposite direction)
-    public int[] twoSumSorted(int[] arr, int target) {
+    public static int[] twoSumSorted(int[] arr, int target) {
         int left = 0, right = arr.length - 1;
 
         while (left < right) {
