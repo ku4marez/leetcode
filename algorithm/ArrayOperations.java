@@ -138,8 +138,8 @@ public class ArrayOperations {
         Integer first = null, second = null, third = null;
         for (int num : nums) {
             if ((first != null && num == first) ||
-                (second != null && num == second) ||
-                (third != null && num == third)) {
+                    (second != null && num == second) ||
+                    (third != null && num == third)) {
                 continue;
             }
             if (first == null || num > first) {
@@ -354,13 +354,13 @@ public class ArrayOperations {
             set.add(num);
         }
         int res = 0;
-        for (int val: set) {
+        for (int val : set) {
             if (!set.contains(val - 1)) {
                 int max = 1;
                 int curr = val;
                 while (set.contains(curr + 1)) {
-                    max ++;
-                    curr ++;
+                    max++;
+                    curr++;
                 }
                 res = Math.max(max, res);
             }
@@ -388,5 +388,41 @@ public class ArrayOperations {
                 return slow;
             }
         }
+    }
+
+    public static int[] productExceptSelf(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        int[] prefix = new int[nums.length];
+        prefix[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            prefix[i] = nums[i - 1] * prefix[i - 1];
+        }
+        int postfix = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            prefix[i] = prefix[i] * postfix;
+            postfix *= nums[i];
+        }
+        return prefix;
+    }
+
+    public static int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return 0;
+        }
+        int res = 0;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[1]));
+        int end = intervals[0][1];
+
+        for (int i = 1; i < intervals.length; i++) {
+            int[] interval = intervals[i];
+            if (interval[0] < end) {
+                res++;
+           } else {
+                end = interval[0];
+            }
+        }
+        return res;
     }
 }

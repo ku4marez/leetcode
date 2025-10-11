@@ -273,4 +273,46 @@ public class TwoPointerOperations {
         }
         return new String(chars);
     }
+
+    public static int countSubstrings(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        int count = 0;
+        int center = 0;
+        while (center < s.length()) {
+            count += expand(s, center, center);
+            count += expand(s, center, center + 1);
+            center++;
+        }
+        return count;
+    }
+
+    private static int expand(String s, int start, int end) {
+        int count = 0;
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+            start--;
+            end++;
+            count++;
+        }
+        return count;
+    }
+
+    public static List<Integer> partitionLabels(String s) {
+        Integer start = 0, end = 0;
+        List<Integer> result = new ArrayList<>();
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i), i);
+        }
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            end = Math.max(end, map.get(c));
+            if (end == i) {
+                result.add(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return result;
+    }
 }

@@ -535,13 +535,31 @@ public class Main {
         ListOperations.mergeAlternating(list1Node3, list2Node3);
         // ------------------------------
 
-         */
-
         ListOperations.ListNode node1 = new ListOperations.ListNode(5);
         ListOperations.ListNode node2 = new ListOperations.ListNode(4, node1);
         ListOperations.ListNode node3 = new ListOperations.ListNode(3, node2);
         ListOperations.ListNode node4 = new ListOperations.ListNode(2, node3);
         ListOperations.ListNode node5 = new ListOperations.ListNode(1, node4);
         ListOperations.rotateLeft(node5, 2);
+        */
+        // ------------------------------
+        System.out.println(TwoPointerOperations.countSubstrings("aabcc"));
+        // ------------------------------
+        System.out.println(TwoPointerOperations.partitionLabels("ababcc"));
+        // ------------------------------
+        Integer[] values = {3, 1, 4, 3, null, 1, 5};
+        TreeOperations.TreeNode root = buildTree(values);
+        System.out.println(TreeOperations.goodNodes(root));
+        // ------------------------------
+        int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        System.out.println(BinarySearchOperations.searchMatrix(matrix, 3));
+
+        System.out.println(ArrayOperations.productExceptSelf(new int[]{1, 2, 3, 4}));
+
+        System.out.println(ArrayOperations.eraseOverlapIntervals(new int[][]{{1, 100}, {11, 22}, {1, 11}, {2, 12}}));
+
+        int[] piles = {3, 6, 7, 11};
+        System.out.println(BinarySearchOperations.minEatingSpeed(piles, 8));
+
     }
 }

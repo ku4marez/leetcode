@@ -353,4 +353,15 @@ public class TreeOperations {
         if (isSameTree(root, subRoot)) return true;
         return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
+
+    public static int goodNodes(TreeNode root) {
+        if (root == null) return 0;
+        return dfsGoodNodes(root, root.val);
+    }
+
+    private static int dfsGoodNodes(TreeNode node, int maxNode) {
+        if (node == null) return 0;
+        int count = node.val >= maxNode ? 1 : 0;
+        return count + dfsGoodNodes(node.left, Math.max(node.val, maxNode)) + dfsGoodNodes(node.right, Math.max(node.val, maxNode));
+    }
 }
