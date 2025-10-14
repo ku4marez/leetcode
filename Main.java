@@ -1,6 +1,7 @@
 import algorithm.*;
 import collection.CustomRandomizedCollection;
 import collection.KthLargest;
+import collection.MyTrie;
 
 import static algorithm.TreeOperations.buildTree;
 
@@ -553,13 +554,39 @@ public class Main {
         // ------------------------------
         int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         System.out.println(BinarySearchOperations.searchMatrix(matrix, 3));
+        // ------------------------------
 
         System.out.println(ArrayOperations.productExceptSelf(new int[]{1, 2, 3, 4}));
+        // ------------------------------
 
         System.out.println(ArrayOperations.eraseOverlapIntervals(new int[][]{{1, 100}, {11, 22}, {1, 11}, {2, 12}}));
+        // ------------------------------
 
         int[] piles = {3, 6, 7, 11};
         System.out.println(BinarySearchOperations.minEatingSpeed(piles, 8));
+        // ------------------------------
 
+        String word = new String("apple");
+        MyTrie obj = new MyTrie();
+        obj.insert(word);
+        boolean param_2 = obj.search(word);
+        boolean param_3 = obj.startsWith("app");
+        System.out.println(String.format("param_2: %s, param_3: %s", param_2, param_3));
+        // ------------------------------
+
+        SortOperations.bubbleSort(new int[]{3, 2, 9, 4, 5, 6, 1, 8, 7});
+        // ------------------------------
+
+        System.out.println(SortOperations.sortQuick2(new int[]{5, 2, 3, 1}));
+        // ------------------------------
+
+        int[] coins2 = new int[]{1, 2, 5};
+        int amount = 5;
+        System.out.println(DpGreedyOperations.coinChange2(amount, coins2));
+        // ------------------------------
+        System.out.println(SlidingWindowOperations.maxSlidingWindow(new int[]{1, 3, 1, 2, 0, 5}, 3));
+        // ------------------------------
+
+        System.out.println(SlidingWindowOperations.minWindow("a", "aa"));
     }
 }

@@ -4,40 +4,13 @@ import java.util.*;
 
 public class SortOperations {
 
-    // Sorting-Based Anagram Check
-    public static boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) {
-            return false;
-        }
-        char[] sChars = s.toCharArray();
-        char[] tChars = t.toCharArray();
-        Arrays.sort(sChars);
-        Arrays.sort(tChars);
-        return Arrays.equals(sChars, tChars);
-    }
-
-    // Sorting string characters array
-    public static char findTheDifference(String s, String t) {
-        char[] sChars = s.toCharArray();
-        char[] tChars = t.toCharArray();
-
-        Arrays.sort(sChars);
-        Arrays.sort(tChars);
-        for (int i = 0; i < sChars.length; i++) {
-            if (sChars[i] != tChars[i]) {
-                return tChars[i];
-            }
-        }
-        return tChars[tChars.length - 1];
-    }
-
     /* ==================================================== */
     // Merge sort algorithm (Great for sorting linked lists and large datasets)
-    public static void sortMerge(int[] arr){
-        if(arr.length == 0 || arr.length == 1){
+    public static void sortMerge(int[] arr) {
+        if (arr.length == 0 || arr.length == 1) {
             return;
         }
-        int mid = arr[arr.length/2];
+        int mid = arr.length / 2;
         int[] left = Arrays.copyOfRange(arr, 0, mid);
         int[] right = Arrays.copyOfRange(arr, mid, arr.length);
         sortMerge(left); // Recursively sort the left half
@@ -166,5 +139,57 @@ public class SortOperations {
         }
         while (i < left.length) arr[k++] = left[i++];
         while (j < right.length) arr[k++] = right[j++];
+    }
+
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length - 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static int[] sortQuick2(int[] arr) {
+        sortQuick2(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    private static void sortQuick2(int[] arr, int low, int high) {
+        if (low >= high) return;
+
+        // pick random pivot
+        int pivotIndex = low + (int)(Math.random() * (high - low + 1));
+        int pivot = arr[pivotIndex];
+
+        // move pivot to end
+        int temp = arr[pivotIndex];
+        arr[pivotIndex] = arr[high];
+        arr[high] = temp;
+
+        int i = low - 1;
+        int j = low;
+        while (j < high) {
+            if (arr[j] < pivot) {
+                i++;
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+            j++;
+        }
+
+        // place pivot in its correct position
+        int tmp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = tmp;
+
+        int mid = i + 1;
+        sortQuick2(arr, low, mid - 1);
+        sortQuick2(arr, mid + 1, high);
     }
 }

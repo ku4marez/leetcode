@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.counting;
 
-public class QueryPractice {
+public class QueryPractice01 {
 
     public static List<Department> departments = List.of(
             new Department(1, "IT"),

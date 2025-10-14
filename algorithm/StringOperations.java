@@ -257,5 +257,31 @@ public class StringOperations {
         return (int) (negative ? -res : res);
     }
 
+    // Sorting-Based Anagram Check
+    public static boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        Arrays.sort(sChars);
+        Arrays.sort(tChars);
+        return Arrays.equals(sChars, tChars);
+    }
+
+    // Sorting string characters array
+    public static char findTheDifference(String s, String t) {
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+
+        Arrays.sort(sChars);
+        Arrays.sort(tChars);
+        for (int i = 0; i < sChars.length; i++) {
+            if (sChars[i] != tChars[i]) {
+                return tChars[i];
+            }
+        }
+        return tChars[tChars.length - 1];
+    }
 
 }

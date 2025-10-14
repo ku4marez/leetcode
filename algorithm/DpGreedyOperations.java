@@ -194,4 +194,22 @@ public class DpGreedyOperations {
         return dp[m][n] == m;
     }
 
+    public static int coinChange2(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int i = coins.length - 1; i >= 0; i--) {
+            int[] nextDp = new int[amount + 1];
+            nextDp[0] = 1;
+
+            for (int j = 1; j <= amount; j++) {
+                nextDp[j] = dp[j];
+                if (j - coins[i] >= 0) {
+                    nextDp[j] += nextDp[j - coins[i]];
+                }
+            }
+            dp = nextDp;
+        }
+        return dp[amount];
+    }
+
 }

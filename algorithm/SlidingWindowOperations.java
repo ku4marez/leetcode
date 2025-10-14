@@ -1,8 +1,6 @@
 package algorithm;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SlidingWindowOperations {
 
@@ -157,5 +155,66 @@ public class SlidingWindowOperations {
             right++;
         }
         return res;
+    }
+
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        int[] res = new int[nums.length - k + 1];
+        Deque<Integer> queue = new ArrayDeque<>();
+        for (int i = 0; i < nums.length; i++) {
+            while (!queue.isEmpty() && queue.peekFirst() <= i - k) {
+                queue.poll();
+            }
+            while (!queue.isEmpty() && nums[i] >= nums[queue.peekLast()]) {
+                queue.pollLast();
+            }
+            queue.offerLast(i);
+            if (i >= k - 1) {
+                res[i - k + 1] = nums[queue.peek()];
+            }
+        }
+        return res;
+    }
+
+    public static String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() == 0 || t.length() == 0) return "";
+        HashMap<Character, Integer> tCount = new HashMap<>();
+        HashMap<Character, Integer> windowCount = new HashMap<>();
+        int start = 0, end = 0;
+        int formed = 0;
+        int minLen = Integer.MAX_VALUE;
+        int minStart = 0;
+        int minEnd = 0;
+        for (int i = 0; i < t.length(); i++) {
+            tCount.put(t.charAt(i), tCount.getOrDefault(t.charAt(i), 0) + 1);
+        }
+        int required = tCount.size();
+        while (end < s.length()) {
+            char c = s.charAt(end);
+            windowCount.put(c, windowCount.getOrDefault(c, 0) + 1);
+            if (tCount.containsKey(c) &&
+                    windowCount.get(c).equals(tCount.get(c))) {
+                formed++;
+            }
+
+            while (formed == required) {
+                if (end - start + 1 < minLen) {
+                    minLen = end - start + 1;
+                    minStart = start;
+                    minEnd = end;
+                }
+                windowCount.put(s.charAt(start), windowCount.getOrDefault(s.charAt(start), 0) - 1);
+                if (tCount.containsKey(s.charAt(start)) &&
+                        windowCount.get(s.charAt(start)) < tCount.get(s.charAt(start))) {
+                    formed--;
+                }
+
+                start++;
+            }
+            end++;
+        }
+        return minLen != Integer.MAX_VALUE ? s.substring(minStart, minEnd + 1) : "";
     }
 }
