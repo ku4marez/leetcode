@@ -1,8 +1,8 @@
-package algorithm;
+package misc;
 
 import java.util.*;
 
-public class MiscOperations {
+public class MiscAlgorithms {
 
 
     public static void main(String[] args) {

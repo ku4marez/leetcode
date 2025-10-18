@@ -1,7 +1,5 @@
 import algorithm.*;
-import collection.CustomRandomizedCollection;
-import collection.KthLargest;
-import collection.MyTrie;
+import collection.*;
 
 import static algorithm.TreeOperations.buildTree;
 
@@ -555,17 +553,13 @@ public class Main {
         int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         System.out.println(BinarySearchOperations.searchMatrix(matrix, 3));
         // ------------------------------
-
         System.out.println(ArrayOperations.productExceptSelf(new int[]{1, 2, 3, 4}));
         // ------------------------------
-
         System.out.println(ArrayOperations.eraseOverlapIntervals(new int[][]{{1, 100}, {11, 22}, {1, 11}, {2, 12}}));
         // ------------------------------
-
         int[] piles = {3, 6, 7, 11};
         System.out.println(BinarySearchOperations.minEatingSpeed(piles, 8));
         // ------------------------------
-
         String word = new String("apple");
         MyTrie obj = new MyTrie();
         obj.insert(word);
@@ -573,20 +567,63 @@ public class Main {
         boolean param_3 = obj.startsWith("app");
         System.out.println(String.format("param_2: %s, param_3: %s", param_2, param_3));
         // ------------------------------
-
         SortOperations.bubbleSort(new int[]{3, 2, 9, 4, 5, 6, 1, 8, 7});
         // ------------------------------
-
         System.out.println(SortOperations.sortQuick2(new int[]{5, 2, 3, 1}));
         // ------------------------------
-
         int[] coins2 = new int[]{1, 2, 5};
         int amount = 5;
         System.out.println(DpGreedyOperations.coinChange2(amount, coins2));
         // ------------------------------
         System.out.println(SlidingWindowOperations.maxSlidingWindow(new int[]{1, 3, 1, 2, 0, 5}, 3));
         // ------------------------------
-
         System.out.println(SlidingWindowOperations.minWindow("a", "aa"));
+        // ------------------------------
+        System.out.println(BinarySearchOperations.findMin(new int[]{4, 5, 6, 7, 0, 1, 2}));
+        // ------------------------------
+        MyTimeMap timeMap = new MyTimeMap();
+        timeMap.set("foo", "bar", 1);  // store the key "foo" and value "bar" along with timestamp = 1.
+        timeMap.get("foo", 1);         // return "bar"
+        timeMap.get("foo", 3);         // return "bar", since there is no value corresponding to foo at timestamp 3 and timestamp 2, then the only value is at timestamp 1 is "bar".
+        timeMap.set("foo", "bar2", 4); // store the key "foo" and value "bar2" along with timestamp = 4.
+        timeMap.get("foo", 4);         // return "bar2"
+        timeMap.get("foo", 5);         // return "bar2"
+
+        // ------------------------------
+        MyLRUCache lRUCache = new MyLRUCache(2);
+        lRUCache.put(1, 1); // cache is {1=1}
+        lRUCache.put(2, 2); // cache is {1=1, 2=2}
+        lRUCache.get(1);    // return 1
+        lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+        lRUCache.get(2);    // returns -1 (not found)
+        lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+        lRUCache.get(1);    // return -1 (not found)
+        lRUCache.get(3);    // return 3
+        lRUCache.get(4);    // return 4
+        // ------------------------------
+        System.out.println(TreeOperations.rightSideView(TreeOperations.buildTree(new Integer[]{1,2,3,null,5,null,4})));
+        // ------------------------------
+        System.out.println(TreeOperations.lowestCommonAncestor(TreeOperations.buildTree(new Integer[]{1,2,3,null,5,null,4}), new TreeOperations.TreeNode(2), new TreeOperations.TreeNode(8)));
+        // ------------------------------
+        GraphOperations.Node node1 = new GraphOperations.Node(1);
+        GraphOperations.Node node2 = new GraphOperations.Node(2);
+        GraphOperations.Node node3 = new GraphOperations.Node(3);
+        GraphOperations.Node node4 = new GraphOperations.Node(4);
+
+        node1.neighbors.add(node2);
+        node1.neighbors.add(node4);
+
+        node2.neighbors.add(node1);
+        node2.neighbors.add(node3);
+
+        node3.neighbors.add(node2);
+        node3.neighbors.add(node4);
+
+        node4.neighbors.add(node1);
+        node4.neighbors.add(node3);
+
+        GraphOperations.cloneGraph(node1);
+        // ------------------------------
+        GraphOperations.findRedundantConnection(new int[][]{{1,2}, {1,3}, {2,3}});
     }
 }

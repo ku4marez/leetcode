@@ -1,8 +1,8 @@
-package algorithm;
+package misc;
 
 import java.util.Arrays;
 
-public class MathOperations {
+public class MathAlgorithms {
     public static void main(String[] args) {
         System.out.println(gcd(12, 18));
         System.out.println(lcm(12, 18));

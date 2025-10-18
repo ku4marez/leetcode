@@ -332,19 +332,171 @@ public class TreeOperations {
 
     }
 
-    public static int diameterOfBinaryTree(TreeNode root) {
-        if (root == null) return 0;
-        int[] diameter = new int[1];
-        depth(root, diameter);
-        return diameter[0];
+    // Recursive Sorted Array to Balanced BST Conversion
+    public static TreeOperations.TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+
+        TreeOperations.TreeNode root = new TreeOperations.TreeNode(nums[nums.length / 2]);
+
+        root.left = sortedArrayToBST(Arrays.copyOfRange(nums, 0, nums.length / 2));
+        root.right = sortedArrayToBST(Arrays.copyOfRange(nums, nums.length / 2 + 1, nums.length));
+
+        return root;
     }
 
-    private static int depth(TreeNode root, int[] diameter) {
+    // Find element in BST
+    public static TreeOperations.TreeNode searchBST(TreeOperations.TreeNode root, int val) {
+        if (root == null) return null;
+        if (root.val == val) return root;
+        if (root.val > val) {
+            return searchBST(root.left, val);
+        } else {
+            return searchBST(root.right, val);
+        }
+    }
+
+    // DFS-Based Tree Balance Check
+    public static boolean isBalanced(TreeOperations.TreeNode root) {
+        return isBalancedTree(root) != -1;
+    }
+
+    private static int isBalancedTree(TreeOperations.TreeNode node) {
+        if (node == null) return 0;
+
+        int leftHeight = isBalancedTree(node.left);
+        if (leftHeight == -1) return -1;
+
+        int rightHeight = isBalancedTree(node.right);
+        if (rightHeight == -1) return -1;
+
+        if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    // DFS-based min leaf difference in BST
+    public static int getMinimumDifference(TreeOperations.TreeNode root) {
+        Stack<TreeOperations.TreeNode> stack = new Stack<>();
+        TreeOperations.TreeNode curr = root;
+        Integer prev = null;
+        int minDiff = Integer.MAX_VALUE;
+
+        // In-Order Traversal (LNR) using stack
+        while (curr != null || !stack.isEmpty()) {
+            // Traverse left subtree
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            // Process the node
+            curr = stack.pop();
+            if (prev != null) {
+                minDiff = Math.min(minDiff, Math.abs(curr.val - prev));
+            }
+            prev = curr.val;
+
+            // Traverse right subtree
+            curr = curr.right;
+        }
+
+        return minDiff;
+    }
+
+    // BFS-Based Tree left leafs sum
+    public static int sumOfLeftLeaves(TreeOperations.TreeNode root) {
         if (root == null) return 0;
-        int left = depth(root.left, diameter);
-        int right = depth(root.right, diameter);
-        diameter[0] = Math.max(left + right, diameter[0]);
-        return Math.max(left, right) + 1;
+        Queue<TreeOperations.TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int sum = 0;
+        while (!queue.isEmpty()) {
+            TreeOperations.TreeNode currElem = queue.poll();
+            if (currElem.left != null && currElem.left.left == null && currElem.left.right == null) {
+                sum += currElem.left.val;
+            }
+
+            if (currElem.left != null) {
+                queue.add(currElem.left);
+            }
+
+            if (currElem.right != null) {
+                queue.add(currElem.right);
+            }
+
+        }
+        return sum;
+    }
+
+    // BFS-Based Tree average sum of all nodes in the level
+    public static List<Double> averageOfLevels(TreeOperations.TreeNode root) {
+        List<Double> result = new LinkedList<>();
+        if (root == null) return Collections.emptyList();
+        Queue<TreeOperations.TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            long sum = 0;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+
+                TreeOperations.TreeNode currElem = queue.poll();
+                if (currElem != null) {
+                    sum += currElem.val;
+
+                    if (currElem.left != null) {
+                        queue.add(currElem.left);
+                    }
+
+                    if (currElem.right != null) {
+                        queue.add(currElem.right);
+                    }
+                }
+            }
+
+            result.add(sum / (double) size);
+        }
+
+        return result;
+    }
+
+    // Merge trees using BFS approach
+    public static TreeOperations.TreeNode mergeTrees2(TreeOperations.TreeNode root1, TreeOperations.TreeNode root2) {
+        if (root1 == null) return root2;
+        if (root2 == null) return root1;
+        TreeOperations.TreeNode node = new TreeOperations.TreeNode(root1.val + root2.val);
+        Queue<TreeOperations.TreeNode[]> queue = new LinkedList<>();
+        Queue<TreeOperations.TreeNode> mergedQueue = new LinkedList<>();
+        queue.offer(new TreeOperations.TreeNode[]{root1, root2});
+        mergedQueue.offer(node);
+        while (!queue.isEmpty()) {
+            TreeOperations.TreeNode[] nodes = queue.poll();
+            TreeOperations.TreeNode node1 = nodes[0], node2 = nodes[1];
+            TreeOperations.TreeNode mergedNode = mergedQueue.poll();
+
+            // Merge left children
+            TreeOperations.TreeNode left1 = node1.left, left2 = node2.left;
+            if (left1 != null || left2 != null) {
+                if (left1 != null && left2 != null) {
+                    mergedNode.left = new TreeOperations.TreeNode(left1.val + left2.val);
+                    queue.offer(new TreeOperations.TreeNode[]{left1, left2});
+                    mergedQueue.offer(mergedNode.left);
+                } else {
+                    mergedNode.left = left1 != null ? left1 : left2;
+                }
+            }
+
+            // Merge right children
+            TreeOperations.TreeNode right1 = node1.right, right2 = node2.right;
+            if (right1 != null || right2 != null) {
+                if (right1 != null && right2 != null) {
+                    mergedNode.right = new TreeOperations.TreeNode(right1.val + right2.val);
+                    queue.offer(new TreeOperations.TreeNode[]{right1, right2});
+                    mergedQueue.offer(mergedNode.right);
+                } else {
+                    mergedNode.right = right1 != null ? right1 : right2;
+                }
+            }
+        }
+        return node;
     }
 
     public static boolean isSubtree(TreeNode root, TreeNode subRoot) {
@@ -363,5 +515,45 @@ public class TreeOperations {
         if (node == null) return 0;
         int count = node.val >= maxNode ? 1 : 0;
         return count + dfsGoodNodes(node.left, Math.max(node.val, maxNode)) + dfsGoodNodes(node.right, Math.max(node.val, maxNode));
+    }
+
+    public static int diameterOfBinaryTree(TreeNode root) {
+        if (root == null) return 0;
+        int[] diameter = new int[1];
+        depth(root, diameter);
+        return diameter[0];
+    }
+
+    private static int depth(TreeNode root, int[] diameter) {
+        if (root == null) return 0;
+        int left = depth(root.left, diameter);
+        int right = depth(root.right, diameter);
+        diameter[0] = Math.max(left + right, diameter[0]);
+        return Math.max(left, right) + 1;
+    }
+
+    public static List<Integer> rightSideView(TreeNode root) {
+        if (root == null) return Collections.emptyList();
+        List<Integer> result = new LinkedList<>();
+        rightSideView(root, result, 0);
+        return result;
+    }
+
+    private static void rightSideView(TreeNode root, List<Integer> result, int depth) {
+        if (root == null) return;
+        if (depth == result.size()) result.add(root.val);
+        rightSideView(root.right, result, depth + 1);
+        rightSideView(root.left, result, depth + 1);
+    }
+
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return null;
+        if (root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        if (root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        return root;
     }
 }
