@@ -1,6 +1,8 @@
 import algorithm.*;
 import collection.*;
 
+import java.util.List;
+
 import static algorithm.TreeOperations.buildTree;
 
 public class Main {
@@ -601,9 +603,9 @@ public class Main {
         lRUCache.get(3);    // return 3
         lRUCache.get(4);    // return 4
         // ------------------------------
-        System.out.println(TreeOperations.rightSideView(TreeOperations.buildTree(new Integer[]{1,2,3,null,5,null,4})));
+        System.out.println(TreeOperations.rightSideView(TreeOperations.buildTree(new Integer[]{1, 2, 3, null, 5, null, 4})));
         // ------------------------------
-        System.out.println(TreeOperations.lowestCommonAncestor(TreeOperations.buildTree(new Integer[]{1,2,3,null,5,null,4}), new TreeOperations.TreeNode(2), new TreeOperations.TreeNode(8)));
+        System.out.println(TreeOperations.lowestCommonAncestor(TreeOperations.buildTree(new Integer[]{1, 2, 3, null, 5, null, 4}), new TreeOperations.TreeNode(2), new TreeOperations.TreeNode(8)));
         // ------------------------------
         GraphOperations.Node node1 = new GraphOperations.Node(1);
         GraphOperations.Node node2 = new GraphOperations.Node(2);
@@ -624,6 +626,37 @@ public class Main {
 
         GraphOperations.cloneGraph(node1);
         // ------------------------------
-        GraphOperations.findRedundantConnection(new int[][]{{1,2}, {1,3}, {2,3}});
+        GraphOperations.findRedundantConnection(new int[][]{{1, 2}, {1, 3}, {2, 3}});
+        // ------------------------------
+        int n = 5;
+        int[][] edges = {
+                {0, 1},
+                {1, 2},
+                {3, 4}
+        };
+
+        System.out.println(GraphOperations.countComponents(n, edges)); // expect 2
+
+        // ------------------------------
+        int[][] isConnected = {
+                {1, 1, 0},
+                {1, 1, 0},
+                {0, 0, 1}
+        };
+        System.out.println(GraphOperations.findCircleNum(isConnected));
+        // ------------------------------
+
+        List<String> words = List.of("wrt", "wrf", "er", "ett", "rftt");
+        System.out.println(GraphOperations.alienOrder(words));
+        // ------------------------------
+        int[][] shortestPath = {
+                {2, 1, 1},
+                {2, 3, 1},
+                {3, 4, 1}
+        };
+        System.out.println(GraphOperations.networkDelayTime(shortestPath, 4, 2));
+        // ------------------------------
+        System.out.println(GraphOperations.canFinish(2, new int[][]{{0, 1}, {1, 0}}));
+
     }
 }
