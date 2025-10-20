@@ -1,5 +1,7 @@
 package algorithm;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class ListOperations {
@@ -17,6 +19,18 @@ public class ListOperations {
         public ListNode(int val, ListNode next) {
             this.val = val;
             this.next = next;
+        }
+    }
+
+    public static class Node {
+        public int val;
+        public Node next;
+        public Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
         }
     }
 
@@ -352,5 +366,23 @@ public class ListOperations {
             current = current.next;
         }
         return dummy.next;
+    }
+
+    public static Node copyRandomList(Node head) {
+
+        Map<Node, Node> map = new HashMap<>();
+        Node current = head;
+        while (current != null) {
+            map.put(current, new Node(current.val));
+            current = current.next;
+        }
+        current = head;
+        while (current != null) {
+            Node copy = map.get(current);
+            copy.next = map.get(current.next);
+            copy.random = map.get(current.random);
+            current = current.next;
+        }
+        return map.get(head);
     }
 }

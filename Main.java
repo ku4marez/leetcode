@@ -542,7 +542,7 @@ public class Main {
         ListOperations.ListNode node4 = new ListOperations.ListNode(2, node3);
         ListOperations.ListNode node5 = new ListOperations.ListNode(1, node4);
         ListOperations.rotateLeft(node5, 2);
-        */
+
         // ------------------------------
         System.out.println(TwoPointerOperations.countSubstrings("aabcc"));
         // ------------------------------
@@ -657,6 +657,42 @@ public class Main {
         System.out.println(GraphOperations.networkDelayTime(shortestPath, 4, 2));
         // ------------------------------
         System.out.println(GraphOperations.canFinish(2, new int[][]{{0, 1}, {1, 0}}));
+        // ------------------------------
+        System.out.println(GraphOperations.minCostConnectPoints(new int[][]{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}));
 
+        // ------------------------------
+
+         */
+        ListOperations.Node n0 = new ListOperations.Node(7);
+        ListOperations.Node n1 = new ListOperations.Node(13);
+        ListOperations.Node n2 = new ListOperations.Node(11);
+        ListOperations.Node n3 = new ListOperations.Node(10);
+        ListOperations.Node n4 = new ListOperations.Node(1);
+
+        // next pointers
+        n0.next = n1;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+
+        // random pointers
+        n0.random = null;
+        n1.random = n0;
+        n2.random = n4;
+        n3.random = n2;
+        n4.random = n0;
+
+        ListOperations.Node copied = ListOperations.copyRandomList(n0);
+        System.out.println(copied);
+        // ------------------------------
+
+        MyTwitter obj = new MyTwitter();
+        obj.postTweet(1, 5);
+        obj.getNewsFeed(1);
+        obj.follow(1, 2);
+        obj.postTweet(2, 6);
+        obj.getNewsFeed(1);
+        obj.unfollow(1, 2);
+        obj.getNewsFeed(1);
     }
 }

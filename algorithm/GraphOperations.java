@@ -459,4 +459,40 @@ public class GraphOperations {
         }
         return max;
     }
+
+    // MST(Minimum Spanning Tree) Prim's algorithm
+    public static int minCostConnectPoints(int[][] points) {
+         int n = points.length;
+         HashMap<Integer, List<int[]>> adjacency = new HashMap<>();
+         for (int i = 0; i < n; i++) {
+             int x1 = points[i][0], y1 = points[i][1];
+             for (int j = i + 1; j < n; j++) {
+                 int x2 = points[j][0], y2 = points[j][1];
+                 int dist = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+                 adjacency.computeIfAbsent(i, x -> new ArrayList<>()).add(new int[]{j, dist});
+                 adjacency.computeIfAbsent(j, x -> new ArrayList<>()).add(new int[]{i, dist});
+             }
+         }
+
+        int res = 0;
+        HashSet<Integer> visited = new HashSet<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{0, 0});
+        while (!pq.isEmpty() && visited.size() < n) {
+            int[] curr = pq.poll();
+            int node = curr[0];
+            int cost = curr[1];
+            if (visited.contains(node)) continue;
+            res += cost;
+            visited.add(node);
+            for (int[] neighbors : adjacency.getOrDefault(node, Collections.emptyList())) {
+                int nextNode = neighbors[0];
+                int nextCost = neighbors[1];
+                if (!visited.contains(nextNode)) {
+                    pq.offer(new int[]{nextNode, nextCost});
+                }
+            }
+        }
+        return res;
+    }
 }
