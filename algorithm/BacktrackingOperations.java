@@ -3,6 +3,7 @@ package algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BacktrackingOperations {
     // =================================================
@@ -79,7 +80,7 @@ public class BacktrackingOperations {
         }
     }
 
-    public static List<List<Integer>> subsetsWithDup(int[] nums){
+    public static List<List<Integer>> subsetsWithDup(int[] nums) {
         if (nums.length == 0) return new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
@@ -137,5 +138,66 @@ public class BacktrackingOperations {
             combine2(result, temp, i + 1, canditates, target - canditates[i]);
             temp.removeLast();
         }
+    }
+
+//    public static int findTargetSumWays(int[] nums, int target) {
+//        if (nums == null || nums.length == 0) return 0;
+//        int[] result = new int[1];
+//        findTargetSumWays(nums, target, 0, 0, result);
+//        return result[0];
+//    }
+//
+//    private static void findTargetSumWays(int[] nums, int target, int sum, int idx, int[] result) {
+//        if (idx == nums.length) {
+//            if (sum == target) {
+//                result[0]++;
+//            }
+//            return;
+//        }
+//        findTargetSumWays(nums, target, sum + nums[idx], idx + 1, result);
+//        findTargetSumWays(nums, target, sum - nums[idx], idx + 1, result);
+//    }
+
+    public static int findTargetSumWays(int[] nums, int target) {
+        return findTargetSumWays(nums, target, 0, 0);
+    }
+
+    private static int findTargetSumWays(int[] nums, int target, int sum, int idx) {
+        if (idx == nums.length) return sum == target ? 1 : 0;
+        int add = findTargetSumWays(nums, target, sum + nums[idx], idx + 1);
+        int subtract = findTargetSumWays(nums, target, sum - nums[idx], idx + 1);
+        return add + subtract;
+    }
+
+    public static List<List<String>> partition(String s) {
+        if (s == null || s.length() == 0) return new ArrayList<>();
+        List<List<String>> result = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        partition(result, temp, s, 0);
+        return result;
+    }
+
+    private static void partition(List<List<String>> result, List<String> temp, String s, int index) {
+        if (index == s.length()) result.add(new ArrayList<>(temp));
+
+        for (int i = index; i < s.length(); i++) {
+            String sub = s.substring(index, i + 1);
+            if (isPalindrome(sub)) {
+                temp.add(sub);
+                partition(result, temp, s, i + 1);
+                if (!temp.isEmpty()) temp.removeLast();
+            }
+        }
+    }
+
+    private static boolean isPalindrome(String s) {
+        if (s.length() == 1) return true;
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) return false;
+            left++;
+            right--;
+        }
+        return true;
     }
 }

@@ -662,7 +662,6 @@ public class Main {
 
         // ------------------------------
 
-         */
         ListOperations.Node n0 = new ListOperations.Node(7);
         ListOperations.Node n1 = new ListOperations.Node(13);
         ListOperations.Node n2 = new ListOperations.Node(11);
@@ -694,5 +693,11 @@ public class Main {
         obj.getNewsFeed(1);
         obj.unfollow(1, 2);
         obj.getNewsFeed(1);
+         */
+        // ------------------------------
+        System.out.println(BacktrackingOperations.findTargetSumWays(new int[]{1,1,1,1,1}, 3));
+        // ------------------------------
+        System.out.println(BacktrackingOperations.partition("aab"));
+
     }
 }
