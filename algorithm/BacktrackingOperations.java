@@ -159,35 +159,67 @@ public class BacktrackingOperations {
 //    }
 
     public static int findTargetSumWays(int[] nums, int target) {
-        return findTargetSumWays(nums, target, 0, 0);
+        return findTargetSumWays(nums, target, 0, 0, 0);
     }
 
-    private static int findTargetSumWays(int[] nums, int target, int sum, int idx) {
-        if (idx == nums.length) return sum == target ? 1 : 0;
-        int add = findTargetSumWays(nums, target, sum + nums[idx], idx + 1);
-        int subtract = findTargetSumWays(nums, target, sum - nums[idx], idx + 1);
-        return add + subtract;
+    private static int findTargetSumWays(int[] nums, int target, int sum, int idx, int depth) {
+        String indent = "  ".repeat(depth);
+        System.out.println(indent + "→ dfs(idx=" + idx + ", sum=" + sum + ")");
+
+        if (idx == nums.length) {
+            boolean hit = sum == target;
+            System.out.println(indent + "✅ BASE CASE: sum=" + sum + " " + (hit ? "== target ✔️" : "≠ target ✖️"));
+            return hit ? 1 : 0;
+        }
+
+        int add = findTargetSumWays(nums, target, sum + nums[idx], idx + 1, depth + 1);
+        int subtract = findTargetSumWays(nums, target, sum - nums[idx], idx + 1, depth + 1);
+        int total = add + subtract;
+
+        System.out.println(indent + "← Return from idx=" + idx + " → total ways=" + total);
+        return total;
     }
+
 
     public static List<List<String>> partition(String s) {
         if (s == null || s.length() == 0) return new ArrayList<>();
         List<List<String>> result = new ArrayList<>();
         List<String> temp = new ArrayList<>();
-        partition(result, temp, s, 0);
+        partition(result, temp, s, 0, 0);
         return result;
     }
 
-    private static void partition(List<List<String>> result, List<String> temp, String s, int index) {
-        if (index == s.length()) result.add(new ArrayList<>(temp));
+    private static void partition(
+            List<List<String>> result,
+            List<String> temp,
+            String s,
+            int index,
+            int depth // add a depth parameter for indentation
+    ) {
+        String indent = "  ".repeat(depth);
+        System.out.println(indent + "→ Enter partition(index=" + index + ", temp=" + temp + ")");
+
+        if (index == s.length()) {
+            System.out.println(indent + "✅ BASE CASE: index == s.length(), add " + temp);
+            result.add(new ArrayList<>(temp));
+            return;
+        }
 
         for (int i = index; i < s.length(); i++) {
             String sub = s.substring(index, i + 1);
+            System.out.println(indent + "Check substring \"" + sub + "\" (index=" + index + " to " + i + ")");
             if (isPalindrome(sub)) {
+                System.out.println(indent + "✅ \"" + sub + "\" is palindrome → add and recurse");
                 temp.add(sub);
-                partition(result, temp, s, i + 1);
-                if (!temp.isEmpty()) temp.removeLast();
+                partition(result, temp, s, i + 1, depth + 1);
+                temp.remove(temp.size() - 1);
+                System.out.println(indent + "⬅️ Backtrack, remove \"" + sub + "\", temp=" + temp);
+            } else {
+                System.out.println(indent + "❌ \"" + sub + "\" is NOT palindrome → skip");
             }
         }
+
+        System.out.println(indent + "← Exit partition(index=" + index + ")");
     }
 
     private static boolean isPalindrome(String s) {
