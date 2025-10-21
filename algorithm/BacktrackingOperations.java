@@ -232,4 +232,28 @@ public class BacktrackingOperations {
         }
         return true;
     }
+
+    public static int totalNumbers(int[] digits) {
+        boolean[] visited = new boolean[digits.length];
+        Arrays.sort(digits);
+        return totalNumbers(digits, 0, 0, visited);
+    }
+
+    private static int totalNumbers(int[] digits, int index, int sum, boolean[] visited) {
+        if (index == 3) {
+            return sum % 2 == 0 ? 1 : 0;
+        }
+
+        int total = 0;
+        for (int i = 0; i < digits.length; i++) {
+            if (visited[i]) continue;
+            if (index == 0 && digits[i] == 0) continue;
+            if (i > 0 && digits[i] == digits[i - 1] && !visited[i - 1]) continue; // skip same digit at this level
+
+            visited[i] = true;
+            total += totalNumbers(digits, index + 1, sum * 10 + digits[i], visited);
+            visited[i] = false;
+        }
+        return total;
+    }
 }

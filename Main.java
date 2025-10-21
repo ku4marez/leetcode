@@ -695,9 +695,18 @@ public class Main {
         obj.getNewsFeed(1);
          */
         // ------------------------------
-        System.out.println(BacktrackingOperations.findTargetSumWays(new int[]{1,1,1,1,1}, 3));
+        System.out.println(BacktrackingOperations.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3));
         // ------------------------------
         System.out.println(BacktrackingOperations.partition("aab"));
+        // ------------------------------
+        ListOperations.ListNode a1 = new ListOperations.ListNode(5);
+        ListOperations.ListNode a2 = new ListOperations.ListNode(4, a1);
+        ListOperations.ListNode a3 = new ListOperations.ListNode(3, a2);
+        ListOperations.ListNode a4 = new ListOperations.ListNode(2, a3);
+        ListOperations.ListNode a5 = new ListOperations.ListNode(1, a4);
 
+        System.out.println(ListOperations.reverse(a5));
+        // ------------------------------
+        System.out.println(BacktrackingOperations.totalNumbers(new int[]{0, 2, 2}));
     }
 }
