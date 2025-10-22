@@ -134,7 +134,7 @@ public class DPAlgorithm {
         return dp[amount] != Integer.MAX_VALUE ? dp[amount] : -1;
     }
 
-    //Bottom up coin change 2
+    // Bottom up coin change 2
     public static int change(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
         dp[0] = 1;
