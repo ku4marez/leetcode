@@ -711,6 +711,6 @@ public class Main {
         // ------------------------------
         System.out.println(IntervalOperations.insert(new int[][]{{1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16}}, new int[]{4, 8}));
         // ------------------------------
-        System.out.println(DpGreedyOperations.minDistance(new String("horse"), new String("ros")));
+        System.out.println(DpGreedyOperations.editDistance(new String("horse"), new String("ros")));
     }
 }
