@@ -1,0 +1,4 @@
+2025-03-01 09:10:12 user=john action=login status=SUCCESS
+2025-03-01 09:10:15 user=john action=login status=FAILED
+2025-03-01 09:10:22 user=jane action=login status=FAILED
+2025-03-01 09:10:27 user=john action=login status=FAILED

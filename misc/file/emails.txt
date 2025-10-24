@@ -1,0 +1,5 @@
+john@example.com
+kate@example.com
+john@example.com
+lucas@example.com
+kate@example.com
