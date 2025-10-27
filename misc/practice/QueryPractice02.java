@@ -1,10 +1,8 @@
-package misc;
+package misc.practice;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.counting;
 
 public class QueryPractice02 {
 

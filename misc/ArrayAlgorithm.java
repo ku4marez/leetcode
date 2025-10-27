@@ -2,7 +2,7 @@ package misc;
 
 import java.util.*;
 
-public class ArrayTricksTemplate {
+public class ArrayAlgorithm {
 
     public static void main(String[] args) {
         // 1. Swap even and odd numbers

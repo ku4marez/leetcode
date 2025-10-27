@@ -1,4 +1,4 @@
-package misc;
+package misc.practice;
 
 import java.util.Comparator;
 import java.util.List;

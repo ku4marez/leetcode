@@ -2,7 +2,7 @@ package misc;
 
 import java.util.*;
 
-public class MiscAlgorithms {
+public class MiscAlgorithm {
 
 
     public static void main(String[] args) {

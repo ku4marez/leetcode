@@ -1,5 +1,7 @@
 package algorithm;
 
+import misc.ListAlgorithms;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -395,5 +397,32 @@ public class ListOperations {
             cur = nxt;
         }
         return prev;
+    }
+
+    private static ListNode reverseBetweenPositions(ListNode head, int n, int m) {
+        ListNode prevStart = null;
+        ListNode startNode = head;
+
+        int pos = 1;
+        while (pos < n) {
+            prevStart = startNode;
+            startNode = startNode.next;
+            pos++;
+        }
+
+        ListNode curr = startNode;
+        ListNode prev = null;
+        while (curr != null && pos <= m) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            pos++;
+        }
+        if (prevStart != null) prevStart.next = prev;
+        else head = prev;
+
+        if (startNode != null) startNode.next = curr;
+        return head;
     }
 }

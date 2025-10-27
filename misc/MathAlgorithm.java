@@ -2,7 +2,7 @@ package misc;
 
 import java.util.Arrays;
 
-public class MathAlgorithms {
+public class MathAlgorithm {
     public static void main(String[] args) {
         System.out.println(gcd(12, 18));
         System.out.println(lcm(12, 18));
