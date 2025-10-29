@@ -1,6 +1,7 @@
 import algorithm.*;
 import collection.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static algorithm.TreeOperations.buildTree;
@@ -712,5 +713,39 @@ public class Main {
         System.out.println(IntervalOperations.insert(new int[][]{{1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16}}, new int[]{4, 8}));
         // ------------------------------
         System.out.println(DpGreedyOperations.editDistance(new String("horse"), new String("ros")));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.checkValidString(new String("(*))")));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.maxProduct(new int[]{-1, -2, -9, -6}));
+        // ------------------------------
+        char[][] board = {
+                {'X','X','X','X'},
+                {'X','O','O','X'},
+                {'X','X','O','X'},
+                {'X','O','X','X'}
+        };
+        BacktrackingOperations.solve(board);
+        System.out.println(Arrays.deepToString(board));
+        // ------------------------------
+        int[][] grid = {
+                {0,0,1,0,0,0,0,1,0,0},
+                {0,0,0,0,1,1,0,0,0,0},
+                {0,0,1,0,0,0,0,0,0,0},
+                {0,1,1,0,1,0,1,1,1,0},
+                {0,0,0,0,1,0,1,1,1,0},
+                {0,0,0,0,1,1,1,1,1,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,1,1,1,0,1,1,1,0},
+                {0,0,0,0,0,0,0,0,0,0}
+        };
+        System.out.println(BacktrackingOperations.maxAreaOfIsland(grid));
+        // ------------------------------
+        int numCourses = 4;
+        int[][] prerequisites = {
+                {1, 0},
+                {2, 1},
+                {3, 2}
+        };
+        System.out.println(GraphOperations.findOrder(numCourses, prerequisites));
     }
 }

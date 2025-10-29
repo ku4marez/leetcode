@@ -462,17 +462,17 @@ public class GraphOperations {
 
     // MST(Minimum Spanning Tree) Prim's algorithm
     public static int minCostConnectPoints(int[][] points) {
-         int n = points.length;
-         HashMap<Integer, List<int[]>> adjacency = new HashMap<>();
-         for (int i = 0; i < n; i++) {
-             int x1 = points[i][0], y1 = points[i][1];
-             for (int j = i + 1; j < n; j++) {
-                 int x2 = points[j][0], y2 = points[j][1];
-                 int dist = Math.abs(x1 - x2) + Math.abs(y1 - y2);
-                 adjacency.computeIfAbsent(i, x -> new ArrayList<>()).add(new int[]{j, dist});
-                 adjacency.computeIfAbsent(j, x -> new ArrayList<>()).add(new int[]{i, dist});
-             }
-         }
+        int n = points.length;
+        HashMap<Integer, List<int[]>> adjacency = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int x1 = points[i][0], y1 = points[i][1];
+            for (int j = i + 1; j < n; j++) {
+                int x2 = points[j][0], y2 = points[j][1];
+                int dist = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+                adjacency.computeIfAbsent(i, x -> new ArrayList<>()).add(new int[]{j, dist});
+                adjacency.computeIfAbsent(j, x -> new ArrayList<>()).add(new int[]{i, dist});
+            }
+        }
 
         int res = 0;
         HashSet<Integer> visited = new HashSet<>();
@@ -494,5 +494,39 @@ public class GraphOperations {
             }
         }
         return res;
+    }
+
+    public static int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adjacency = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adjacency.add(new ArrayList<>());
+        }
+        int[] indegree = new int[numCourses];
+        for (int[] edge : prerequisites) {
+            int a = edge[0], b = edge[1];
+            adjacency.get(b).add(a);
+            indegree[a]++;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+        int[] res = new int[numCourses];
+        int idx = 0;
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            res[idx++] = node;
+
+            for (int neighbor : adjacency.get(node)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.add(neighbor);
+                }
+            }
+        }
+        return idx == numCourses ? res : new int[0];
     }
 }

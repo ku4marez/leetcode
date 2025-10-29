@@ -256,4 +256,71 @@ public class BacktrackingOperations {
         }
         return total;
     }
+
+    public static void solve(char[][] board) {
+        if (board == null || board.length == 0) return;
+        int rows = board.length;
+        int cols = board[0].length;
+        for (int i = 0; i <= rows - 1; i++) {
+            for (int j = 0; j <= cols - 1; j++) {
+                if (board[i][j] == 'O' && ((i == 0 || i == rows - 1) || (j == 0 || j == cols - 1))) {
+                    solve(i, j, board);
+                }
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == 'S') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    public static void solve(int i, int j, char[][] board) {
+        if (i > board.length - 1 || j > board[0].length - 1 || i < 0 || j < 0) return;
+        if (board[i][j] != 'O') return;
+
+        if (board[i][j] == 'O') {
+            board[i][j] = 'S';
+        }
+        solve(i + 1, j, board);
+        solve(i - 1, j, board);
+        solve(i, j + 1, board);
+        solve(i, j - 1, board);
+    }
+
+    public static int maxAreaOfIsland(int[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    int dp = maxAreaOfIsland(i, j, grid);
+                    max = Math.max(max, dp);
+                }
+            }
+        }
+        return max == Integer.MIN_VALUE ? 0 : max;
+    }
+
+    public static int maxAreaOfIsland(int i, int j, int[][] grid) {
+        if (i > grid.length - 1 || j > grid[0].length - 1 || i < 0 || j < 0) return 0;
+        if (grid[i][j] == 0) return 0;
+        grid[i][j] = 0;
+
+        int area = 1;
+
+        area += maxAreaOfIsland(i + 1, j, grid);
+        area += maxAreaOfIsland(i - 1, j, grid);
+        area += maxAreaOfIsland(i, j + 1, grid);
+        area += maxAreaOfIsland(i, j - 1, grid);
+        return area;
+
+    }
 }

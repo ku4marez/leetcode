@@ -211,4 +211,40 @@ public class DpGreedyOperations {
         }
         return dp[amount];
     }
+
+    // Greedy with two pointers
+    public static boolean checkValidString(String s) {
+        int low = 0, high = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                low ++;
+                high ++;
+            } else if (c == ')') {
+                low --;
+                high --;
+            } else if (c == '*') {
+                low --;
+                high ++;
+            }
+            if (high < 0) return false;
+            if (low < 0) low = 0;
+        }
+        return low == 0;
+    }
+
+    public static int maxProduct(int[] nums) {
+        int[] maxProduct = new int[nums.length];
+        int[] minProduct = new int[nums.length];
+
+        maxProduct[0] = nums[0];
+        minProduct[0] = nums[0];
+        int max = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            maxProduct[i] = Math.max(nums[i], Math.max(maxProduct[i - 1] * nums[i], minProduct[i - 1] * nums[i]));
+            minProduct[i] = Math.min(nums[i], Math.min(maxProduct[i - 1] * nums[i], minProduct[i - 1] * nums[i]));
+            max = Math.max(max, maxProduct[i]);
+        }
+        return max;
+    }
 }
