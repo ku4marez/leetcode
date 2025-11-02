@@ -747,5 +747,13 @@ public class Main {
                 {3, 2}
         };
         System.out.println(GraphOperations.findOrder(numCourses, prerequisites));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.rob2(new int[]{1,2,3,1}));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.maxProfit(new int[]{1,2,3,0,2}));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.canPartition(new int[]{1,5,11,5}));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
     }
 }

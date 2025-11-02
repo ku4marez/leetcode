@@ -218,14 +218,14 @@ public class DpGreedyOperations {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == '(') {
-                low ++;
-                high ++;
+                low++;
+                high++;
             } else if (c == ')') {
-                low --;
-                high --;
+                low--;
+                high--;
             } else if (c == '*') {
-                low --;
-                high ++;
+                low--;
+                high++;
             }
             if (high < 0) return false;
             if (low < 0) low = 0;
@@ -246,5 +246,104 @@ public class DpGreedyOperations {
             max = Math.max(max, maxProduct[i]);
         }
         return max;
+    }
+
+    // House rob
+    public static int rob(int[] nums) {
+//        if (nums == null || nums.length == 0) return 0;
+//        int[] dp = new int[nums.length];
+//        dp[0] = nums[0];
+//        dp[1] = Math.max(nums[0], nums[1]);
+//        for (int i = 2; i < nums.length; i++) {
+//            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+//        }
+//        return dp[nums.length - 1];
+
+        if (nums == null || nums.length == 0) return 0;
+        int one = 0, two = 0;
+        for (int num : nums) {
+            int temp = Math.max(num + one, two);
+            one = two;
+            two = temp;
+        }
+        return two;
+    }
+
+    public static int rob2(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
+        if (nums.length == 2) return Math.max(nums[0], nums[1]);
+        int result1, result2;
+        int prev2 = 0, prev1 = 0;
+        for (int i = 0; i <= nums.length - 2; i++) {
+            int curr = Math.max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        result1 = prev1;
+        prev2 = 0;
+        prev1 = 0;
+        for (int i = 1; i <= nums.length - 1; i++) {
+            int curr = Math.max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        result2 = prev1;
+        return Math.max(result1, result2);
+    }
+
+    public static int maxProfit(int[] prices) {
+        int hold = -prices[0];
+        int sold = 0;
+        int rest = 0;
+        for (int i = 1; i < prices.length; i++) {
+            int prevHold = hold;
+            int prevSold = sold;
+            int prevRest = rest;
+
+            hold = Math.max(prevHold, prevRest - prices[i]);
+            sold = prevHold + prices[i];
+            rest = Math.max(prevSold, prevRest);
+        }
+        return Math.max(sold, rest);
+    }
+
+    // Bounded knapsack
+    public static boolean canPartition(int[] nums) {
+        if (nums == null || nums.length == 0) return false;
+        int total = Arrays.stream(nums).sum();
+        if (total % 2 != 0) return false;
+        int target = total / 2;
+
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            for (int j = target; j >= num; j--) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+        return dp[target];
+    }
+
+    public static int canCompleteCircuit(int[] gas, int[] cost) {
+        int p = 0;
+        int sum = 0;
+        while (p < gas.length && p < cost.length) {
+            sum += gas[p] - cost[p];
+            p++;
+        }
+            if (sum < 0) {
+            return -1;
+        }
+        int start = 0;
+        int tank = 0;
+        for (int i = 0; i < gas.length; i++) {
+            tank += gas[i] - cost[i];
+            if (tank < 0) {
+                start = i + 1;
+                tank = 0;
+            }
+        }
+        return start;
     }
 }
