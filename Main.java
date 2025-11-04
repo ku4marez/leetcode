@@ -719,24 +719,24 @@ public class Main {
         System.out.println(DpGreedyOperations.maxProduct(new int[]{-1, -2, -9, -6}));
         // ------------------------------
         char[][] board = {
-                {'X','X','X','X'},
-                {'X','O','O','X'},
-                {'X','X','O','X'},
-                {'X','O','X','X'}
+                {'X', 'X', 'X', 'X'},
+                {'X', 'O', 'O', 'X'},
+                {'X', 'X', 'O', 'X'},
+                {'X', 'O', 'X', 'X'}
         };
         BacktrackingOperations.solve(board);
         System.out.println(Arrays.deepToString(board));
         // ------------------------------
         int[][] grid = {
-                {0,0,1,0,0,0,0,1,0,0},
-                {0,0,0,0,1,1,0,0,0,0},
-                {0,0,1,0,0,0,0,0,0,0},
-                {0,1,1,0,1,0,1,1,1,0},
-                {0,0,0,0,1,0,1,1,1,0},
-                {0,0,0,0,1,1,1,1,1,0},
-                {0,0,0,0,0,0,0,0,0,0},
-                {0,0,1,1,1,0,1,1,1,0},
-                {0,0,0,0,0,0,0,0,0,0}
+                {0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+                {0, 0, 0, 0, 1, 0, 1, 1, 1, 0},
+                {0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 1, 1, 1, 0, 1, 1, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
         System.out.println(BacktrackingOperations.maxAreaOfIsland(grid));
         // ------------------------------
@@ -748,12 +748,36 @@ public class Main {
         };
         System.out.println(GraphOperations.findOrder(numCourses, prerequisites));
         // ------------------------------
-        System.out.println(DpGreedyOperations.rob2(new int[]{1,2,3,1}));
+        System.out.println(DpGreedyOperations.rob2(new int[]{1, 2, 3, 1}));
         // ------------------------------
-        System.out.println(DpGreedyOperations.maxProfit(new int[]{1,2,3,0,2}));
+        System.out.println(DpGreedyOperations.maxProfit(new int[]{1, 2, 3, 0, 2}));
         // ------------------------------
-        System.out.println(DpGreedyOperations.canPartition(new int[]{1,5,11,5}));
+        System.out.println(DpGreedyOperations.canPartition(new int[]{1, 5, 11, 5}));
         // ------------------------------
-        System.out.println(DpGreedyOperations.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2}));
+        System.out.println(DpGreedyOperations.canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+        // ------------------------------
+        System.out.println(BacktrackingOperations.orangesRotting(new int[][]{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}));
+        // ------------------------------
+        DetectSquares detectSquares = new DetectSquares();
+        detectSquares.add(new int[]{3, 10});
+        detectSquares.add(new int[]{11, 2});
+        detectSquares.add(new int[]{3, 2});
+        detectSquares.count(new int[]{11, 10}); // return 1. You can choose:
+        //   - The first, second, and third points
+        detectSquares.count(new int[]{14, 8});  // return 0. The query point cannot form a square with any points in the data structure.
+        detectSquares.add(new int[]{11, 2});    // Adding duplicate points is allowed.
+        detectSquares.count(new int[]{11, 10}); // return 2. You can choose:
+        //   - The first, second, and third points
+        //   - The first, third, and fourth points
+        // ------------------------------
+        WordDictionary wordDictionary = new WordDictionary();
+        wordDictionary.addWord("a");
+        wordDictionary.addWord("a");
+        wordDictionary.search(".");
+        wordDictionary.search("a");
+        wordDictionary.search("aa");
+        wordDictionary.search("a");
+        wordDictionary.search(".a");
+        wordDictionary.search("a.");
     }
 }
