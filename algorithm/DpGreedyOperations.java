@@ -148,6 +148,24 @@ public class DpGreedyOperations {
 
         return dp[n][W];
     }
+//
+//    // Greedy algorithm with one pointer
+//    public static boolean canJump(int[] nums) {
+//        int index = 0;
+//        int farthest = nums[0];
+//        int size = nums.length;
+//        while (index < size) {
+//            if (index > farthest) {
+//                return false;
+//            }
+//            farthest = Math.max(farthest, index + nums[index]);
+//            if (farthest >= size - 1) {
+//                return true;
+//            }
+//            index = index + 1;
+//        }
+//        return true;
+//    }
 
     // Greedy
     public static boolean canJump(int[] nums) {
@@ -307,6 +325,41 @@ public class DpGreedyOperations {
         }
         return Math.max(sold, rest);
     }
+
+//    // Greedy (or iterative linear) algorithm for Min and Max
+//    public static int maxProfit(int[] prices) {
+//        if (prices == null || prices.length == 0) {
+//            return 0;
+//        }
+//
+//        int minPrice = Integer.MAX_VALUE;
+//        int maxProfit = 0;
+//        for (int price : prices) {
+//            if (price < minPrice) {
+//                minPrice = price;
+//            }
+//            int profit = price - minPrice;
+//            if (profit > maxProfit) {
+//                maxProfit = profit;
+//            }
+//        }
+//        return maxProfit;
+//    }
+//
+//    // Iterative Linear Scan for Min and Max
+//    public static int maxProfit2(int[] prices) {
+//        if (prices == null || prices.length == 0) {
+//            return 0;
+//        }
+//
+//        int maxProfit = 0;
+//        for (int i = 1; i < prices.length; i++) {
+//            if (prices[i] > prices[i - 1]) {
+//                maxProfit += prices[i] - prices[i - 1];
+//            }
+//        }
+//        return maxProfit;
+//    }
 
     // Bounded knapsack
     public static boolean canPartition(int[] nums) {

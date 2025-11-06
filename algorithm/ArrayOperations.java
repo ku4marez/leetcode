@@ -156,24 +156,6 @@ public class ArrayOperations {
         return third != null ? third : first;
     }
 
-    // Greedy algorithm with one pointer
-    public static boolean canJump(int[] nums) {
-        int index = 0;
-        int farthest = nums[0];
-        int size = nums.length;
-        while (index < size) {
-            if (index > farthest) {
-                return false;
-            }
-            farthest = Math.max(farthest, index + nums[index]);
-            if (farthest >= size - 1) {
-                return true;
-            }
-            index = index + 1;
-        }
-        return true;
-    }
-
     // Greedy strategy with two pointer
     public static int findContentChildren(int[] g, int[] s) {
         Arrays.sort(g);
@@ -313,41 +295,6 @@ public class ArrayOperations {
         return minHeap.isEmpty() ? 0 : minHeap.peek();
     }
 
-    // Greedy (or iterative linear) algorithm for Min and Max
-    public static int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
-
-        int minPrice = Integer.MAX_VALUE;
-        int maxProfit = 0;
-        for (int price : prices) {
-            if (price < minPrice) {
-                minPrice = price;
-            }
-            int profit = price - minPrice;
-            if (profit > maxProfit) {
-                maxProfit = profit;
-            }
-        }
-        return maxProfit;
-    }
-
-    // Iterative Linear Scan for Min and Max
-    public static int maxProfit2(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
-
-        int maxProfit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (prices[i] > prices[i - 1]) {
-                maxProfit += prices[i] - prices[i - 1];
-            }
-        }
-        return maxProfit;
-    }
-
     public static int longestConsecutive(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
         for (int num : nums) {
@@ -405,5 +352,57 @@ public class ArrayOperations {
             postfix *= nums[i];
         }
         return prefix;
+    }
+
+    public static int findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int max = 1;
+        int curr = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) max = Math.max(max, ++curr);
+            else curr = 1;
+        }
+        return max;
+    }
+
+    public static void nextPermutation(int[] nums) {
+        if (nums == null || nums.length == 0) return;
+        int length = nums.length;
+        int i = length - 2;
+        int pivot = -1;
+        while (i >= 0) {
+            if (nums[i] < nums[i + 1]) {
+                pivot = i;
+                break;
+            }
+            i--;
+        }
+
+        if (pivot == -1) {
+            reverse(nums, 0, length - 1);
+            return;
+        }
+
+        int j = length - 1;
+        while (j > pivot && nums[j] <= nums[pivot]) {
+            j--;
+        }
+
+        int temp = nums[j];
+        nums[j] = nums[pivot];
+        nums[pivot] = temp;
+
+        int left = pivot + 1, right = length - 1;
+        reverse(nums, left, right);
+    }
+
+    private static void reverse(int[] nums, int left, int right) {
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
     }
 }

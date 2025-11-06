@@ -779,5 +779,15 @@ public class Main {
         wordDictionary.search("a");
         wordDictionary.search(".a");
         wordDictionary.search("a.");
+        // ------------------------------
+        MyAVLTree myAVLTree = new MyAVLTree();
+        myAVLTree.insert(1);
+        myAVLTree.insert(2);
+        myAVLTree.insert(3);
+        myAVLTree.delete(3);
+        // ------------------------------
+        System.out.println(ArrayOperations.findLengthOfLCIS(new int[]{1, 3, 5, 4, 7}));
+        // ------------------------------
+        ArrayOperations.nextPermutation(new int[]{1, 3, 2});
     }
 }
