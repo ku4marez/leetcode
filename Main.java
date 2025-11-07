@@ -1,6 +1,7 @@
 import algorithm.*;
 import collection.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -246,9 +247,6 @@ public class Main {
         // ------------------------------
         char[] str = new char[]{'h','e','l','l','o'};
         StringOperations.reverseString(str);
-        // ------------------------------
-        String input = "leetcode";
-        System.out.println(StringOperations.reverseVowels(input));
         // ------------------------------
         System.out.println(BitOperations.isPowerOfThree(9));
         // ------------------------------
@@ -789,5 +787,12 @@ public class Main {
         System.out.println(ArrayOperations.findLengthOfLCIS(new int[]{1, 3, 5, 4, 7}));
         // ------------------------------
         ArrayOperations.nextPermutation(new int[]{1, 3, 2});
+        // ------------------------------
+        System.out.println(StringOperations.countKeyChanges("abB"));
+        // ------------------------------
+        String input = "IceCreAm";
+        System.out.println(TwoPointerOperations.reverseVowels(input));
+        // ------------------------------
+        System.out.println(BacktrackingOperations.wordBreak("leetcodex", List.of("leet", "code")));
     }
 }

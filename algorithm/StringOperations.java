@@ -284,4 +284,18 @@ public class StringOperations {
         return tChars[tChars.length - 1];
     }
 
+    public static int countKeyChanges(String s) {
+        if (s == null || s.isEmpty()) return 0;
+        char prev = s.charAt(0);
+        int count = 0;
+        for (int i = 1; i < s.length(); i++) {
+            char curr = s.charAt(i);
+            if (Character.toLowerCase(prev) != Character.toLowerCase(curr)) {
+                count++;
+            }
+            prev = curr;
+        }
+        return count;
+    }
+
 }

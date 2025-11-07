@@ -257,19 +257,17 @@ public class TwoPointerOperations {
         String vowels = "aeiouAEIOU";
         char[] chars = s.toCharArray();
         while (start < end) {
-            char sChar = s.charAt(start);
-            char tChar = s.charAt(end);
-            while (start < end && vowels.indexOf(sChar) == -1) {
+            while (start < end && vowels.indexOf(s.charAt(start)) == -1) {
                 start++;
             }
-            while (start < end && vowels.indexOf(tChar) == -1) {
+            while (start < end && vowels.indexOf(s.charAt(end)) == -1) {
                 end--;
             }
             char temp = chars[start];
             chars[start] = chars[end];
             chars[end] = temp;
             start++;
-            end++;
+            end--;
         }
         return new String(chars);
     }
@@ -315,4 +313,5 @@ public class TwoPointerOperations {
         }
         return result;
     }
+
 }

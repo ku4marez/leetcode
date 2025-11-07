@@ -358,4 +358,25 @@ public class BacktrackingOperations {
         }
         return freshOranges == 0 ? max : -1;
     }
+
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        if (wordDict.isEmpty()) {
+            return true;
+        }
+        return canWordBreak(s, 0, new HashSet<>(wordDict), new Boolean[s.length()]);
+    }
+
+    private static boolean canWordBreak(String s, int i, Set<String> wordDict, Boolean[] memo) {
+        if (i == s.length()) return true;
+        if (memo[i] != null) return memo[i];
+        for(int j = i + 1; j <= s.length(); j++) {
+            String sub = s.substring(i, j );
+            if (wordDict.contains(sub) && canWordBreak(s, j, wordDict, memo)) {
+                memo[i] = true;
+                return true;
+            }
+        }
+        memo[i] = false;
+        return false;
+    }
 }
