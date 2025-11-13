@@ -794,5 +794,9 @@ public class Main {
         System.out.println(TwoPointerOperations.reverseVowels(input));
         // ------------------------------
         System.out.println(BacktrackingOperations.wordBreak("leetcodex", List.of("leet", "code")));
+        // ------------------------------
+        System.out.println(StringOperations.convert("ABCDE", 4));
+        // ------------------------------
+        System.out.println(DpGreedyOperations.minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
     }
 }
