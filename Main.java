@@ -798,5 +798,7 @@ public class Main {
         System.out.println(StringOperations.convert("ABCDE", 4));
         // ------------------------------
         System.out.println(DpGreedyOperations.minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
+        // ------------------------------
+        System.out.println(StringOperations.toLowerCase("AaB"));
     }
 }
