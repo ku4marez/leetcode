@@ -18,7 +18,9 @@ public class TwoPointerOperations {
 
     // Two-Pointer Technique
     public static int removeDuplicates(int[] nums) {
-        if (nums.length == 0) return 0;
+        if (nums.length == 0) {
+            return 0;
+        }
         int p = 1;
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] != nums[i - 1]) {
@@ -31,7 +33,9 @@ public class TwoPointerOperations {
 
     // Two-Pointer Technique
     public static int removeDuplicates2(int[] nums) {
-        if (nums.length == 0) return 0;
+        if (nums.length == 0) {
+            return 0;
+        }
         int p = 1;
         for (int i = 1; i < nums.length; i++) {
             if (p < 2 || nums[i] != nums[p - 2]) {
@@ -60,7 +64,6 @@ public class TwoPointerOperations {
 
         return new int[]{-1, -1}; // Not found
     }
-
 
     // Two-pointer to rotate array
     public static void rotate(int[] nums, int k) {
@@ -314,4 +317,35 @@ public class TwoPointerOperations {
         return result;
     }
 
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                int left = j + 1;
+                int right = nums.length - 1;
+                while (left < right) {
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum == target) {
+                        result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+                        left++;
+                        right--;
+                        while (left < right && nums[left] == nums[left - 1]) left++;
+                        while (left < right && nums[right] == nums[right + 1]) right--;
+                    } else if (sum < target) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

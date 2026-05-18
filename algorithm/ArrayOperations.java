@@ -405,4 +405,16 @@ public class ArrayOperations {
             right--;
         }
     }
+
+    public static int findMaxConsecutiveOnes(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int max = 0;
+        int curr = 0;
+        for (int num : nums) {
+            if (num == 1) curr++;
+            else curr = 0;
+            max = Math.max(max, curr);
+        }
+        return max;
+    }
 }

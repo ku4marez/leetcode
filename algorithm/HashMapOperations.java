@@ -120,14 +120,18 @@ public class HashMapOperations {
 
             // Check s -> t mapping
             if (mapST.containsKey(charS)) {
-                if (mapST.get(charS) != charT) return false;
+                if (mapST.get(charS) != charT) {
+                    return false;
+                }
             } else {
                 mapST.put(charS, charT);
             }
 
             // Check t -> s mapping
             if (mapTS.containsKey(charT)) {
-                if (mapTS.get(charT) != charS) return false;
+                if (mapTS.get(charT) != charS) {
+                    return false;
+                }
             } else {
                 mapTS.put(charT, charS);
             }
@@ -151,5 +155,32 @@ public class HashMapOperations {
             map.put(c, map.get(c) - 1);
         }
         return true;
+    }
+
+    public static List<Integer> findAnagrams(String s, String p) {
+        if (s.length() < p.length()) {
+            return new ArrayList<>();
+        }
+        List<Integer> result = new ArrayList<>();
+        int[] sCount = new int[26];
+        int[] pCount = new int[26];
+
+        for (int i = 0; i < p.length(); i++) {
+            sCount[s.charAt(i) - 'a']++;
+            pCount[p.charAt(i) - 'a']++;
+        }
+
+        if (Arrays.equals(sCount, pCount)) {
+            result.add(0);
+        }
+
+        for (int i = p.length(); i < s.length(); i++) {
+            sCount[s.charAt(i) - 'a']++;
+            sCount[s.charAt(i - p.length()) - 'a']--;
+            if (Arrays.equals(sCount, pCount)) {
+                result.add(i - p.length() + 1);
+            }
+        }
+        return result;
     }
 }

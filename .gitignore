@@ -1,40 +1,25 @@
-# IntelliJ IDEA specific files
-.idea/
-*.iml
-*.iws
-
-# Ignore build output directories
+# Build output
 out/
 target/
 build/
-
-# Ignore Maven/Gradle specific files
 *.class
-*.jar
-*.war
-*.ear
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE user-specific (keep .idea/ tracked for project settings)
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/shelf/
+
+# Module file
+*.iml
+
+# Logs and temp
 *.log
 *.tmp
 *.swp
-
-# Ignore OS-specific files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Ignore dependency directories
-node_modules/
-vendor/
-
-# Ignore JDK-specific files
 hs_err_pid*
-
-# Ignore compiled Python files (optional, if any Python scripts exist)
-__pycache__/
-*.pyc
-
-# Exclude .env files containing sensitive information
-.env
-
-# Ignore IDE-specific files (other IDEs)
-.vscode/

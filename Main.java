@@ -692,7 +692,7 @@ public class Main {
         obj.getNewsFeed(1);
         obj.unfollow(1, 2);
         obj.getNewsFeed(1);
-         */
+
         // ------------------------------
         System.out.println(BacktrackingOperations.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3));
         // ------------------------------
@@ -800,5 +800,12 @@ public class Main {
         System.out.println(DpGreedyOperations.minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
         // ------------------------------
         System.out.println(StringOperations.toLowerCase("AaB"));
+         */
+        // ------------------------------
+        System.out.println(TwoPointerOperations.fourSum(new int[]{1000000000,1000000000,1000000000,1000000000}, -294967296));
+        // ------------------------------
+        System.out.println(ArrayOperations.findMaxConsecutiveOnes(new int[]{1, 1, 0, 1, 1, 1}));
+        // ------------------------------
+        System.out.println(HashMapOperations.findAnagrams("ababab", "ab"));
     }
 }
