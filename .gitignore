@@ -1,19 +1,19 @@
 # Build output
 out/
-target/
 build/
 *.class
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# IDE user-specific (keep .idea/ tracked for project settings)
+# IDE
+.idea/
 *.iws
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/usage.statistics.xml
-.idea/shelf/
 
 # Module file
 *.iml
