@@ -1,0 +1,74 @@
+package archive_misc;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class BruteForceAlgorithm {
+
+    // Generates all possible subsets (the power set) using bitmasking
+    static List<List<Integer>> generateSubsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        int total = 1 << nums.length; // total number of subsets = 2^n
+
+        for (int mask = 0; mask < total; mask++) {
+            List<Integer> subset = new ArrayList<>();
+            // For each bit, decide whether to include nums[j] in this subset
+            for (int j = 0; j < nums.length; j++) {
+                if ((mask & (1 << j)) != 0) {
+                    subset.add(nums[j]);
+                }
+            }
+            result.add(subset);
+        }
+        return result;
+    }
+
+
+    // Generates all possible permutations using backtracking
+    static List<List<Integer>> generatePermutations(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        permute(nums, 0, result);
+        return result;
+    }
+
+    // Recursive helper to generate permutations
+    static void permute(int[] nums, int index, List<List<Integer>> result) {
+        if (index == nums.length) {
+            // Base case: all positions are filled, save a copy of current permutation
+            List<Integer> permutation = new ArrayList<>();
+            for (int num : nums) {
+                permutation.add(num);
+            }
+            result.add(permutation);
+            return;
+        }
+
+        for (int i = index; i < nums.length; i++) {
+            swap(nums, index, i); // Choose: swap current number into position
+            permute(nums, index + 1, result); // Explore: recurse on the rest
+            swap(nums, index, i); // Backtrack: undo the swap
+        }
+    }
+
+    // Swaps two elements in the array
+    static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    // Finds all index pairs (i, j) such that nums[i] + nums[j] == target
+    static List<int[]> findAllPairs(int[] nums, int target) {
+        List<int[]> result = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                // Check if current pair sums to target
+                if (nums[i] + nums[j] == target) {
+                    result.add(new int[]{i, j});
+                }
+            }
+        }
+        return result;
+    }
+}

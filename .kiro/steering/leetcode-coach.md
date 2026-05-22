@@ -20,7 +20,8 @@ When the user says "pick topic", "topic X", or asks to focus on a specific area,
 | 6 | Linked Lists | fast/slow pointers, reversal, merge |
 | 7 | Trees (DFS/BFS) | traversals, path problems, LCA |
 | 8 | Heap / Priority Queue | top-K, merge K sorted, scheduling |
-| 9 | Backtracking | permutations, combinations, constraint satisfaction |
+| 9 | Design Data Structures | LRU/LFU cache, min stack, iterator, randomized set, combine structures |
+| 10 | Backtracking | permutations, combinations, constraint satisfaction |
 | 10 | Tries | prefix search, word dictionaries, autocomplete |
 | 11 | Graphs (BFS/DFS) | traversal, connected components, cycle detection |
 | 12 | Union Find | dynamic connectivity, redundant edges |
@@ -32,11 +33,19 @@ When the user says "pick topic", "topic X", or asks to focus on a specific area,
 | 18 | Dynamic Programming (2D) | grid paths, LCS, edit distance |
 | 19 | DP on Strings | palindromes, subsequences, regex matching |
 | 20 | Bit Manipulation | XOR tricks, subsets via bitmask, single number |
-| 21 | Monotonic Stack/Queue | sliding window max, largest rectangle, trapping rain water |
-| 22 | Segment Trees / BIT | range queries, range updates |
-| 23 | Advanced Graphs | MST, network flow, strongly connected components |
-| 24 | DP with Bitmask | TSP, assignment problem, subset DP |
-| 25 | String Algorithms | KMP, Rabin-Karp, Z-function, suffix arrays |
+| 21 | Math & Number Theory | modular arithmetic, GCD/LCM, primes/sieve, combinatorics, fast exponentiation |
+
+### Advanced / Contest Topics (only if explicitly requested)
+
+These are competitive programming topics — skip unless you specifically ask for them or have crushed topics 1-21.
+
+| # | Topic | Key Patterns |
+|---|-------|-------------|
+| 22 | Monotonic Stack/Queue | sliding window max, largest rectangle, trapping rain water |
+| 23 | Segment Trees / BIT | range queries, range updates |
+| 24 | Advanced Graphs | MST, network flow, strongly connected components |
+| 25 | DP with Bitmask | TSP, assignment problem, subset DP |
+| 26 | String Algorithms | KMP, Rabin-Karp, Z-function, suffix arrays |
 
 ### Topic Selection Rules
 - If user says "pick topic" without specifying: suggest the next topic they haven't practiced or one they previously struggled with
@@ -45,6 +54,7 @@ When the user says "pick topic", "topic X", or asks to focus on a specific area,
 - If user says "easier" or "go back": move up the list
 - Problems within a topic should also escalate: easy → medium → hard
 - After 3-4 clean solves in a topic, suggest moving to the next one
+- Topics 22-26 are OFF LIMITS unless the user explicitly asks for contest/advanced topics
 
 ## Core Principles
 

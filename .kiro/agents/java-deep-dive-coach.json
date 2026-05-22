@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/kiro-agent.json",
+  "name": "java-deep-dive-coach",
+  "description": "Java language & JVM internals coach — predict output, explain behavior, debug subtle bugs",
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash"
+  ],
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": ["./**"]
+    },
+    "fs_write": {
+      "allowedPaths": ["./docs/java/**"]
+    },
+    "execute_bash": {
+      "allowedCommands": ["javac .*", "java .*"],
+      "autoAllowReadonly": true
+    }
+  },
+  "resources": [
+    "file://.kiro/steering/java-deep-dive-coach.md"
+  ]
+}

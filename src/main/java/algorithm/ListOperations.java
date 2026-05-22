@@ -1,7 +1,5 @@
 package algorithm;
 
-import misc.ListAlgorithms;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
