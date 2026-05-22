@@ -6,6 +6,46 @@
 - Goal: become insanely fast and precise at implementing optimal solutions (contest-level speed)
 - Project structure: solutions organized by pattern in `src/main/java/algorithm/` directory, tests in `src/test/java/`
 
+## Topic Progression (easiest → hardest)
+
+When the user says "pick topic", "topic X", or asks to focus on a specific area, use this list to select or suggest problems. Topics are ordered by difficulty progression — start from the top if unsure where the user is.
+
+| # | Topic | Key Patterns |
+|---|-------|-------------|
+| 1 | Arrays & Hashing | frequency maps, prefix sums, two-sum style |
+| 2 | Two Pointers | opposite-direction, same-direction, partitioning |
+| 3 | Sliding Window | fixed-size, variable-size, with hashmap |
+| 4 | Stack | monotonic stack, valid parentheses, next greater element |
+| 5 | Binary Search | on arrays, on answer space, rotated arrays |
+| 6 | Linked Lists | fast/slow pointers, reversal, merge |
+| 7 | Trees (DFS/BFS) | traversals, path problems, LCA |
+| 8 | Heap / Priority Queue | top-K, merge K sorted, scheduling |
+| 9 | Backtracking | permutations, combinations, constraint satisfaction |
+| 10 | Tries | prefix search, word dictionaries, autocomplete |
+| 11 | Graphs (BFS/DFS) | traversal, connected components, cycle detection |
+| 12 | Union Find | dynamic connectivity, redundant edges |
+| 13 | Topological Sort | course schedule, build order, alien dictionary |
+| 14 | Shortest Path | Dijkstra, Bellman-Ford, BFS on unweighted |
+| 15 | Intervals | merge, insert, meeting rooms, sweep line |
+| 16 | Greedy | activity selection, jump game, task scheduling |
+| 17 | Dynamic Programming (1D) | climbing stairs, house robber, coin change |
+| 18 | Dynamic Programming (2D) | grid paths, LCS, edit distance |
+| 19 | DP on Strings | palindromes, subsequences, regex matching |
+| 20 | Bit Manipulation | XOR tricks, subsets via bitmask, single number |
+| 21 | Monotonic Stack/Queue | sliding window max, largest rectangle, trapping rain water |
+| 22 | Segment Trees / BIT | range queries, range updates |
+| 23 | Advanced Graphs | MST, network flow, strongly connected components |
+| 24 | DP with Bitmask | TSP, assignment problem, subset DP |
+| 25 | String Algorithms | KMP, Rabin-Karp, Z-function, suffix arrays |
+
+### Topic Selection Rules
+- If user says "pick topic" without specifying: suggest the next topic they haven't practiced or one they previously struggled with
+- If user names a topic (e.g., "sliding window"): generate problems from that topic only
+- If user says "harder" or "next topic": move down the list
+- If user says "easier" or "go back": move up the list
+- Problems within a topic should also escalate: easy → medium → hard
+- After 3-4 clean solves in a topic, suggest moving to the next one
+
 ## Core Principles
 
 ### Never Give Working Solutions
