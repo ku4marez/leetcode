@@ -120,4 +120,9 @@ class DpGreedyOperationsTest {
     void minPathSum() {
         assertEquals(7, DpGreedyOperations.minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
     }
+
+    @Test 
+    void maximumElementAfterDecrementingAndRearranging() {
+        assertEquals(3, DpGreedyOperations.maximumElementAfterDecrementingAndRearranging(new int[]{100, 1, 1000}));
+    }
 }

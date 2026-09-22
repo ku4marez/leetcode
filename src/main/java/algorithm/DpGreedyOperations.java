@@ -8,7 +8,8 @@ public class DpGreedyOperations {
 
     // Knapsack to calculate sum by using min coins
     public static int coinChange(int[] coins, int amount) {
-        if (amount == 0) return 0;
+        if (amount == 0)
+            return 0;
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, amount + 1);
         dp[0] = 0;
@@ -48,10 +49,12 @@ public class DpGreedyOperations {
 
     // Pascal's Triangle Construction
     public static List<List<Integer>> generate(int numRows) {
-        if (numRows == 0) return new ArrayList<>();
+        if (numRows == 0)
+            return new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
         result.add(new ArrayList<>(List.of(1)));
-        if (numRows == 1) return result;
+        if (numRows == 1)
+            return result;
         for (int i = 1; i < numRows; i++) {
             List<Integer> list = new ArrayList<>();
             List<Integer> prev = result.get(i - 1);
@@ -90,16 +93,20 @@ public class DpGreedyOperations {
 
     // DP Fibonacci sequence recursive
     public static int fibRecursively(int n) {
-        if (n == 0) return 0;
-        if (n == 1) return 1;
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return 1;
 
         return fibRecursively(n - 1) + fibRecursively(n - 2);
     }
 
     // DP Fibonacci sequence iterative ( O(n) time and O(1) space )
     public static int fibIterative(int n) {
-        if (n == 0) return 0;
-        if (n == 1) return 1;
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return 1;
 
         int sum = 0;
         int a = 0, b = 1;
@@ -118,8 +125,10 @@ public class DpGreedyOperations {
 
         for (int i = 0; i <= m; i++) {
             for (int j = 0; j <= n; j++) {
-                if (i == 0) dp[i][j] = j;
-                else if (j == 0) dp[i][j] = i;
+                if (i == 0)
+                    dp[i][j] = j;
+                else if (j == 0)
+                    dp[i][j] = i;
                 else if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else {
@@ -148,28 +157,29 @@ public class DpGreedyOperations {
 
         return dp[n][W];
     }
-//
-//    // Greedy algorithm with one pointer
-//    public static boolean canJump(int[] nums) {
-//        int index = 0;
-//        int farthest = nums[0];
-//        int size = nums.length;
-//        while (index < size) {
-//            if (index > farthest) {
-//                return false;
-//            }
-//            farthest = Math.max(farthest, index + nums[index]);
-//            if (farthest >= size - 1) {
-//                return true;
-//            }
-//            index = index + 1;
-//        }
-//        return true;
-//    }
+    //
+    // // Greedy algorithm with one pointer
+    // public static boolean canJump(int[] nums) {
+    // int index = 0;
+    // int farthest = nums[0];
+    // int size = nums.length;
+    // while (index < size) {
+    // if (index > farthest) {
+    // return false;
+    // }
+    // farthest = Math.max(farthest, index + nums[index]);
+    // if (farthest >= size - 1) {
+    // return true;
+    // }
+    // index = index + 1;
+    // }
+    // return true;
+    // }
 
     // Greedy
     public static boolean canJump(int[] nums) {
-        if (nums == null || nums.length == 0) return true;
+        if (nums == null || nums.length == 0)
+            return true;
         int pointer = nums.length - 1;
         for (int i = nums.length - 1; i >= 0; i--) {
             if (i + nums[i] >= pointer) {
@@ -180,7 +190,8 @@ public class DpGreedyOperations {
     }
 
     public static int jump2(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
+        if (nums == null || nums.length == 0)
+            return 0;
         int left = 0, right = 0;
         int res = 0;
         while (right < nums.length - 1) {
@@ -245,8 +256,10 @@ public class DpGreedyOperations {
                 low--;
                 high++;
             }
-            if (high < 0) return false;
-            if (low < 0) low = 0;
+            if (high < 0)
+                return false;
+            if (low < 0)
+                low = 0;
         }
         return low == 0;
     }
@@ -268,16 +281,17 @@ public class DpGreedyOperations {
 
     // House rob
     public static int rob(int[] nums) {
-//        if (nums == null || nums.length == 0) return 0;
-//        int[] dp = new int[nums.length];
-//        dp[0] = nums[0];
-//        dp[1] = Math.max(nums[0], nums[1]);
-//        for (int i = 2; i < nums.length; i++) {
-//            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
-//        }
-//        return dp[nums.length - 1];
+        // if (nums == null || nums.length == 0) return 0;
+        // int[] dp = new int[nums.length];
+        // dp[0] = nums[0];
+        // dp[1] = Math.max(nums[0], nums[1]);
+        // for (int i = 2; i < nums.length; i++) {
+        // dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        // }
+        // return dp[nums.length - 1];
 
-        if (nums == null || nums.length == 0) return 0;
+        if (nums == null || nums.length == 0)
+            return 0;
         int one = 0, two = 0;
         for (int num : nums) {
             int temp = Math.max(num + one, two);
@@ -288,9 +302,12 @@ public class DpGreedyOperations {
     }
 
     public static int rob2(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
-        if (nums.length == 1) return nums[0];
-        if (nums.length == 2) return Math.max(nums[0], nums[1]);
+        if (nums == null || nums.length == 0)
+            return 0;
+        if (nums.length == 1)
+            return nums[0];
+        if (nums.length == 2)
+            return Math.max(nums[0], nums[1]);
         int result1, result2;
         int prev2 = 0, prev1 = 0;
         for (int i = 0; i <= nums.length - 2; i++) {
@@ -326,46 +343,48 @@ public class DpGreedyOperations {
         return Math.max(sold, rest);
     }
 
-//    // Greedy (or iterative linear) algorithm for Min and Max
-//    public static int maxProfit(int[] prices) {
-//        if (prices == null || prices.length == 0) {
-//            return 0;
-//        }
-//
-//        int minPrice = Integer.MAX_VALUE;
-//        int maxProfit = 0;
-//        for (int price : prices) {
-//            if (price < minPrice) {
-//                minPrice = price;
-//            }
-//            int profit = price - minPrice;
-//            if (profit > maxProfit) {
-//                maxProfit = profit;
-//            }
-//        }
-//        return maxProfit;
-//    }
-//
-//    // Iterative Linear Scan for Min and Max
-//    public static int maxProfit2(int[] prices) {
-//        if (prices == null || prices.length == 0) {
-//            return 0;
-//        }
-//
-//        int maxProfit = 0;
-//        for (int i = 1; i < prices.length; i++) {
-//            if (prices[i] > prices[i - 1]) {
-//                maxProfit += prices[i] - prices[i - 1];
-//            }
-//        }
-//        return maxProfit;
-//    }
+    // // Greedy (or iterative linear) algorithm for Min and Max
+    // public static int maxProfit(int[] prices) {
+    // if (prices == null || prices.length == 0) {
+    // return 0;
+    // }
+    //
+    // int minPrice = Integer.MAX_VALUE;
+    // int maxProfit = 0;
+    // for (int price : prices) {
+    // if (price < minPrice) {
+    // minPrice = price;
+    // }
+    // int profit = price - minPrice;
+    // if (profit > maxProfit) {
+    // maxProfit = profit;
+    // }
+    // }
+    // return maxProfit;
+    // }
+    //
+    // // Iterative Linear Scan for Min and Max
+    // public static int maxProfit2(int[] prices) {
+    // if (prices == null || prices.length == 0) {
+    // return 0;
+    // }
+    //
+    // int maxProfit = 0;
+    // for (int i = 1; i < prices.length; i++) {
+    // if (prices[i] > prices[i - 1]) {
+    // maxProfit += prices[i] - prices[i - 1];
+    // }
+    // }
+    // return maxProfit;
+    // }
 
     // Bounded knapsack
     public static boolean canPartition(int[] nums) {
-        if (nums == null || nums.length == 0) return false;
+        if (nums == null || nums.length == 0)
+            return false;
         int total = Arrays.stream(nums).sum();
-        if (total % 2 != 0) return false;
+        if (total % 2 != 0)
+            return false;
         int target = total / 2;
 
         boolean[] dp = new boolean[target + 1];
@@ -385,7 +404,7 @@ public class DpGreedyOperations {
             sum += gas[p] - cost[p];
             p++;
         }
-            if (sum < 0) {
+        if (sum < 0) {
             return -1;
         }
         int start = 0;
@@ -401,7 +420,8 @@ public class DpGreedyOperations {
     }
 
     public static int minPathSum(int[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
+        if (grid == null || grid.length == 0)
+            return 0;
         int row = grid.length;
         int col = grid[0].length;
         int[][] dp = new int[row][col];
@@ -415,9 +435,18 @@ public class DpGreedyOperations {
 
         for (int i = 1; i < row; i++) {
             for (int j = 1; j < col; j++) {
-                dp[i][j] = Math.min(dp[i][j - 1] + grid[i][j], dp[i - 1][j] + grid[i][j]) ;
+                dp[i][j] = Math.min(dp[i][j - 1] + grid[i][j], dp[i - 1][j] + grid[i][j]);
             }
         }
         return dp[row - 1][col - 1];
+    }
+
+    public static int maximumElementAfterDecrementingAndRearranging(int[] arr) {
+        Arrays.sort(arr);
+        arr[0] = 1;
+        for (int i = 1; i < arr.length; i++) {
+            arr[i] = Math.min(arr[i - 1] + 1, arr[i]);
+        }
+        return arr[arr.length-1];
     }
 }
