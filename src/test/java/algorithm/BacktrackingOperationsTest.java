@@ -10,6 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class BacktrackingOperationsTest {
 
     @Test
+    void combination() {
+        List<List<Integer>> result = BacktrackingOperations.combine(1, 1);
+        assertEquals(6, result.size());
+    }
+
+    @Test
     void combinationSum() {
         List<List<Integer>> result = BacktrackingOperations.combinationSum(new int[]{2, 3, 6, 7}, 7);
         assertEquals(2, result.size());

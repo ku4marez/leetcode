@@ -96,6 +96,24 @@ public class BacktrackingOperations {
         }
     }
 
+    public static List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        combine2(result, new ArrayList<>(), 0, n, k);
+        return result;
+    }
+
+    private static void combine2(List<List<Integer>> result, List<Integer> temp, int index, int endIndex, int numDigits) {
+        if (temp.size() == numDigits) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = index; i < endIndex; i++) {
+            temp.add(i + 1);
+            combine2(result, temp, i + 1, endIndex, numDigits);
+            temp.removeLast();
+        }
+    }
+
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         if (candidates == null || candidates.length == 0) return new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
