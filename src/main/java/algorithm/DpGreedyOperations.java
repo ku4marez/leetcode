@@ -449,4 +449,41 @@ public class DpGreedyOperations {
         }
         return arr[arr.length-1];
     }
+
+    public static long minMoves(int[] balance) {
+        int n = balance.length;
+        long total = 0;
+        int k = -1; // sink index
+        for (int i = 0; i < n; i++) {
+            total += balance[i];
+            if (balance[i] < 0)
+                k = i;
+        }
+        if (k == -1)
+            return 0; // no negative
+        if (total < 0)
+            return -1; // not enough units anywhere
+
+        long deficit = -(long) balance[k];
+        long moves = 0;
+        for (int d = 1; deficit > 0; d++) {
+            int right = (k + d) % n;
+            int left = (k - d + n) % n;
+            // take from balance[right] if positive (guard: is right the same cell as left?)
+            if (right != left && balance[right] > 0) {
+                long take = Math.min(deficit, balance[right]);
+                deficit -= take;
+                balance[right] -= take;
+                moves += d * take;
+            }
+            // take from balance[left] if positive
+            if (balance[left] > 0) {
+                long take = Math.min(deficit, balance[left]);
+                deficit -= take;
+                balance[left] -= take;
+                moves += d * take;
+            }
+        }
+        return moves;
+    }
 }
