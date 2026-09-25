@@ -4,8 +4,8 @@ import java.util.*;
 
 public class ArrayOperations {
 
-
-    // Print numbers from 0 to 100 in a random order (Fisher–Yates shuffle or Knuth shuffle)
+    // Print numbers from 0 to 100 in a random order (Fisher–Yates shuffle or Knuth
+    // shuffle)
     public static void printNumbers() {
         int[] nums = new int[100];
 
@@ -87,7 +87,7 @@ public class ArrayOperations {
         List<Integer> duplicates = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
-            int index = Math.abs(nums[i]) - 1;  // Get correct index
+            int index = Math.abs(nums[i]) - 1; // Get correct index
 
             if (nums[index] < 0) {
                 // If already negative, it means the number is duplicate
@@ -189,18 +189,19 @@ public class ArrayOperations {
         boolean[][] visited = new boolean[rows][cols];
 
         // Directions: right, left, down, up
-        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 
         // Find first land cell to start BFS
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (grid[i][j] == 1) {
-                    queue.offer(new int[]{i, j});
+                    queue.offer(new int[] { i, j });
                     visited[i][j] = true;
                     break; // Start BFS from the first found land cell
                 }
             }
-            if (!queue.isEmpty()) break; // Stop searching once we find land
+            if (!queue.isEmpty())
+                break; // Stop searching once we find land
         }
 
         int perimeter = 0;
@@ -220,7 +221,7 @@ public class ArrayOperations {
                 }
                 // If land and not visited, continue BFS
                 else if (!visited[nr][nc]) {
-                    queue.offer(new int[]{nr, nc});
+                    queue.offer(new int[] { nr, nc });
                     visited[nr][nc] = true;
                 }
             }
@@ -240,7 +241,7 @@ public class ArrayOperations {
         String[] result = new String[score.length];
         PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));
         for (int i = 0; i < score.length; i++) {
-            maxHeap.offer(new int[]{score[i], i});
+            maxHeap.offer(new int[] { score[i], i });
         }
 
         int rank = 1;
@@ -316,7 +317,8 @@ public class ArrayOperations {
     }
 
     public static int findDuplicate(int[] nums) {
-        if (nums == null || nums.length == 0) return -1;
+        if (nums == null || nums.length == 0)
+            return -1;
         int slow = 0;
         int fast = 0;
         while (true) {
@@ -355,18 +357,22 @@ public class ArrayOperations {
     }
 
     public static int findLengthOfLCIS(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
+        if (nums == null || nums.length == 0)
+            return 0;
         int max = 1;
         int curr = 1;
         for (int i = 1; i < nums.length; i++) {
-            if (nums[i] > nums[i - 1]) max = Math.max(max, ++curr);
-            else curr = 1;
+            if (nums[i] > nums[i - 1])
+                max = Math.max(max, ++curr);
+            else
+                curr = 1;
         }
         return max;
     }
 
     public static void nextPermutation(int[] nums) {
-        if (nums == null || nums.length == 0) return;
+        if (nums == null || nums.length == 0)
+            return;
         int length = nums.length;
         int i = length - 2;
         int pivot = -1;
@@ -407,14 +413,39 @@ public class ArrayOperations {
     }
 
     public static int findMaxConsecutiveOnes(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
+        if (nums == null || nums.length == 0)
+            return 0;
         int max = 0;
         int curr = 0;
         for (int num : nums) {
-            if (num == 1) curr++;
-            else curr = 0;
+            if (num == 1)
+                curr++;
+            else
+                curr = 0;
             max = Math.max(max, curr);
         }
         return max;
+    }
+
+    public static long shiftDistance(String s, String t, int[] nextCost, int[] previousCost) {
+        long minSteps = 0;
+        long[] forwardPrefix = new long[53];
+        for (int i = 0; i < 52; i++) {
+            forwardPrefix[i + 1] = forwardPrefix[i] + nextCost[i % 26];
+        }
+        long[] backPrefix = new long[53];
+        for (int i = 0; i < 52; i++) {
+            backPrefix[i + 1] = backPrefix[i] + previousCost[i % 26];
+        }
+        for (int i = 0; i < s.length(); i++) {
+            int x = s.charAt(i) - 'a';
+            int y = t.charAt(i) - 'a';
+            int forwardSteps = (y - x + 26) % 26;
+            int backSteps = (x - y + 26) % 26;
+            long forwardCost = forwardPrefix[x + forwardSteps] - forwardPrefix[x];
+            long backCost = backPrefix[x + 27] - backPrefix[x - backSteps + 27];
+            minSteps += Math.min(forwardCost, backCost);
+        }
+        return minSteps;
     }
 }
