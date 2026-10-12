@@ -2,7 +2,6 @@ package algorithm;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +10,7 @@ class BacktrackingOperationsTest {
 
     @Test
     void combination() {
-        List<List<Integer>> result = BacktrackingOperations.combine(1, 1);
+        List<List<Integer>> result = BacktrackingOperations.combine(6, 1);
         assertEquals(6, result.size());
     }
 
